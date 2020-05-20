@@ -41,6 +41,10 @@ Views all have "View" in their names so that classes/interface's can be easily m
 
 This project does not use Vuex (even though it is installed) as it is not likely to be large enough to need it (and I don't know how to use it). It is installed so if the project size increases above what was origionally planned then it can be used.
 
+## Wireframe
+
+[Figma Wireframe](https://www.figma.com/file/lWJPKDVdjEZZ3aHXpxvZwk/DebateDB?node-id=4%3A84)
+
 ## Project setup
 
 ```
