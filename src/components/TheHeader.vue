@@ -18,7 +18,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import User from "@/models/User";
 
 @Component
-export default class TheHeader extends Vue {
+export default class Header extends Vue {
   @Prop() version!: string;
   @Prop() user!: User;
 

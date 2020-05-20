@@ -1,20 +1,25 @@
 <template>
   <v-app>
-    <TheHeader :version="version" :user="user" />
+    <Header :version="version" :user="user" />
     <v-content>
       <router-view />
+      <Button text="example" />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import TheHeader from "./components/TheHeader.vue";
+
+import Header from "./components/TheHeader.vue";
+import Button from "./components/TheButton.vue";
+
 import User from "./models/User";
 
 @Component({
   components: {
-    TheHeader,
+    Header,
+    Button,
   },
 })
 export default class App extends Vue {
