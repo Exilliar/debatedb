@@ -1,7 +1,6 @@
 <template>
   <v-container>
     This is the hello world component
-    <v-btn color="secondary">button example</v-btn>
   </v-container>
 </template>
 
