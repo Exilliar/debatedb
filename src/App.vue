@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -44,12 +40,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component } from "vue-property-decorator";
 
-export default Vue.extend({
-  name: 'App',
-  data: () => ({
-    //
-  }),
-});
+@Component
+export default class App extends Vue {}
+
+// export default Vue.extend({
+//   name: 'App',
+//   data: () => ({
+//     //
+//   }),
+// });
 </script>
