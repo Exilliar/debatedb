@@ -1,10 +1,11 @@
 <template>
-  <v-container>This is the hello world component</v-container>
+  <div>
+    this is the argument view
+  </div>
 </template>
-
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
 @Component
-export default class HelloWorld extends Vue {}
+export default class ArgumentView extends Vue {}
 </script>
