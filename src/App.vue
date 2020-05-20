@@ -1,38 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <TheHeader :version="version" :user="user" />
     <v-content>
       <router-view />
     </v-content>
@@ -41,14 +9,18 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import TheHeader from "./components/TheHeader.vue";
+import User from "./models/User";
 
-@Component
-export default class App extends Vue {}
-
-// export default Vue.extend({
-//   name: 'App',
-//   data: () => ({
-//     //
-//   }),
-// });
+@Component({
+  components: {
+    TheHeader,
+  },
+})
+export default class App extends Vue {
+  user: User = {
+    name: "userName",
+  };
+  version = "0.0.1";
+}
 </script>
