@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    This is the arguments view
+    <NotesCard
+      body="some notes should go here. They will probably be quite long, and written in mark down"
+    />
     <ViewCard :data="viewCardData" />
   </v-container>
 </template>
@@ -8,11 +10,12 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
+import NotesCard from "@/components/TheNotesCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
 @Component({
-  components: { ViewCard },
+  components: { ViewCard, NotesCard },
 })
 export default class ArgumentsView extends Vue {
   viewCardData: ViewCardData = {
