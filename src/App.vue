@@ -3,7 +3,6 @@
     <Header :version="version" :user="user" />
     <v-content>
       <router-view />
-      <Button text="example" />
     </v-content>
   </v-app>
 </template>

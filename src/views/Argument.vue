@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container>
     this is the argument view
-  </div>
+  </v-container>
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
