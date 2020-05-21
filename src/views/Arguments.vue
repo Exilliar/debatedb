@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <NotesCard
-      body="some notes should go here. They will probably be quite long, and written in mark down"
-    />
+    <NotesCard :body="noteText" />
     <ViewCard :data="viewCardData" />
   </v-container>
 </template>
@@ -24,6 +22,9 @@ export default class ArgumentsView extends Vue {
     description: "This is just a test, actual data will be different",
     routeTo: "Argument",
   };
+
+  noteText =
+    "some notes should go here. They will probably be quite long, and written in mark down so that there can be\n - bullet points";
 
   mounted() {
     console.log(this.$route.params.id);
