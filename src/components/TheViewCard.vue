@@ -41,7 +41,7 @@ export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
 
   view() {
-    this.$router.push({ name: this.routeTo });
+    this.$router.push({ name: this.routeTo, params: { id: this.id } });
   }
 
   get id() {

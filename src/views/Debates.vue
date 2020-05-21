@@ -18,14 +18,6 @@ import ViewCardData from "@/models/ViewCardData";
   components: { ViewCard },
 })
 export default class DebatesView extends Vue {
-  viewCardData: ViewCardData = {
-    id: 0,
-    title: "Test Title",
-    description:
-      "this is a description that is really super long to see what happens when the description is really long",
-    routeTo: "Arguments",
-  };
-
   debateData = debateData;
 }
 </script>
