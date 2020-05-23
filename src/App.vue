@@ -40,10 +40,12 @@ export default class App extends Vue {
     title: "Input 1",
     description: "Some more info on the input",
     textInput: "",
+    type: "text",
   };
   input1: UserInputLink = {
     id: 1,
     textInput: "",
+    type: "link",
   };
 
   modalData: ModalInput = {

@@ -15,7 +15,7 @@
       </v-toolbar>
       <div v-for="input in inputs" :key="input.id">
         <div class="mb-2">
-          <div v-if="typeof input === 'UserInputText'">
+          <div v-if="input.type === 'text'">
             <TextInput :input="input" />
           </div>
           <div v-else>
@@ -26,7 +26,12 @@
       <v-row>
         <v-spacer />
         <Button class="mr-2" text="Submit" :onClick="submitClose" />
-        <Button class="mr-2" text="Cancel" :onClick="close" color="error" />
+        <Button
+          class="mr-2"
+          text="Cancel"
+          :onClick="cancelClose"
+          color="error"
+        />
       </v-row>
     </v-container>
   </modal>
@@ -35,7 +40,7 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import ModalInput from "@/models/ModalInput";
-import UserInput from "@/models/UserInput";
+import UserInput, { UserInputText } from "@/models/UserInput";
 
 import Button from "./../TheButton.vue";
 import TextInput from "./TextInput.vue";
@@ -59,6 +64,7 @@ export default class InputModal extends Vue {
     params = Object.create(params);
     this.title = params.title;
     this.inputs = params.inputs.map((i) => Object.create(i));
+    console.log(typeof this.inputs[0]);
     this.cancel = true;
 
     this.saveText = this.inputs.map((i) => i.textInput);
@@ -73,6 +79,14 @@ export default class InputModal extends Vue {
   submitClose() {
     this.cancel = false;
     this.close();
+  }
+  cancelClose() {
+    if (this.cancel === true && !this.checkDiff()) {
+      if (confirm("Are you sure you want to exit without saving?")) {
+        this.resetText();
+        this.close();
+      }
+    } else this.close();
   }
 
   close() {
