@@ -58,12 +58,14 @@ import LinkInput from "./LinkInput.vue";
 export default class InputModal extends Vue {
   title = "";
   inputs = new Array<UserInput>();
-  saveText = new Array<string>();
+  onClose!: (() => any) | undefined;
+  saveText!: string[];
   cancel = true;
 
   beforeOpen({ params }: ModalInput) {
     this.title = params.title;
     this.inputs = params.inputs;
+    this.onClose = params.onClose;
     this.cancel = true;
 
     this.saveText = this.inputs.map((i) => i.textInput);
@@ -77,6 +79,9 @@ export default class InputModal extends Vue {
 
   submitClose() {
     this.cancel = false;
+
+    if (this.onClose) this.onClose();
+
     this.close();
   }
 
