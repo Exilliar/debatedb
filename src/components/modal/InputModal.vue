@@ -10,12 +10,14 @@
     <v-container>
       <v-toolbar flat>
         <v-spacer />
-        <v-toolbar-title> {{ title }}</v-toolbar-title>
+        <v-toolbar-title>
+          {{ title }}
+        </v-toolbar-title>
         <v-spacer />
       </v-toolbar>
-      <div v-for="input in inputs" :key="input.id">
+      <div v-for="input in inputs" :key="getId(input)">
         <div class="mb-2">
-          <div v-if="input.type === 'text'">
+          <div v-if="checkType(input)">
             <TextInput :input="input" />
           </div>
           <div v-else>
@@ -24,14 +26,14 @@
         </div>
       </div>
       <v-row>
+        <Button
+          class="ml-2"
+          text="Markdown cheat sheet"
+          :onClick="openCheatSheet"
+        />
         <v-spacer />
         <Button class="mr-2" text="Submit" :onClick="submitClose" />
-        <Button
-          class="mr-2"
-          text="Cancel"
-          :onClick="cancelClose"
-          color="error"
-        />
+        <Button class="mr-2" text="Cancel" :onClick="close" color="error" />
       </v-row>
     </v-container>
   </modal>
@@ -60,11 +62,8 @@ export default class InputModal extends Vue {
   cancel = true;
 
   beforeOpen({ params }: ModalInput) {
-    // need to make it create new instances of the objects, so that the text doesn't start updating as the user is typing
-    params = Object.create(params);
     this.title = params.title;
-    this.inputs = params.inputs.map((i) => Object.create(i));
-    console.log(typeof this.inputs[0]);
+    this.inputs = params.inputs;
     this.cancel = true;
 
     this.saveText = this.inputs.map((i) => i.textInput);
@@ -80,19 +79,8 @@ export default class InputModal extends Vue {
     this.cancel = false;
     this.close();
   }
-  cancelClose() {
-    if (this.cancel === true && !this.checkDiff()) {
-      if (confirm("Are you sure you want to exit without saving?")) {
-        this.resetText();
-        this.close();
-      }
-    } else this.close();
-  }
 
   close() {
-    if (this.cancel === true) {
-      this.resetText();
-    }
     this.$modal.hide("InputModal");
   }
 
@@ -105,12 +93,26 @@ export default class InputModal extends Vue {
   }
 
   // Check if any changes have been made to the text since opening
-  checkDiff(): boolean {
+  checkDiff() {
     for (let i = 0; i < this.saveText.length; i++) {
       if (this.saveText[i] !== this.inputs[i].textInput) return false;
     }
 
     return true;
+  }
+
+  getId(input: UserInput) {
+    return input.id;
+  }
+  checkType(input: UserInput) {
+    return input.type === "text";
+  }
+
+  openCheatSheet() {
+    window.open(
+      "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
+      "_blank"
+    );
   }
 }
 </script>

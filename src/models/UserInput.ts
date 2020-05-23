@@ -1,6 +1,7 @@
 export default interface UserInput {
   id: number;
   textInput: string;
+  type: "text" | "link";
 }
 
 export interface UserInputText extends UserInput {

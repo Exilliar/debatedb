@@ -25,9 +25,5 @@ export default class ArgumentsView extends Vue {
 
   noteText =
     "some notes should go here. They will probably be quite long, and written in mark down so that there can be\n - bullet points";
-
-  mounted() {
-    console.log(this.$route.params.id);
-  }
 }
 </script>

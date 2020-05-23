@@ -28,7 +28,7 @@ export default class NotesCard extends Vue {
   input: UserInputText = {
     id: 0,
     title: "Notes",
-    description: "",
+    description: "General notes, does not need to be full sentences",
     markdown: true,
     textInput: this.body,
     type: "text",
