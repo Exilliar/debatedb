@@ -15,10 +15,11 @@ import { Vue, Component } from "vue-property-decorator";
 import Header from "./components/TheHeader.vue";
 import Button from "./components/TheButton.vue";
 
-import InputModal from "./components/InputModal.vue";
+import InputModal from "./components/modal/InputModal.vue";
 
 import User from "./models/User";
 import ModalInput from "./models/ModalInput";
+import UserInput, { UserInputText, UserInputLink } from "./models/UserInput";
 
 @Component({
   components: {
@@ -33,46 +34,22 @@ export default class App extends Vue {
   };
   version = "0.0.1";
 
+  input0: UserInputText = {
+    id: 0,
+    markdown: true,
+    title: "Input 1",
+    description: "Some more info on the input",
+    textInput: "",
+  };
+  input1: UserInputLink = {
+    id: 1,
+    textInput: "",
+  };
+
   modalData: ModalInput = {
     params: {
       title: "This is some test data",
-      inputs: [
-        {
-          id: 0,
-          markdown: true,
-          title: "Input 1",
-          description: "Some more info on the input",
-          textInput: "",
-        },
-        {
-          id: 1,
-          markdown: false,
-          title: "Input 2",
-          description: "Some more info on the input",
-          textInput: "",
-        },
-        {
-          id: 2,
-          markdown: true,
-          title: "Input 3",
-          description: "Some more info on the input",
-          textInput: "",
-        },
-        {
-          id: 3,
-          markdown: true,
-          title: "Input 4",
-          description: "Some more info on the input",
-          textInput: "",
-        },
-        {
-          id: 4,
-          markdown: true,
-          title: "Input 5",
-          description: "Some more info on the input",
-          textInput: "",
-        },
-      ],
+      inputs: [this.input0, this.input1],
     },
   };
 
