@@ -3,6 +3,8 @@
     <Header :version="version" :user="user" />
     <v-content>
       <Button text="showModal" :onClick="show" />
+      <AddButton type="debate" :data="debateData" />
+      <AddButton type="argument" :data="argumentData" />
       <InputModal />
       <router-view />
     </v-content>
@@ -12,8 +14,12 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
+import debateData from "./data/debates";
+import argumentData from "./data/arguments";
+
 import Header from "./components/TheHeader.vue";
 import Button from "./components/TheButton.vue";
+import AddButton from "./components/TheAddButton.vue";
 
 import InputModal from "./components/modal/InputModal.vue";
 
@@ -26,6 +32,7 @@ import UserInput, { UserInputText, UserInputLink } from "./models/UserInput";
     Header,
     Button,
     InputModal,
+    AddButton,
   },
 })
 export default class App extends Vue {
@@ -33,6 +40,8 @@ export default class App extends Vue {
     name: "userName",
   };
   version = "0.0.1";
+  debateData = debateData;
+  argumentData = argumentData;
 
   input0: UserInputText = {
     id: 0,
