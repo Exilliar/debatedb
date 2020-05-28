@@ -1,9 +1,7 @@
 import Info from "./elements/infoTbl";
-import debates from "./data/debate";
-import info from "./data/info";
-import argumentData from "./data/argument";
-import DebateTbl from "./elements/debateTbl";
-import ArgumentTbl from "./elements/argumentTbl";
+import DebateDatadb from "./classData/debate";
+import ArgumentDatadb from "./classData/argument";
+import InfoDatadb from "./classData/info";
 
 interface Debate {
   id: number;
@@ -21,27 +19,56 @@ interface ArgumentsViewData {
   arguments: Argument[];
 }
 
-export default class ArgumentsView {
+export default class ArgumentsViewdb {
   private _data!: ArgumentsViewData;
-  private id: number;
+  private debateid: number;
+
+  private _debateTable = new DebateDatadb(this.refreshData.bind(this));
+  private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
+  private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
   get data() {
     return this._data;
   }
-  get debate() {
-    return this._data.debate;
+  get currentDebate() {
+    return this._debateTable.getSingle(this.debateid);
   }
-  get arguments() {
-    return this._data.arguments;
+
+  async addArgument(title: string, description: string) {
+    await this._infoTable.add({
+      id: this._infoTable.size(),
+      description: "",
+      current: "",
+      counter: "",
+    });
+
+    await this._argumentTable.add({
+      id: this._argumentTable.size(),
+      title: title,
+      description: description,
+      generalNotes: "",
+      infoid: this._infoTable.size() - 1,
+      debateid: this.debateid,
+    });
+  }
+
+  async updateInfo(info: Info) {
+    await this._infoTable.update(info, this.currentDebate.infoid);
+  }
+
+  async updateGeneralNotes(notes: string) {
+    const updated = this.currentDebate;
+    updated.generalNotes = notes;
+
+    await this._debateTable.update(updated, this.debateid);
   }
 
   constructor(debateid: number) {
-    this.init(debateid);
-    this.id = debateid;
+    this.debateid = debateid;
   }
 
-  private async init(debateid: number) {
-    const debate = await this.getDebate(debateid);
+  async refreshData() {
+    const debate = await this.getDebate();
     const args = await this.getArguments();
 
     this._data = {
@@ -50,52 +77,31 @@ export default class ArgumentsView {
     };
   }
 
-  private getDebate(id: number): Promise<Debate> {
-    return new Promise((resolve, reject) => {
-      resolve(
-        debates
-          .filter((d) => d.id === id)
-          .map((d) => {
-            return {
-              id: d.id,
-              title: d.title,
-              info: info.filter((i) => i.id === d.infoid)[0],
-              generalNotes: d.generalNotes,
-            };
-          })[0]
-      );
+  private getDebate(): Promise<Debate> {
+    return new Promise((resolve) => {
+      resolve({
+        id: this.currentDebate.id,
+        title: this.currentDebate.title,
+        generalNotes: this.currentDebate.generalNotes,
+        info: this._infoTable.getSingle(this.currentDebate.infoid),
+      });
     });
   }
 
   private getArguments(): Promise<Argument[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(
-        argumentData.map((a) => {
-          return {
-            id: a.id,
-            title: a.title,
-            description: a.description,
-          };
-        })
+        // This will be a view in the real db
+        this._argumentTable.data
+          .filter((a) => a.debateid === this.debateid)
+          .map((a) => {
+            return {
+              id: a.id,
+              title: a.title,
+              description: a.description,
+            };
+          })
       );
     });
   }
-
-  // no add debate is needed as a debate cannot be added from this view
-  updateDebate(debate: DebateTbl, id: number) {
-    this.rawDebates[id] = debate;
-    this.init(this.id);
-  }
-  addArgument(arg: ArgumentTbl) {
-    this.rawArguments.push(arg);
-    this.init(this.id);
-  }
-  updateArgument(arg: ArgumentTbl, id: number) {
-    this.rawArguments[id] = arg;
-    this.init(this.id);
-  }
-
-  // This part will be replaced when the backend is made
-  rawDebates = debates;
-  rawArguments = argumentData;
 }

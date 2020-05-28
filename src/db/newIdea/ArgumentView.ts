@@ -30,7 +30,7 @@ interface ArgumentViewData {
   sources: Source[];
 }
 
-export default class ArgumentView {
+export default class ArgumentViewdb {
   private _data!: ArgumentViewData;
   private id: number;
 

@@ -1,37 +1,83 @@
 <template>
   <v-container>
-    <NotesCard :body="noteText" />
-    <div v-for="argument in argumentData" :key="argument.id">
-      <ViewCard :data="argument" />
+    <div v-if="loaded">
+      <NotesCard :body="generalNotes" :viewOnEdit="onEdit" />
+      <div v-for="argument in argumentData" :key="argument.id">
+        <ViewCard :data="argument" />
+      </div>
+    </div>
+    <div v-else style="text-align: center">
+      <v-progress-circular indeterminate color="primary" size="100" />
+    </div>
+    <div style="text-align: center;">
+      <AddButton type="argument" :add="addOnClose" />
     </div>
   </v-container>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
+import AddButton from "@/components/TheAddButton.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
 import argumentData from "@/data/arguments";
-// import Debates from "../dummy-db/interface/debate";
-// import Arguments from "../dummy-db/interface/argument";
+import ArgumentsViewdb from "../db/newIdea/ArgumentsView";
 
 @Component({
-  components: { ViewCard, NotesCard },
+  components: { ViewCard, NotesCard, AddButton },
 })
 export default class ArgumentsView extends Vue {
-  argumentData = argumentData;
+  debateid!: number;
+  generalNotes!: string;
+  argumentsViewdb!: ArgumentsViewdb;
+  argumentData!: ViewCardData[];
+  loaded = false;
 
-  // @Prop() arguments!: Arguments;
-  // @Prop() debates!: Debates;
+  async mounted() {
+    if (this.$route.params.id) this.debateid = +this.$route.params.id;
+    else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the user to be redirected to the debatesView
 
-  noteText =
-    "some notes should go here. They will probably be quite long, and written in mark down so that there can be\n - bullet points";
+    this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
 
-  mounted() {
-    console.log(this.$route.params);
+    await this.argumentsViewdb.refreshData();
+
+    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
+
+    this.getArgumentData();
+
+    this.loaded = true;
+  }
+
+  get args() {
+    return this.argumentsViewdb.data.arguments;
+  }
+
+  getArgumentData() {
+    this.argumentData = this.argumentsViewdb.data.arguments.map((a) => {
+      return {
+        id: a.id.toString(),
+        title: a.title,
+        description: a.description,
+        routeTo: "Argument",
+      };
+    });
+  }
+
+  async addOnClose(title: string, description: string) {
+    this.loaded = false;
+
+    await this.argumentsViewdb.addArgument(title, description);
+
+    this.getArgumentData();
+
+    this.loaded = true;
+  }
+
+  async onEdit(text: string) {
+    await this.argumentsViewdb.updateGeneralNotes(text);
   }
 }
 </script>

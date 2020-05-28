@@ -9,12 +9,12 @@
       <v-progress-circular indeterminate color="primary" size="100" />
     </div>
     <div style="text-align: center;">
-      <AddButton type="debate" :onClose="addOnClose" />
+      <AddButton type="debate" :add="addOnClose" />
     </div>
   </v-container>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
@@ -46,23 +46,18 @@ export default class DebatesView extends Vue {
   async mounted() {
     this.debatesViewdb = new DebatesViewdb();
     await this.debatesViewdb.refreshData();
-    this.loaded = true;
     this.getDebateData();
+    this.loaded = true;
   }
 
-  async addOnClose(inputs: UserInputText[]) {
+  async addOnClose(title: string, description: string) {
     this.loaded = false;
-
-    // Here we know that inputs will only contain a "title" and "description" fields.
-    // No other values inside inputs matter
-    const title = inputs[0].textInput;
-    const description = inputs[1].textInput;
 
     await this.debatesViewdb.add(title, description);
 
-    this.loaded = true;
-
     this.getDebateData();
+
+    this.loaded = true;
   }
 
   debateid(debate: ViewCardData) {

@@ -11,7 +11,7 @@ import ViewCardData from "../models/ViewCardData";
 @Component
 export default class AddButton extends Vue {
   @Prop() type!: "debate" | "argument";
-  @Prop() onClose!: (inputs: UserInputText[]) => any;
+  @Prop() add!: (title: string, description: string) => any;
 
   title: UserInputText = {
     id: 0,
@@ -36,6 +36,13 @@ export default class AddButton extends Vue {
       inputs: [this.title, this.description],
       onClose: this.onClose,
     });
+  }
+
+  onClose(inputs: UserInputText[]) {
+    const title = inputs[0].textInput;
+    const description = inputs[0].textInput;
+
+    this.add(title, description);
   }
 }
 </script>

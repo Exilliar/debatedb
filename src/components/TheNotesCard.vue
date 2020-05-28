@@ -24,6 +24,7 @@ import { UserInputText } from "../models/UserInput";
 })
 export default class NotesCard extends Vue {
   @Prop() body!: string;
+  @Prop() viewOnEdit!: (text: string) => any;
 
   input: UserInputText = {
     id: 0,
@@ -45,11 +46,18 @@ export default class NotesCard extends Vue {
     this.$modal.show("InputModal", {
       title: this.modalData.params.title,
       inputs: this.modalData.params.inputs,
+      onClose: this.onEdit,
     });
   }
 
   get text() {
     return this.input.textInput;
+  }
+
+  onEdit(inputs: UserInputText[]) {
+    const text = inputs[0].textInput;
+
+    this.viewOnEdit(text);
   }
 }
 </script>
