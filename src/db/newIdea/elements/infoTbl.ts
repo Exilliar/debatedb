@@ -1,4 +1,4 @@
-export default interface IInfo {
+export default interface InfoTbl {
   id: number;
   description: string;
   current: string;

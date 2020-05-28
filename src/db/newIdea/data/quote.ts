@@ -1,11 +1,6 @@
-/* id: number;
-  text: string;
-  additional: string;
-*/
+import QuoteTbl from "../elements/quoteTbl";
 
-import IQuote from "../elements/quote";
-
-const quoteData: IQuote[] = [
+const data: QuoteTbl[] = [
   {
     id: 0,
     text: "this is a quote",
@@ -53,4 +48,4 @@ const quoteData: IQuote[] = [
   },
 ];
 
-export default quoteData;
+export default data;

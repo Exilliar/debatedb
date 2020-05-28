@@ -1,6 +1,6 @@
-import IInfo from "../elements/info";
+import InfoTbl from "../elements/infoTbl";
 
-const infoData: IInfo[] = [
+const data: InfoTbl[] = [
   {
     id: 0,
     description:
@@ -40,4 +40,4 @@ const infoData: IInfo[] = [
   },
 ];
 
-export default infoData;
+export default data;

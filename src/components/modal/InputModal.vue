@@ -58,7 +58,7 @@ import LinkInput from "./LinkInput.vue";
 export default class InputModal extends Vue {
   title = "";
   inputs = new Array<UserInput>();
-  onClose!: (() => any) | undefined;
+  onClose!: ((inputs: UserInput[]) => any) | undefined;
   saveText!: string[];
   cancel = true;
 
@@ -77,10 +77,10 @@ export default class InputModal extends Vue {
     }
   }
 
-  submitClose() {
+  async submitClose() {
     this.cancel = false;
 
-    if (this.onClose) this.onClose();
+    if (this.onClose) await this.onClose(this.inputs);
 
     this.close();
   }

@@ -1,23 +1,84 @@
 <template>
   <v-container>
-    <div v-for="debate in debateData" :key="debate.id">
-      <ViewCard :data="debate" />
+    <div v-if="loaded">
+      <div v-for="debate in debateData" :key="debateid(debate)">
+        <ViewCard :data="debate" />
+      </div>
+    </div>
+    <div v-else style="text-align: center">
+      <v-progress-circular indeterminate color="primary" size="100" />
+    </div>
+    <div style="text-align: center;">
+      <AddButton type="debate" :onClose="addOnClose" />
     </div>
   </v-container>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 import debateData from "@/data/debates";
 
 import ViewCard from "@/components/TheViewCard.vue";
+import AddButton from "@/components/TheAddButton.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
+import DebatesViewdb from "../db/newIdea/DebatesView";
+import UserInput, { UserInputText } from "../models/UserInput";
+
 @Component({
-  components: { ViewCard },
+  components: { ViewCard, AddButton },
 })
 export default class DebatesView extends Vue {
-  debateData = debateData;
+  debateData!: ViewCardData[];
+  debatesViewdb!: DebatesViewdb;
+  loaded = false;
+
+  getDebateData() {
+    this.debateData = this.debatesViewdb.data.map((d) => {
+      return {
+        id: d.id.toString(),
+        title: d.title,
+        description: d.description,
+        routeTo: "Arguments",
+      };
+    });
+  }
+
+  async mounted() {
+    this.debatesViewdb = new DebatesViewdb();
+    await this.debatesViewdb.refreshData();
+    setTimeout(() => {
+      console.log("loop");
+      this.loaded = true;
+      this.getDebateData();
+    }, 5000);
+  }
+
+  async addOnClose(inputs: UserInputText[]) {
+    this.loaded = false;
+    // Here we know that inputs will only contain a "title" and "description" fields.
+    // No other values inside inputs matter
+
+    const title = inputs[0].textInput;
+    const description = inputs[1].textInput;
+    const id = this.debateData.length;
+
+    await this.debatesViewdb.debateTable.add({
+      id: id,
+      title: title,
+      description: description,
+      generalNotes: "",
+      infoid: -1,
+    });
+
+    this.loaded = true;
+
+    this.getDebateData();
+  }
+
+  debateid(debate: ViewCardData) {
+    return debate.id;
+  }
 }
 </script>
