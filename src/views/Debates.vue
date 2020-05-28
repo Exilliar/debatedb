@@ -16,15 +16,13 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import debateData from "@/data/debates";
-
 import ViewCard from "@/components/TheViewCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
 import DebatesViewdb from "../db/newIdea/DebatesView";
-import UserInput, { UserInputText } from "../models/UserInput";
+import { UserInputText } from "../models/UserInput";
 
 @Component({
   components: { ViewCard, AddButton },
@@ -48,29 +46,19 @@ export default class DebatesView extends Vue {
   async mounted() {
     this.debatesViewdb = new DebatesViewdb();
     await this.debatesViewdb.refreshData();
-    setTimeout(() => {
-      console.log("loop");
-      this.loaded = true;
-      this.getDebateData();
-    }, 5000);
+    this.loaded = true;
+    this.getDebateData();
   }
 
   async addOnClose(inputs: UserInputText[]) {
     this.loaded = false;
+
     // Here we know that inputs will only contain a "title" and "description" fields.
     // No other values inside inputs matter
-
     const title = inputs[0].textInput;
     const description = inputs[1].textInput;
-    const id = this.debateData.length;
 
-    await this.debatesViewdb.debateTable.add({
-      id: id,
-      title: title,
-      description: description,
-      generalNotes: "",
-      infoid: -1,
-    });
+    await this.debatesViewdb.add(title, description);
 
     this.loaded = true;
 

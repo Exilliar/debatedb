@@ -1,4 +1,5 @@
-import DebateData from "./classData/debate";
+import DebateDatadb from "./classData/debate";
+import InfoDatadb from "./classData/info";
 
 interface Debate {
   id: number;
@@ -10,15 +11,28 @@ type DebatesViewData = Debate;
 export default class DebatesView {
   private _data!: DebatesViewData[];
 
-  private _debateTable = new DebateData(this.refreshData.bind(this));
-  // private _infoTable = new InfoData(this.refreshData);
-
-  get debateTable() {
-    return this._debateTable;
-  }
+  private _debateTable = new DebateDatadb(this.refreshData.bind(this));
+  private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
   get data() {
     return this._data;
+  }
+
+  async add(title: string, description: string) {
+    await this._infoTable.add({
+      id: this._infoTable.data.length,
+      description: "",
+      current: "",
+      counter: "",
+    });
+
+    await this._debateTable.add({
+      id: this._debateTable.data.length,
+      title: title,
+      description: description,
+      generalNotes: "",
+      infoid: this._infoTable.data.length - 1,
+    });
   }
 
   refreshData(): Promise<DebatesViewData[]> {
