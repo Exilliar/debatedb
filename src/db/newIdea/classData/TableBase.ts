@@ -12,17 +12,21 @@ export default class TableBase<T> {
   }
 
   update(newData: T, id: number) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this._data[id] = newData;
-      await this.refresh();
-      resolve();
+      this.refresh().then(() => resolve());
     });
   }
   add(newData: T) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this._data.push(newData);
-      await this.refresh();
-      resolve();
+      this.refresh().then(() => resolve());
     });
+  }
+  getSingle(id: number) {
+    return this._data[id];
+  }
+  size() {
+    return this._data.length;
   }
 }

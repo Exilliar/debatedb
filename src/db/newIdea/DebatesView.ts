@@ -8,7 +8,7 @@ interface Debate {
 }
 type DebatesViewData = Debate;
 
-export default class DebatesView {
+export default class DebatesViewdb {
   private _data!: DebatesViewData[];
 
   private _debateTable = new DebateDatadb(this.refreshData.bind(this));
@@ -20,18 +20,18 @@ export default class DebatesView {
 
   async add(title: string, description: string) {
     await this._infoTable.add({
-      id: this._infoTable.data.length,
+      id: this._infoTable.size(),
       description: "",
       current: "",
       counter: "",
     });
 
     await this._debateTable.add({
-      id: this._debateTable.data.length,
+      id: this._debateTable.size(),
       title: title,
       description: description,
       generalNotes: "",
-      infoid: this._infoTable.data.length - 1,
+      infoid: this._infoTable.size() - 1,
     });
   }
 
