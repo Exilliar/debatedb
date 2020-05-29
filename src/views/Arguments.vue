@@ -2,7 +2,7 @@
   <v-container>
     <div v-if="loaded">
       <NotesCard :body="generalNotes" :viewOnEdit="onEdit" />
-      <div v-for="argument in argumentData" :key="argument.id">
+      <div v-for="argument in argumentData" :key="argumentid(argument)">
         <ViewCard :data="argument" />
       </div>
     </div>
@@ -78,6 +78,10 @@ export default class ArgumentsView extends Vue {
 
   async onEdit(text: string) {
     await this.argumentsViewdb.updateGeneralNotes(text);
+  }
+
+  argumentid(argument: ViewCardData) {
+    return argument.id;
   }
 }
 </script>
