@@ -5,27 +5,29 @@
         {{ title }}
       </v-card-title>
       <v-card-text>
-        <p>Description: {{ description }}</p>
-        <p>Current: {{ current }}</p>
-        <p>Counter: {{ counter }}</p>
+        <vue-markdown :source="description" />
+        <vue-markdown :source="current" />
+        <vue-markdown :source="counter" />
       </v-card-text>
       <v-card-actions>
         <Button text="edit" :onClick="edit" />
       </v-card-actions>
     </v-card>
-    {{ info }}
   </v-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import Button from "./TheButton.vue";
+import VueMarkdown from "vue-markdown";
+
 import InfoTbl from "../db/newIdea/elements/infoTbl";
+
 import { UserInputText } from "../models/UserInput";
 import ModalInput from "../models/ModalInput";
 
 @Component({
-  components: { Button },
+  components: { Button, VueMarkdown },
 })
 export default class InfoCard extends Vue {
   @Prop() info!: InfoTbl;
@@ -95,13 +97,13 @@ export default class InfoCard extends Vue {
   }
 
   get description() {
-    return this.info.description;
+    return "Description: " + this.info.description;
   }
   get current() {
-    return this.info.current;
+    return "Current: " + this.info.current;
   }
   get counter() {
-    return this.info.counter;
+    return "Counter: " + this.info.counter;
   }
 }
 </script>

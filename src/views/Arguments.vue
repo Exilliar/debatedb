@@ -7,7 +7,7 @@
         type="debate"
         :viewOnEdit="onInfoEdit"
       />
-      <NotesCard :body="generalNotes" :viewOnEdit="onEdit" />
+      <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
       <div v-for="argument in argumentData" :key="argumentid(argument)">
         <ViewCard :data="argument" />
       </div>
@@ -39,11 +39,17 @@ import InfoTbl from "../db/newIdea/elements/infoTbl";
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;
-  generalNotes!: string;
   argumentsViewdb!: ArgumentsViewdb;
   argumentData!: ViewCardData[];
   loaded = false;
-  info!: InfoTbl;
+  // Both of the below have to be inisialised to be empty so that they will rerender when changed
+  info: InfoTbl = {
+    id: -1,
+    description: "",
+    current: "",
+    counter: "",
+  };
+  generalNotes = "";
 
   async mounted() {
     if (this.$route.params.id) this.debateid = +this.$route.params.id;
@@ -53,9 +59,9 @@ export default class ArgumentsView extends Vue {
 
     await this.argumentsViewdb.refreshData();
 
-    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
-
     this.getArgumentData();
+
+    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
 
     this.refreshInfo();
 
@@ -79,7 +85,6 @@ export default class ArgumentsView extends Vue {
 
   refreshInfo() {
     this.info = this.argumentsViewdb.data.debate.info;
-    console.log("info:", this.info);
   }
 
   async addOnClose(title: string, description: string) {
@@ -92,8 +97,9 @@ export default class ArgumentsView extends Vue {
     this.loaded = true;
   }
 
-  async onEdit(text: string) {
+  async updateNotes(text: string) {
     await this.argumentsViewdb.updateGeneralNotes(text);
+    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
   }
 
   argumentid(argument: ViewCardData) {
@@ -106,8 +112,5 @@ export default class ArgumentsView extends Vue {
   get debateTitle() {
     return this.argumentsViewdb.data.debate.title;
   }
-  // get info() {
-  //   return this.argumentsViewdb.data.debate.info;
-  // }
 }
 </script>

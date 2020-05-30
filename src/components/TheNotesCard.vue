@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>General Notes</v-card-title>
       <v-card-text>
-        <vue-markdown :source="text"> </vue-markdown>
+        <vue-markdown :source="body"> </vue-markdown>
       </v-card-text>
       <v-card-actions>
         <Button text="Edit" :onClick="edit" />
@@ -31,7 +31,7 @@ export default class NotesCard extends Vue {
     title: "Notes",
     description: "General notes, does not need to be full sentences",
     markdown: true,
-    textInput: this.body,
+    textInput: this.text,
     type: "text",
   };
 
@@ -51,7 +51,7 @@ export default class NotesCard extends Vue {
   }
 
   get text() {
-    return this.input.textInput;
+    return this.body;
   }
 
   onEdit(inputs: UserInputText[]) {
