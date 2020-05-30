@@ -40,7 +40,7 @@ export default class AddButton extends Vue {
 
   onClose(inputs: UserInputText[]) {
     const title = inputs[0].textInput;
-    const description = inputs[0].textInput;
+    const description = inputs[1].textInput;
 
     this.add(title, description);
   }
