@@ -1,7 +1,13 @@
 <template>
   <v-container>
     <div v-if="loaded">
-      <NotesCard :body="generalNotes" :viewOnEdit="onEdit" />
+      <InfoCard
+        :title="debateTitle"
+        :info="info"
+        type="debate"
+        :viewOnEdit="updateInfo"
+      />
+      <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
       <div v-for="argument in argumentData" :key="argumentid(argument)">
         <ViewCard :data="argument" />
       </div>
@@ -10,7 +16,7 @@
       <v-progress-circular indeterminate color="primary" size="100" />
     </div>
     <div style="text-align: center;">
-      <AddButton type="argument" :add="addOnClose" />
+      <AddButton type="argument" :add="addArgument" />
     </div>
   </v-container>
 </template>
@@ -20,39 +26,67 @@ import { Vue, Component } from "vue-property-decorator";
 import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
+import InfoCard from "@/components/TheInfoCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
 import argumentData from "@/data/arguments";
 import ArgumentsViewdb from "../db/newIdea/ArgumentsView";
+import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton },
+  components: { ViewCard, NotesCard, AddButton, InfoCard },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;
-  generalNotes!: string;
   argumentsViewdb!: ArgumentsViewdb;
   argumentData!: ViewCardData[];
   loaded = false;
+  // Both of the below have to be inisialised to be empty so that they will rerender when changed
+  info: InfoTbl = {
+    id: -1,
+    description: "",
+    current: "",
+    counter: "",
+  };
+  generalNotes = "";
 
   async mounted() {
     if (this.$route.params.id) this.debateid = +this.$route.params.id;
     else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the user to be redirected to the debatesView
 
     this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
-
     await this.argumentsViewdb.refreshData();
 
-    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
-
     this.getArgumentData();
+    this.refreshNotes();
+    this.refreshInfo();
 
     this.loaded = true;
   }
 
-  get args() {
-    return this.argumentsViewdb.data.arguments;
+  async addArgument(title: string, description: string) {
+    this.loaded = false;
+
+    await this.argumentsViewdb.addArgument(title, description);
+    this.getArgumentData();
+
+    this.loaded = true;
+  }
+  async updateInfo(description: string, current: string, counter: string) {
+    await this.argumentsViewdb.updateInfo(description, current, counter);
+    this.refreshInfo();
+  }
+  async updateNotes(text: string) {
+    await this.argumentsViewdb.updateGeneralNotes(text);
+    this.refreshNotes();
+  }
+
+  refreshInfo() {
+    this.info = this.argumentsViewdb.data.debate.info;
+  }
+  refreshNotes() {
+    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
   }
 
   getArgumentData() {
@@ -65,23 +99,14 @@ export default class ArgumentsView extends Vue {
       };
     });
   }
-
-  async addOnClose(title: string, description: string) {
-    this.loaded = false;
-
-    await this.argumentsViewdb.addArgument(title, description);
-
-    this.getArgumentData();
-
-    this.loaded = true;
-  }
-
-  async onEdit(text: string) {
-    await this.argumentsViewdb.updateGeneralNotes(text);
-  }
-
   argumentid(argument: ViewCardData) {
     return argument.id;
+  }
+  get args() {
+    return this.argumentsViewdb.data.arguments;
+  }
+  get debateTitle() {
+    return this.argumentsViewdb.data.debate.title;
   }
 }
 </script>
