@@ -5,7 +5,7 @@
         :title="debateTitle"
         :info="info"
         type="debate"
-        :viewOnEdit="onInfoEdit"
+        :viewOnEdit="updateInfo"
       />
       <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
       <div v-for="argument in argumentData" :key="argumentid(argument)">
@@ -16,7 +16,7 @@
       <v-progress-circular indeterminate color="primary" size="100" />
     </div>
     <div style="text-align: center;">
-      <AddButton type="argument" :add="addOnClose" />
+      <AddButton type="argument" :add="addArgument" />
     </div>
   </v-container>
 </template>
@@ -56,16 +56,37 @@ export default class ArgumentsView extends Vue {
     else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the user to be redirected to the debatesView
 
     this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
-
     await this.argumentsViewdb.refreshData();
 
     this.getArgumentData();
-
-    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
-
+    this.refreshNotes();
     this.refreshInfo();
 
     this.loaded = true;
+  }
+
+  async addArgument(title: string, description: string) {
+    this.loaded = false;
+
+    await this.argumentsViewdb.addArgument(title, description);
+    this.getArgumentData();
+
+    this.loaded = true;
+  }
+  async updateInfo(description: string, current: string, counter: string) {
+    await this.argumentsViewdb.updateInfo(description, current, counter);
+    this.refreshInfo();
+  }
+  async updateNotes(text: string) {
+    await this.argumentsViewdb.updateGeneralNotes(text);
+    this.refreshNotes();
+  }
+
+  refreshInfo() {
+    this.info = this.argumentsViewdb.data.debate.info;
+  }
+  refreshNotes() {
+    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
   }
 
   getArgumentData() {
@@ -78,34 +99,9 @@ export default class ArgumentsView extends Vue {
       };
     });
   }
-  async onInfoEdit(description: string, current: string, counter: string) {
-    await this.argumentsViewdb.updateInfo(description, current, counter);
-    this.refreshInfo();
-  }
-
-  refreshInfo() {
-    this.info = this.argumentsViewdb.data.debate.info;
-  }
-
-  async addOnClose(title: string, description: string) {
-    this.loaded = false;
-
-    await this.argumentsViewdb.addArgument(title, description);
-
-    this.getArgumentData();
-
-    this.loaded = true;
-  }
-
-  async updateNotes(text: string) {
-    await this.argumentsViewdb.updateGeneralNotes(text);
-    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
-  }
-
   argumentid(argument: ViewCardData) {
     return argument.id;
   }
-
   get args() {
     return this.argumentsViewdb.data.arguments;
   }

@@ -97,13 +97,13 @@ export default class InfoCard extends Vue {
   }
 
   get description() {
-    return "Description: " + this.info.description;
+    return "## Description\n" + this.info.description;
   }
   get current() {
-    return "Current: " + this.info.current;
+    return "## Current\n" + this.info.current;
   }
   get counter() {
-    return "Counter: " + this.info.counter;
+    return "## Counter\n" + this.info.counter;
   }
 }
 </script>
