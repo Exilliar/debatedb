@@ -12,13 +12,13 @@ export default class TableBase<T> {
   }
 
   update(newData: T, id: number) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this._data[id] = newData;
       this.refresh().then(() => resolve());
     });
   }
   add(newData: T) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this._data.push(newData);
       this.refresh().then(() => resolve());
     });

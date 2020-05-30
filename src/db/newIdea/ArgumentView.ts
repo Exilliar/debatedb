@@ -11,6 +11,8 @@ import QuoteData from "./data/quote";
 import ArgumentTbl from "./elements/argumentTbl";
 import SourceTbl from "./elements/sourceTbl";
 import QuoteTbl from "./elements/quoteTbl";
+import ArgumentDatadb from "./classData/argument";
+import InfoDatadb from "./classData/info";
 
 interface Argument {
   id: number;
@@ -34,6 +36,27 @@ export default class ArgumentViewdb {
   private _data!: ArgumentViewData;
   private id: number;
 
+  private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
+  private _infoTable = new InfoDatadb(this.refreshData.bind(this));
+
+  async updateInfo(desc: string, current: string, counter: string) {
+    const infoid = this._argumentTable.getSingle(this.id).infoid;
+
+    const info = this._infoTable.getSingle(infoid);
+    info.description = desc;
+    info.current = current;
+    info.counter = counter;
+
+    await this._infoTable.update(info, infoid);
+  }
+
+  async updateGeneralNotes(notes: string) {
+    const updated = this._argumentTable.getSingle(this.id);
+    updated.generalNotes = notes;
+
+    await this._argumentTable.update(updated, this.id);
+  }
+
   get data() {
     return this._data;
   }
@@ -45,13 +68,12 @@ export default class ArgumentViewdb {
   }
 
   constructor(argid: number) {
-    this.init(argid);
     this.id = argid;
   }
 
-  private async init(id: number) {
-    const arg = await this.getArgument(id);
-    const sources = await this.getSources(id);
+  async refreshData() {
+    const arg = await this.getArgument();
+    const sources = await this.getSources();
 
     this._data = {
       argument: arg,
@@ -59,11 +81,11 @@ export default class ArgumentViewdb {
     };
   }
 
-  private getArgument(id: number): Promise<Argument> {
+  private getArgument(): Promise<Argument> {
     return new Promise((resolve, reject) => {
       resolve(
         argumentData
-          .filter((a) => a.id === id)
+          .filter((a) => a.id === this.id)
           .map((a) => {
             return {
               id: a.id,
@@ -76,9 +98,9 @@ export default class ArgumentViewdb {
     });
   }
 
-  private getSources(argid: number): Promise<Source[]> {
+  private getSources(): Promise<Source[]> {
     return new Promise((resolve, reject) => {
-      const sourceids = SourcesData.filter((s) => s.argumentid === argid).map(
+      const sourceids = SourcesData.filter((s) => s.argumentid === this.id).map(
         (s) => s.sourceid
       );
       const sources = SourceData.filter((s) => sourceids.includes(s.id));
@@ -102,44 +124,4 @@ export default class ArgumentViewdb {
       resolve(returnSources);
     });
   }
-
-  updateArgument(arg: ArgumentTbl) {
-    this.rawArgument[this.id] = arg;
-    this.init(this.id);
-  }
-
-  addSource(source: SourceTbl) {
-    this.rawSource.push(source);
-    this.rawSources.push({
-      id: this.rawSources.length,
-      argumentid: this.id,
-      sourceid: source.id,
-    });
-    this.init(this.id);
-  }
-  updateSource(source: SourceTbl, id: number) {
-    this.rawSource[id] = source;
-    this.init(this.id);
-  }
-
-  addQuote(quote: QuoteTbl, source: SourceTbl) {
-    this.rawQuote.push(quote);
-    this.rawQuotes.push({
-      id: this.rawQuotes.length,
-      sourceid: source.id,
-      quoteid: quote.id,
-    });
-    this.init(this.id);
-  }
-  updateQuote(quote: QuoteTbl, id: number) {
-    this.rawQuote[id] = quote;
-    this.init(this.id);
-  }
-
-  // This part will be replaced when the backend is made
-  rawArgument = argumentData;
-  rawSources = SourcesData;
-  rawSource = SourceData;
-  rawQuotes = QuotesData;
-  rawQuote = QuoteData;
 }
