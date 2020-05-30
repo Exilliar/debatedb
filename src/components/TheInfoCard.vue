@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title>
+      <v-card-title class="justify-center">
         {{ title }}
       </v-card-title>
       <v-card-text>
@@ -97,13 +97,13 @@ export default class InfoCard extends Vue {
   }
 
   get description() {
-    return "## Description\n" + this.info.description;
+    return "### Description\n" + this.info.description;
   }
   get current() {
-    return "## Current\n" + this.info.current;
+    return "### Current\n" + this.info.current;
   }
   get counter() {
-    return "## Counter\n" + this.info.counter;
+    return "### Counter\n" + this.info.counter;
   }
 }
 </script>

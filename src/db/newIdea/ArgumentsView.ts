@@ -2,6 +2,7 @@ import Info from "./elements/infoTbl";
 import DebateDatadb from "./classData/debate";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
+import DebateTbl from "./elements/debateTbl";
 
 interface Debate {
   id: number;
@@ -22,6 +23,7 @@ interface ArgumentsViewData {
 export default class ArgumentsViewdb {
   private _data!: ArgumentsViewData;
   private debateid: number;
+  private currentDebate!: DebateTbl;
 
   private _debateTable = new DebateDatadb(this.refreshData.bind(this));
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
@@ -29,9 +31,6 @@ export default class ArgumentsViewdb {
 
   get data() {
     return this._data;
-  }
-  get currentDebate() {
-    return this._debateTable.getSingle(this.debateid);
   }
 
   async addArgument(title: string, description: string) {
@@ -72,6 +71,7 @@ export default class ArgumentsViewdb {
 
   constructor(debateid: number) {
     this.debateid = debateid;
+    this.currentDebate = this._debateTable.getSingle(this.debateid);
   }
 
   async refreshData() {

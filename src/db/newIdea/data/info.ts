@@ -22,13 +22,13 @@ const data: InfoTbl[] = [
   },
   {
     id: 3,
-    description: "this is a description that is for the third argument",
+    description: "this is a description that is for the first argument",
     current: "the current best version of this argument",
     counter: "the current best counter to the overall argument",
   },
   {
     id: 4,
-    description: "this is a description that is for the third argument",
+    description: "this is a description that is for the second argument",
     current: "the current best version of this argument",
     counter: "the current best counter to the overall argument",
   },
