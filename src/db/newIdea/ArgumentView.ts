@@ -49,7 +49,6 @@ export default class ArgumentViewdb {
 
     await this._infoTable.update(info, infoid);
   }
-
   async updateGeneralNotes(notes: string) {
     const updated = this._argumentTable.getSingle(this.id);
     updated.generalNotes = notes;

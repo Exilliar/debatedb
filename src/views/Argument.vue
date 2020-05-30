@@ -7,6 +7,7 @@
         type="argument"
         :viewOnEdit="updateInfo"
       />
+      <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
     </div>
     <div v-else>
       <v-progress-circular indeterminate color="primary" size="100" />
@@ -17,12 +18,13 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import InfoCard from "@/components/TheInfoCard.vue";
+import NotesCard from "@/components/TheNotesCard.vue";
 
 import ArgumentViewdb from "../db/newIdea/ArgumentView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { InfoCard },
+  components: { InfoCard, NotesCard },
 })
 export default class ArgumentView extends Vue {
   argViewdb!: ArgumentViewdb;
@@ -34,6 +36,7 @@ export default class ArgumentView extends Vue {
     counter: "",
   };
   loaded = false;
+  generalNotes = "";
 
   async mounted() {
     if (this.$route.params.id) this.id = +this.$route.params.id;
@@ -43,6 +46,7 @@ export default class ArgumentView extends Vue {
     await this.argViewdb.refreshData();
 
     this.refreshInfo();
+    this.refreshNotes();
 
     this.loaded = true;
   }
@@ -51,9 +55,16 @@ export default class ArgumentView extends Vue {
     await this.argViewdb.updateInfo(description, current, counter);
     this.refreshInfo();
   }
+  async updateNotes(text: string) {
+    await this.argViewdb.updateGeneralNotes(text);
+    this.refreshNotes();
+  }
 
   refreshInfo() {
     this.info = this.argViewdb.argument.info;
+  }
+  refreshNotes() {
+    this.generalNotes = this.argViewdb.argument.generalNotes;
   }
 
   get title() {
