@@ -52,8 +52,15 @@ export default class ArgumentsViewdb {
     });
   }
 
-  async updateInfo(info: Info) {
-    await this._infoTable.update(info, this.currentDebate.infoid);
+  async updateInfo(description: string, current: string, counter: string) {
+    const infoid = this.currentDebate.infoid;
+
+    const info = this._infoTable.getSingle(infoid);
+    info.description = description;
+    info.current = current;
+    info.counter = counter;
+
+    await this._infoTable.update(info, infoid);
   }
 
   async updateGeneralNotes(notes: string) {

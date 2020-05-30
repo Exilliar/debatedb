@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <div v-if="loaded">
+      <InfoCard
+        :title="debateTitle"
+        :info="info"
+        type="debate"
+        :viewOnEdit="onInfoEdit"
+      />
       <NotesCard :body="generalNotes" :viewOnEdit="onEdit" />
       <div v-for="argument in argumentData" :key="argumentid(argument)">
         <ViewCard :data="argument" />
@@ -20,14 +26,16 @@ import { Vue, Component } from "vue-property-decorator";
 import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
+import InfoCard from "@/components/TheInfoCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
 import argumentData from "@/data/arguments";
 import ArgumentsViewdb from "../db/newIdea/ArgumentsView";
+import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton },
+  components: { ViewCard, NotesCard, AddButton, InfoCard },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;
@@ -35,6 +43,7 @@ export default class ArgumentsView extends Vue {
   argumentsViewdb!: ArgumentsViewdb;
   argumentData!: ViewCardData[];
   loaded = false;
+  info!: InfoTbl;
 
   async mounted() {
     if (this.$route.params.id) this.debateid = +this.$route.params.id;
@@ -48,11 +57,9 @@ export default class ArgumentsView extends Vue {
 
     this.getArgumentData();
 
-    this.loaded = true;
-  }
+    this.refreshInfo();
 
-  get args() {
-    return this.argumentsViewdb.data.arguments;
+    this.loaded = true;
   }
 
   getArgumentData() {
@@ -64,6 +71,15 @@ export default class ArgumentsView extends Vue {
         routeTo: "Argument",
       };
     });
+  }
+  async onInfoEdit(description: string, current: string, counter: string) {
+    await this.argumentsViewdb.updateInfo(description, current, counter);
+    this.refreshInfo();
+  }
+
+  refreshInfo() {
+    this.info = this.argumentsViewdb.data.debate.info;
+    console.log("info:", this.info);
   }
 
   async addOnClose(title: string, description: string) {
@@ -83,5 +99,15 @@ export default class ArgumentsView extends Vue {
   argumentid(argument: ViewCardData) {
     return argument.id;
   }
+
+  get args() {
+    return this.argumentsViewdb.data.arguments;
+  }
+  get debateTitle() {
+    return this.argumentsViewdb.data.debate.title;
+  }
+  // get info() {
+  //   return this.argumentsViewdb.data.debate.info;
+  // }
 }
 </script>
