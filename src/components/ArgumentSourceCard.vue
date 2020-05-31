@@ -55,6 +55,12 @@ export default class SourceCard extends Vue {
     additional: string,
     sourceid: number
   ) => any;
+  @Prop() editFunc!: (
+    link: string,
+    quotes: QuoteTbl[],
+    notes: string,
+    sourceid: number
+  ) => any;
 
   addOnClose(inputs: UserInputText[]) {
     const quote = inputs[0].textInput;
@@ -90,7 +96,6 @@ export default class SourceCard extends Vue {
     let quoteNumber = 1;
 
     for (let i = 0; i < this.quotes.length; i++) {
-      console.log("id edit:", id);
       const editQuote: UserInputText = {
         id: id,
         title: "Quote " + quoteNumber,
@@ -100,7 +105,6 @@ export default class SourceCard extends Vue {
         markdown: false,
       };
       id++;
-      console.log("id additional", id);
       const editAdditional: UserInputText = {
         id: id,
         title: "Additional notes about quote " + quoteNumber,
@@ -132,8 +136,24 @@ export default class SourceCard extends Vue {
     });
   }
 
-  editOnClose(inputs: UserInput) {
-    console.log(inputs);
+  editOnClose(inputs: UserInput[]) {
+    const link = inputs[0].textInput;
+    const notes = inputs[inputs.length - 1].textInput;
+
+    const editQuotes = new Array<QuoteTbl>();
+
+    let id = 1;
+
+    for (let i = 0; i < this.quotes.length; i++) {
+      editQuotes.push({
+        id: this.quotes[i].id,
+        text: inputs[id].textInput,
+        additional: inputs[id + 1].textInput,
+      });
+      id += 2;
+    }
+
+    this.editFunc(link, editQuotes, notes, this.id);
   }
 
   addQuoteModal() {

@@ -13,7 +13,11 @@
         </v-col>
         <v-col cols="6">
           <div v-for="source in sources" :key="source.key">
-            <SourceCard :source="source" :addQuoteFunc="addQuote" />
+            <SourceCard
+              :source="source"
+              :addQuoteFunc="addQuote"
+              :editFunc="updateSource"
+            />
           </div>
         </v-col>
       </v-row>
@@ -32,6 +36,7 @@ import SourceCard from "@/components/ArgumentSourceCard.vue";
 
 import ArgumentViewdb, { Source } from "../db/newIdea/ArgumentView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
+import QuoteTbl from "../db/newIdea/elements/quoteTbl";
 
 @Component({
   components: { InfoCard, NotesCard, SourceCard },
@@ -75,6 +80,15 @@ export default class ArgumentView extends Vue {
   async updateNotes(text: string) {
     await this.argViewdb.updateGeneralNotes(text);
     this.refreshNotes();
+  }
+  async updateSource(
+    link: string,
+    quotes: QuoteTbl[],
+    notes: string,
+    sourceid: number
+  ) {
+    await this.argViewdb.updateSource(link, quotes, notes, sourceid);
+    this.refreshSources();
   }
 
   refreshInfo() {
