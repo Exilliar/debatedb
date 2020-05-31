@@ -12,18 +12,21 @@
           <h2>Quotes:</h2>
           <ul>
             <li v-for="quote in quotes" :key="quoteid(quote)">
-              "{{ quoteText(quote) }}" - {{ quoteAdditional(quote) }}
+              "{{ quoteText(quote) }}"
+              <span v-if="quoteAdditional(quote)">
+                - {{ quoteAdditional(quote) }}
+              </span>
             </li>
           </ul>
         </div>
         <div class="mb-2">
           <h2>Notes</h2>
-          {{ notes }}
+          <vue-markdown :source="notes" />
         </div>
       </v-card-text>
       <v-card-actions>
-        <Button text="edit" />
-        <Button text="add quote" :onClick="addModal" />
+        <Button text="edit" :onClick="editSourceModal" />
+        <Button text="add quote" :onClick="addQuoteModal" />
       </v-card-actions>
     </v-card>
   </v-container>
@@ -33,14 +36,17 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import SourceTbl from "../db/newIdea/elements/sourceTbl";
 import { Source } from "../db/newIdea/ArgumentView";
+import VueMarkdown from "vue-markdown";
 
 import Button from "./TheButton.vue";
+
 import QuoteTbl from "../db/newIdea/elements/quoteTbl";
-import { UserInputText } from "../models/UserInput";
+
+import UserInput, { UserInputText, UserInputLink } from "../models/UserInput";
 import ModalInput from "../models/ModalInput";
 
 @Component({
-  components: { Button },
+  components: { Button, VueMarkdown },
 })
 export default class SourceCard extends Vue {
   @Prop() source!: Source;
@@ -50,33 +56,6 @@ export default class SourceCard extends Vue {
     sourceid: number
   ) => any;
 
-  addQuote = "";
-  addAdditional = "";
-
-  addModalQuote: UserInputText = {
-    id: 0,
-    title: "Quote",
-    description: "A direct quote from the source. Do not add quote marks",
-    textInput: this.addQuote,
-    type: "text",
-    markdown: false,
-  };
-  addModalAdditional: UserInputText = {
-    id: 1,
-    title: "Addition notes",
-    description:
-      "Very short notes about the quote. E.g. the page that the quote is on",
-    textInput: this.addAdditional,
-    type: "text",
-    markdown: false,
-  };
-  addModalData: ModalInput = {
-    params: {
-      title: "Add Quote",
-      inputs: [this.addModalQuote, this.addModalAdditional],
-    },
-  };
-
   addOnClose(inputs: UserInputText[]) {
     const quote = inputs[0].textInput;
     const additional = inputs[1].textInput;
@@ -84,10 +63,110 @@ export default class SourceCard extends Vue {
     this.addQuoteFunc(quote, additional, this.id);
   }
 
-  addModal() {
+  editSourceModal() {
+    const editLink = this.link;
+    const editNotes = this.notes;
+    const editQuotesQuote = this.quotes.map((q) => q.text);
+    const editQuotesAdditional = this.quotes.map((q) => q.additional);
+
+    const editModalLink: UserInputLink = {
+      id: 0,
+      type: "link",
+      textInput: editLink,
+    };
+    const editModalNotes: UserInputText = {
+      id: this.quotes.length * 2 + 1,
+      title: "Notes",
+      description:
+        "Notes about the source. Should be things like qualifiers and other thoughts about the source",
+      textInput: editNotes,
+      type: "text",
+      markdown: true,
+    };
+
+    const inputs: UserInput[] = [editModalLink];
+
+    let id = 1;
+    let quoteNumber = 1;
+
+    for (let i = 0; i < this.quotes.length; i++) {
+      console.log("id edit:", id);
+      const editQuote: UserInputText = {
+        id: id,
+        title: "Quote " + quoteNumber,
+        description: "A direct quote from the source. Do not use quote marks",
+        textInput: editQuotesQuote[i],
+        type: "text",
+        markdown: false,
+      };
+      id++;
+      console.log("id additional", id);
+      const editAdditional: UserInputText = {
+        id: id,
+        title: "Additional notes about quote " + quoteNumber,
+        description:
+          "Very short notes about the quote. E.g. the page that the quote is on",
+        textInput: editQuotesAdditional[i],
+        type: "text",
+        markdown: false,
+      };
+      id++;
+      quoteNumber++;
+      inputs.push(editQuote);
+      inputs.push(editAdditional);
+    }
+
+    inputs.push(editModalNotes);
+
+    const editModalData: ModalInput = {
+      params: {
+        title: "Edit Source",
+        inputs: inputs,
+      },
+    };
+
     this.$modal.show("InputModal", {
-      title: this.addModalData.params.title,
-      inputs: this.addModalData.params.inputs,
+      title: editModalData.params.title,
+      inputs: editModalData.params.inputs,
+      onClose: this.editOnClose,
+    });
+  }
+
+  editOnClose(inputs: UserInput) {
+    console.log(inputs);
+  }
+
+  addQuoteModal() {
+    const addQuote = "";
+    const addAdditional = "";
+
+    const addModalQuote: UserInputText = {
+      id: 0,
+      title: "Quote",
+      description: "A direct quote from the source. Do not add quote marks",
+      textInput: addQuote,
+      type: "text",
+      markdown: false,
+    };
+    const addModalAdditional: UserInputText = {
+      id: 1,
+      title: "Addition notes",
+      description:
+        "Very short notes about the quote. E.g. the page that the quote is on",
+      textInput: addAdditional,
+      type: "text",
+      markdown: false,
+    };
+    const addModalData: ModalInput = {
+      params: {
+        title: "Add Quote",
+        inputs: [addModalQuote, addModalAdditional],
+      },
+    };
+
+    this.$modal.show("InputModal", {
+      title: addModalData.params.title,
+      inputs: addModalData.params.inputs,
       onClose: this.addOnClose,
     });
   }
