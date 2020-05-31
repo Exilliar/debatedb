@@ -7,7 +7,16 @@
         type="argument"
         :viewOnEdit="updateInfo"
       />
-      <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
+      <v-row>
+        <v-col cols="6">
+          <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
+        </v-col>
+        <v-col cols="6">
+          <div v-for="source in sources" :key="source.key">
+            <SourceCard :source="source" :addQuoteFunc="addQuote" />
+          </div>
+        </v-col>
+      </v-row>
     </div>
     <div v-else>
       <v-progress-circular indeterminate color="primary" size="100" />
@@ -19,12 +28,13 @@ import { Vue, Component } from "vue-property-decorator";
 
 import InfoCard from "@/components/TheInfoCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
+import SourceCard from "@/components/ArgumentSourceCard.vue";
 
-import ArgumentViewdb from "../db/newIdea/ArgumentView";
+import ArgumentViewdb, { Source } from "../db/newIdea/ArgumentView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { InfoCard, NotesCard },
+  components: { InfoCard, NotesCard, SourceCard },
 })
 export default class ArgumentView extends Vue {
   argViewdb!: ArgumentViewdb;
@@ -37,6 +47,7 @@ export default class ArgumentView extends Vue {
   };
   loaded = false;
   generalNotes = "";
+  sources: Source[] = new Array<Source>();
 
   async mounted() {
     if (this.$route.params.id) this.id = +this.$route.params.id;
@@ -47,8 +58,14 @@ export default class ArgumentView extends Vue {
 
     this.refreshInfo();
     this.refreshNotes();
+    this.refreshSources();
 
     this.loaded = true;
+  }
+
+  async addQuote(quote: string, additional: string, sourceid: number) {
+    await this.argViewdb.addQuote(quote, additional, sourceid);
+    this.refreshSources();
   }
 
   async updateInfo(description: string, current: string, counter: string) {
@@ -65,6 +82,9 @@ export default class ArgumentView extends Vue {
   }
   refreshNotes() {
     this.generalNotes = this.argViewdb.argument.generalNotes;
+  }
+  refreshSources() {
+    this.sources = this.argViewdb.sources;
   }
 
   get title() {
