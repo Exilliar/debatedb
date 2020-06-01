@@ -1,7 +1,7 @@
 import DebateDatadb from "./classData/debate";
 import InfoDatadb from "./classData/info";
 
-interface Debate {
+export interface Debate {
   id: number;
   title: string;
   description: string;

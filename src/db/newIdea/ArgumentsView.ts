@@ -4,18 +4,18 @@ import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
 import DebateTbl from "./elements/debateTbl";
 
-interface Debate {
+export interface Debate {
   id: number;
   title: string;
   info: Info;
   generalNotes: string;
 }
-interface Argument {
+export interface Argument {
   id: number;
   title: string;
   description: string;
 }
-interface ArgumentsViewData {
+export interface ArgumentsViewData {
   debate: Debate;
   arguments: Argument[];
 }
