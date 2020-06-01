@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div v-if="loaded">
+    <Loading :check="loaded">
       <InfoCard
         :title="debateTitle"
         :info="info"
@@ -11,10 +11,7 @@
       <div v-for="argument in argumentData" :key="argumentid(argument)">
         <ViewCard :data="argument" />
       </div>
-    </div>
-    <div v-else style="text-align: center">
-      <v-progress-circular indeterminate color="primary" size="100" />
-    </div>
+    </Loading>
     <div style="text-align: center;">
       <AddButton type="argument" :add="addArgument" />
     </div>
@@ -27,20 +24,20 @@ import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
 import InfoCard from "@/components/TheInfoCard.vue";
+import Loading from "@/components/Loading.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
-import argumentData from "@/data/arguments";
-import ArgumentsViewdb from "../db/newIdea/ArgumentsView";
+import ArgumentsViewdb, { Argument } from "../db/newIdea/ArgumentsView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton, InfoCard },
+  components: { ViewCard, NotesCard, AddButton, InfoCard, Loading },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;
   argumentsViewdb!: ArgumentsViewdb;
-  argumentData!: ViewCardData[];
+  argumentData = new Array<ViewCardData>();
   loaded = false;
   // Both of the below have to be inisialised to be empty so that they will rerender when changed
   info: InfoTbl = {
@@ -103,10 +100,12 @@ export default class ArgumentsView extends Vue {
     return argument.id;
   }
   get args() {
-    return this.argumentsViewdb.data.arguments;
+    return this.loaded
+      ? this.argumentsViewdb.data.arguments
+      : new Array<Argument>();
   }
   get debateTitle() {
-    return this.argumentsViewdb.data.debate.title;
+    return this.loaded ? this.argumentsViewdb.data.debate.title : "";
   }
 }
 </script>

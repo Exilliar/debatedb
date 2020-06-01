@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div v-if="loaded">
+    <Loading :check="loaded">
       <InfoCard
         :info="info"
         :title="title"
@@ -30,10 +30,10 @@
           </div>
         </v-col>
       </v-row>
-    </div>
-    <div v-else>
+    </Loading>
+    <!-- <div v-else>
       <v-progress-circular indeterminate color="primary" size="100" />
-    </div>
+    </div> -->
   </v-container>
 </template>
 <script lang="ts">
@@ -43,13 +43,14 @@ import InfoCard from "@/components/TheInfoCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
 import SourceCard from "@/components/argument/SourceCard.vue";
 import AddSource from "@/components/argument/AddSource.vue";
+import Loading from "@/components/Loading.vue";
 
 import ArgumentViewdb, { Source } from "../db/newIdea/ArgumentView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 import QuoteTbl from "../db/newIdea/elements/quoteTbl";
 
 @Component({
-  components: { InfoCard, NotesCard, SourceCard, AddSource },
+  components: { InfoCard, NotesCard, SourceCard, AddSource, Loading },
 })
 export default class ArgumentView extends Vue {
   argViewdb!: ArgumentViewdb;
@@ -122,7 +123,7 @@ export default class ArgumentView extends Vue {
   }
 
   get title() {
-    return this.argViewdb.argument.title;
+    return this.loaded ? this.argViewdb.argument.title : "";
   }
 }
 </script>

@@ -19,7 +19,7 @@ import SourcesDatadb from "./classData/sources";
 import SourceTbl from "./elements/sourceTbl";
 import SourcesTbl from "./elements/sourcesTbl";
 
-interface Argument {
+export interface Argument {
   id: number;
   title: string;
   info: Info;
@@ -32,7 +32,7 @@ export interface Source {
   quotes: Quote[];
   notes: string;
 }
-interface ArgumentViewData {
+export interface ArgumentViewData {
   argument: Argument;
   sources: Source[];
 }

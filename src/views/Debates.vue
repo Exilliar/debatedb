@@ -1,13 +1,10 @@
 <template>
   <v-container>
-    <div v-if="loaded">
+    <Loading :check="loaded">
       <div v-for="debate in debateData" :key="debateid(debate)">
         <ViewCard :data="debate" />
       </div>
-    </div>
-    <div v-else style="text-align: center">
-      <v-progress-circular indeterminate color="primary" size="100" />
-    </div>
+    </Loading>
     <div style="text-align: center;">
       <AddButton type="debate" :add="addOnClose" />
     </div>
@@ -18,6 +15,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
+import Loading from "@/components/Loading.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
@@ -25,10 +23,10 @@ import DebatesViewdb from "../db/newIdea/DebatesView";
 import { UserInputText } from "../models/UserInput";
 
 @Component({
-  components: { ViewCard, AddButton },
+  components: { ViewCard, AddButton, Loading },
 })
 export default class DebatesView extends Vue {
-  debateData!: ViewCardData[];
+  debateData = new Array<ViewCardData>();
   debatesViewdb!: DebatesViewdb;
   loaded = false;
 
