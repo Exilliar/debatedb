@@ -3,7 +3,7 @@
     <v-card-title>Link</v-card-title>
     <v-card-text>
       URL to the source
-      <v-text-field outlined v-model="textInput" :rules="[noWhiteSpace]" />
+      <v-text-field outlined v-model="text" :rules="[noWhiteSpace]" />
     </v-card-text>
   </v-card>
 </template>
@@ -15,8 +15,11 @@ import { UserInputLink } from "../../models/UserInput";
 export default class LinkInput extends Vue {
   @Prop() input!: UserInputLink;
 
-  get textInput() {
+  get text() {
     return this.input.textInput;
+  }
+  set text(t: string) {
+    this.input.textInput = t;
   }
 
   // rules
