@@ -8,11 +8,14 @@ import SourcesData from "./data/sources";
 import SourceData from "./data/source";
 import QuotesData from "./data/quotes";
 import QuoteData from "./data/quote";
-import ArgumentTbl from "./elements/argumentTbl";
-import SourceTbl from "./elements/sourceTbl";
-import QuoteTbl from "./elements/quoteTbl";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
+import QuoteDatadb from "./classData/quote";
+import QuotesDatadb from "./classData/quotes";
+import QuoteTbl from "./elements/quoteTbl";
+import QuotesTbl from "./elements/quotesTbl";
+import SourceDatadb from "./classData/source";
+import SourcesDatadb from "./classData/sources";
 
 interface Argument {
   id: number;
@@ -20,7 +23,7 @@ interface Argument {
   info: Info;
   generalNotes: string;
 }
-interface Source {
+export interface Source {
   id: number;
   title: string;
   link: string;
@@ -38,6 +41,10 @@ export default class ArgumentViewdb {
 
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
+  private _quoteTable = new QuoteDatadb(this.refreshData.bind(this));
+  private _quotesTable = new QuotesDatadb(this.refreshData.bind(this));
+  private _sourceTable = new SourceDatadb(this.refreshData.bind(this));
+  private _sourcesTable = new SourcesDatadb(this.refreshData.bind(this));
 
   async updateInfo(desc: string, current: string, counter: string) {
     const infoid = this._argumentTable.getSingle(this.id).infoid;
@@ -54,6 +61,37 @@ export default class ArgumentViewdb {
     updated.generalNotes = notes;
 
     await this._argumentTable.update(updated, this.id);
+  }
+  async addQuote(text: string, additional: string, sourceid: number) {
+    const addQuote: QuoteTbl = {
+      id: this._quoteTable.size(),
+      text: text,
+      additional: additional,
+    };
+    await this._quoteTable.add(addQuote);
+
+    const addQuotes: QuotesTbl = {
+      id: this._quotesTable.size(),
+      sourceid: sourceid,
+      quoteid: this._quoteTable.size() - 1,
+    };
+    await this._quotesTable.add(addQuotes);
+  }
+  async updateSource(
+    link: string,
+    quotes: QuoteTbl[],
+    notes: string,
+    sourceid: number
+  ) {
+    const currentSource = await this._sourceTable.getSingle(sourceid);
+    currentSource.link = link;
+    currentSource.notes = notes;
+    await this._sourceTable.update(currentSource, sourceid);
+
+    for (let i = 0; i < quotes.length; i++) {
+      const q = quotes[i];
+      await this._quoteTable.update(q, q.id);
+    }
   }
 
   get data() {
