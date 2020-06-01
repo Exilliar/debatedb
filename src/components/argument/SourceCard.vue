@@ -34,16 +34,16 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import SourceTbl from "../db/newIdea/elements/sourceTbl";
-import { Source } from "../db/newIdea/ArgumentView";
+import SourceTbl from "@/db/newIdea/elements/sourceTbl";
+import { Source } from "@/db/newIdea/ArgumentView";
 import VueMarkdown from "vue-markdown";
 
-import Button from "./TheButton.vue";
+import Button from "@/components/TheButton.vue";
 
-import QuoteTbl from "../db/newIdea/elements/quoteTbl";
+import QuoteTbl from "@/db/newIdea/elements/quoteTbl";
 
-import UserInput, { UserInputText, UserInputLink } from "../models/UserInput";
-import ModalInput from "../models/ModalInput";
+import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
+import ModalInput from "@/models/ModalInput";
 
 @Component({
   components: { Button, VueMarkdown },

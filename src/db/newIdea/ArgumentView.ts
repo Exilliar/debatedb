@@ -16,6 +16,8 @@ import QuoteTbl from "./elements/quoteTbl";
 import QuotesTbl from "./elements/quotesTbl";
 import SourceDatadb from "./classData/source";
 import SourcesDatadb from "./classData/sources";
+import SourceTbl from "./elements/sourceTbl";
+import SourcesTbl from "./elements/sourcesTbl";
 
 interface Argument {
   id: number;
@@ -46,6 +48,42 @@ export default class ArgumentViewdb {
   private _sourceTable = new SourceDatadb(this.refreshData.bind(this));
   private _sourcesTable = new SourcesDatadb(this.refreshData.bind(this));
 
+  async addQuote(text: string, additional: string, sourceid: number) {
+    const addQuote: QuoteTbl = {
+      id: this._quoteTable.size(),
+      text: text,
+      additional: additional,
+    };
+    await this._quoteTable.add(addQuote);
+
+    const addQuotes: QuotesTbl = {
+      id: this._quotesTable.size(),
+      sourceid: sourceid,
+      quoteid: this._quoteTable.size() - 1,
+    };
+    await this._quotesTable.add(addQuotes);
+  }
+  async addSource(title: string, link: string, notes: string) {
+    const sourceid = this._sourceTable.size();
+
+    const newSource: SourceTbl = {
+      id: sourceid,
+      title: title,
+      link: link,
+      notes: notes,
+    };
+
+    await this._sourceTable.add(newSource);
+
+    const newSources: SourcesTbl = {
+      id: this._sourcesTable.size(),
+      argumentid: this.id,
+      sourceid: sourceid,
+    };
+
+    await this._sourcesTable.add(newSources);
+  }
+
   async updateInfo(desc: string, current: string, counter: string) {
     const infoid = this._argumentTable.getSingle(this.id).infoid;
 
@@ -61,21 +99,6 @@ export default class ArgumentViewdb {
     updated.generalNotes = notes;
 
     await this._argumentTable.update(updated, this.id);
-  }
-  async addQuote(text: string, additional: string, sourceid: number) {
-    const addQuote: QuoteTbl = {
-      id: this._quoteTable.size(),
-      text: text,
-      additional: additional,
-    };
-    await this._quoteTable.add(addQuote);
-
-    const addQuotes: QuotesTbl = {
-      id: this._quotesTable.size(),
-      sourceid: sourceid,
-      quoteid: this._quoteTable.size() - 1,
-    };
-    await this._quotesTable.add(addQuotes);
   }
   async updateSource(
     link: string,
