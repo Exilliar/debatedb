@@ -12,7 +12,7 @@
           <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
         </v-col>
         <v-col cols="6">
-          <div v-if="!sourceless">
+          <Empty title="Sources" :data="sources">
             <div v-for="source in sources" :key="source.key">
               <SourceCard
                 :source="source"
@@ -20,20 +20,13 @@
                 :editFunc="updateSource"
               />
             </div>
-          </div>
-          <div v-else class="text-center">
-            <h1>Sources</h1>
-            <p>Currently empty</p>
-          </div>
+          </Empty>
           <div class="text-center">
             <AddSource :addSourceFunc="addSource" />
           </div>
         </v-col>
       </v-row>
     </Loading>
-    <!-- <div v-else>
-      <v-progress-circular indeterminate color="primary" size="100" />
-    </div> -->
   </v-container>
 </template>
 <script lang="ts">
@@ -44,13 +37,14 @@ import NotesCard from "@/components/TheNotesCard.vue";
 import SourceCard from "@/components/argument/SourceCard.vue";
 import AddSource from "@/components/argument/AddSource.vue";
 import Loading from "@/components/Loading.vue";
+import Empty from "@/components/Empty.vue";
 
 import ArgumentViewdb, { Source } from "../db/newIdea/ArgumentView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 import QuoteTbl from "../db/newIdea/elements/quoteTbl";
 
 @Component({
-  components: { InfoCard, NotesCard, SourceCard, AddSource, Loading },
+  components: { InfoCard, NotesCard, SourceCard, AddSource, Loading, Empty },
 })
 export default class ArgumentView extends Vue {
   argViewdb!: ArgumentViewdb;
