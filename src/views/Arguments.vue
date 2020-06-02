@@ -8,9 +8,11 @@
         :viewOnEdit="updateInfo"
       />
       <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
-      <div v-for="argument in argumentData" :key="argumentid(argument)">
-        <ViewCard :data="argument" />
-      </div>
+      <Empty title="Arguments" :data="argumentData">
+        <div v-for="argument in argumentData" :key="argumentid(argument)">
+          <ViewCard :data="argument" />
+        </div>
+      </Empty>
     </Loading>
     <div style="text-align: center;">
       <AddButton type="argument" :add="addArgument" />
@@ -25,6 +27,7 @@ import NotesCard from "@/components/TheNotesCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
 import InfoCard from "@/components/TheInfoCard.vue";
 import Loading from "@/components/Loading.vue";
+import Empty from "@/components/Empty.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
@@ -32,7 +35,7 @@ import ArgumentsViewdb, { Argument } from "../db/newIdea/ArgumentsView";
 import InfoTbl from "../db/newIdea/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton, InfoCard, Loading },
+  components: { ViewCard, NotesCard, AddButton, InfoCard, Loading, Empty },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;

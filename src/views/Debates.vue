@@ -1,9 +1,11 @@
 <template>
   <v-container>
     <Loading :check="loaded">
-      <div v-for="debate in debateData" :key="debateid(debate)">
-        <ViewCard :data="debate" />
-      </div>
+      <Empty title="Debates" :data="debateData">
+        <div v-for="debate in debateData" :key="debateid(debate)">
+          <ViewCard :data="debate" />
+        </div>
+      </Empty>
     </Loading>
     <div style="text-align: center;">
       <AddButton type="debate" :add="addOnClose" />
@@ -16,6 +18,7 @@ import { Vue, Component } from "vue-property-decorator";
 import ViewCard from "@/components/TheViewCard.vue";
 import AddButton from "@/components/TheAddButton.vue";
 import Loading from "@/components/Loading.vue";
+import Empty from "@/components/Empty.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
@@ -23,7 +26,7 @@ import DebatesViewdb from "../db/newIdea/DebatesView";
 import { UserInputText } from "../models/UserInput";
 
 @Component({
-  components: { ViewCard, AddButton, Loading },
+  components: { ViewCard, AddButton, Loading, Empty },
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();
