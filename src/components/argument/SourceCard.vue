@@ -33,17 +33,16 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
-import SourceTbl from "@/db/newIdea/elements/sourceTbl";
-import { Source } from "@/db/newIdea/ArgumentView";
 import VueMarkdown from "vue-markdown";
 
-import Button from "@/components/TheButton.vue";
-
-import QuoteTbl from "@/db/newIdea/elements/quoteTbl";
+import Button from "@/components/Button.vue";
 
 import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
 import ModalInput from "@/models/ModalInput";
+
+import SourceTbl from "@/db/elements/sourceTbl";
+import { Source } from "@/db/ArgumentView";
+import QuoteTbl from "@/db/elements/quoteTbl";
 
 @Component({
   components: { Button, VueMarkdown },
@@ -62,18 +61,9 @@ export default class SourceCard extends Vue {
     sourceid: number
   ) => any;
 
-  addOnClose(inputs: UserInputText[]) {
-    const quote = inputs[0].textInput;
-    const additional = inputs[1].textInput;
-
-    this.addQuoteFunc(quote, additional, this.id);
-  }
-
   editSourceModal() {
     const editLink = this.link;
     const editNotes = this.notes;
-    const editQuotesQuote = this.quotes.map((q) => q.text);
-    const editQuotesAdditional = this.quotes.map((q) => q.additional);
 
     const editModalLink: UserInputLink = {
       id: 0,
@@ -92,6 +82,27 @@ export default class SourceCard extends Vue {
 
     const inputs: UserInput[] = [editModalLink];
 
+    this.addQuotesToInputs(inputs);
+
+    inputs.push(editModalNotes);
+
+    const editModalData: ModalInput = {
+      params: {
+        title: "Edit Source",
+        inputs: inputs,
+      },
+    };
+
+    this.$modal.show("InputModal", {
+      title: "Edit Source",
+      inputs: inputs,
+      onClose: this.editOnClose,
+    });
+  }
+
+  addQuotesToInputs(inputs: UserInput[]) {
+    const editQuotesQuote = this.quotes.map((q) => q.text);
+    const editQuotesAdditional = this.quotes.map((q) => q.additional);
     let id = 1;
     let quoteNumber = 1;
 
@@ -119,21 +130,6 @@ export default class SourceCard extends Vue {
       inputs.push(editQuote);
       inputs.push(editAdditional);
     }
-
-    inputs.push(editModalNotes);
-
-    const editModalData: ModalInput = {
-      params: {
-        title: "Edit Source",
-        inputs: inputs,
-      },
-    };
-
-    this.$modal.show("InputModal", {
-      title: editModalData.params.title,
-      inputs: editModalData.params.inputs,
-      onClose: this.editOnClose,
-    });
   }
 
   editOnClose(inputs: UserInput[]) {
@@ -177,18 +173,21 @@ export default class SourceCard extends Vue {
       type: "text",
       markdown: false,
     };
-    const addModalData: ModalInput = {
-      params: {
-        title: "Add Quote",
-        inputs: [addModalQuote, addModalAdditional],
-      },
-    };
+
+    const inputs = [addModalQuote, addModalAdditional];
 
     this.$modal.show("InputModal", {
-      title: addModalData.params.title,
-      inputs: addModalData.params.inputs,
+      title: "Add Quote",
+      inputs: inputs,
       onClose: this.addOnClose,
     });
+  }
+
+  addOnClose(inputs: UserInputText[]) {
+    const quote = inputs[0].textInput;
+    const additional = inputs[1].textInput;
+
+    this.addQuoteFunc(quote, additional, this.id);
   }
 
   get id() {

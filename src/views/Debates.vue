@@ -2,13 +2,13 @@
   <v-container>
     <Loading :check="loaded">
       <Empty title="Debates" :data="debateData">
-        <div v-for="debate in debateData" :key="debateid(debate)">
+        <div v-for="debate in debateData" :key="getDebateid(debate)">
           <ViewCard :data="debate" />
         </div>
       </Empty>
     </Loading>
     <div style="text-align: center;">
-      <AddButton type="debate" :add="addOnClose" />
+      <AddViewCardButton type="debate" :add="addOnClose" />
     </div>
   </v-container>
 </template>
@@ -16,24 +16,43 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
-import AddButton from "@/components/TheAddButton.vue";
-import Loading from "@/components/Loading.vue";
-import Empty from "@/components/Empty.vue";
+import AddViewCardButton from "@/components/AddViewCardButton.vue";
+import Loading from "@/components/TheLoadingCard.vue";
+import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
+import { UserInputText } from "@/models/UserInput";
 
-import DebatesViewdb from "../db/newIdea/DebatesView";
-import { UserInputText } from "../models/UserInput";
+import DebatesViewdb from "@/db/DebatesView";
 
 @Component({
-  components: { ViewCard, AddButton, Loading, Empty },
+  components: { ViewCard, AddViewCardButton, Loading, Empty },
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();
   debatesViewdb!: DebatesViewdb;
   loaded = false;
 
-  getDebateData() {
+  async mounted() {
+    this.debatesViewdb = new DebatesViewdb();
+    await this.debatesViewdb.refreshData();
+
+    this.refreshDebateData();
+
+    this.loaded = true;
+  }
+
+  async addOnClose(title: string, description: string) {
+    this.loaded = false;
+
+    await this.debatesViewdb.add(title, description);
+
+    this.refreshDebateData();
+
+    this.loaded = true;
+  }
+
+  refreshDebateData() {
     this.debateData = this.debatesViewdb.data.map((d) => {
       return {
         id: d.id.toString(),
@@ -44,24 +63,7 @@ export default class DebatesView extends Vue {
     });
   }
 
-  async mounted() {
-    this.debatesViewdb = new DebatesViewdb();
-    await this.debatesViewdb.refreshData();
-    this.getDebateData();
-    this.loaded = true;
-  }
-
-  async addOnClose(title: string, description: string) {
-    this.loaded = false;
-
-    await this.debatesViewdb.add(title, description);
-
-    this.getDebateData();
-
-    this.loaded = true;
-  }
-
-  debateid(debate: ViewCardData) {
+  getDebateid(debate: ViewCardData) {
     return debate.id;
   }
 }

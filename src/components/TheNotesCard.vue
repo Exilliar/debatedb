@@ -13,11 +13,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
-import Button from "./TheButton.vue";
 import VueMarkdown from "vue-markdown";
-import ModalInput from "../models/ModalInput";
-import { UserInputText } from "../models/UserInput";
+
+import Button from "./Button.vue";
+
+import ModalInput from "@/models/ModalInput";
+import { UserInputText } from "@/models/UserInput";
 
 @Component({
   components: { Button, VueMarkdown },
@@ -26,26 +27,21 @@ export default class NotesCard extends Vue {
   @Prop() body!: string;
   @Prop() viewOnEdit!: (text: string) => any;
 
-  input: UserInputText = {
-    id: 0,
-    title: "Notes",
-    description: "General notes, does not need to be full sentences",
-    markdown: true,
-    textInput: this.text,
-    type: "text",
-  };
-
-  modalData: ModalInput = {
-    params: {
-      title: "General Notes",
-      inputs: [this.input],
-    },
-  };
-
   edit() {
+    const input: UserInputText = {
+      id: 0,
+      title: "Notes",
+      description: "General notes, does not need to be full sentences",
+      markdown: true,
+      textInput: this.text,
+      type: "text",
+    };
+
+    const inputs = [input];
+
     this.$modal.show("InputModal", {
-      title: this.modalData.params.title,
-      inputs: this.modalData.params.inputs,
+      title: "General Notes",
+      inputs: inputs,
       onClose: this.onEdit,
     });
   }

@@ -9,13 +9,13 @@
       />
       <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
       <Empty title="Arguments" :data="argumentData">
-        <div v-for="argument in argumentData" :key="argumentid(argument)">
+        <div v-for="argument in argumentData" :key="getArgumentid(argument)">
           <ViewCard :data="argument" />
         </div>
       </Empty>
     </Loading>
     <div style="text-align: center;">
-      <AddButton type="argument" :add="addArgument" />
+      <AddViewCardButton type="argument" :add="addArgument" />
     </div>
   </v-container>
 </template>
@@ -24,31 +24,32 @@ import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
-import AddButton from "@/components/TheAddButton.vue";
+import AddViewCardButton from "@/components/AddViewCardButton.vue";
 import InfoCard from "@/components/TheInfoCard.vue";
-import Loading from "@/components/Loading.vue";
-import Empty from "@/components/Empty.vue";
+import Loading from "@/components/TheLoadingCard.vue";
+import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
-import ArgumentsViewdb, { Argument } from "../db/newIdea/ArgumentsView";
-import InfoTbl from "../db/newIdea/elements/infoTbl";
+import ArgumentsViewdb, { Argument } from "@/db/ArgumentsView";
+import InfoTbl from "@/db/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton, InfoCard, Loading, Empty },
+  components: {
+    ViewCard,
+    NotesCard,
+    AddViewCardButton,
+    InfoCard,
+    Loading,
+    Empty,
+  },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;
   argumentsViewdb!: ArgumentsViewdb;
   argumentData = new Array<ViewCardData>();
   loaded = false;
-  // Both of the below have to be inisialised to be empty so that they will rerender when changed
-  info: InfoTbl = {
-    id: -1,
-    description: "",
-    current: "",
-    counter: "",
-  };
+  info: InfoTbl = { id: -1, description: "", current: "", counter: "" };
   generalNotes = "";
 
   async mounted() {
@@ -58,7 +59,7 @@ export default class ArgumentsView extends Vue {
     this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
     await this.argumentsViewdb.refreshData();
 
-    this.getArgumentData();
+    this.refreshArgumentData();
     this.refreshNotes();
     this.refreshInfo();
 
@@ -69,10 +70,11 @@ export default class ArgumentsView extends Vue {
     this.loaded = false;
 
     await this.argumentsViewdb.addArgument(title, description);
-    this.getArgumentData();
+    this.refreshArgumentData();
 
     this.loaded = true;
   }
+
   async updateInfo(description: string, current: string, counter: string) {
     await this.argumentsViewdb.updateInfo(description, current, counter);
     this.refreshInfo();
@@ -88,8 +90,7 @@ export default class ArgumentsView extends Vue {
   refreshNotes() {
     this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
   }
-
-  getArgumentData() {
+  refreshArgumentData() {
     this.argumentData = this.argumentsViewdb.data.arguments.map((a) => {
       return {
         id: a.id.toString(),
@@ -99,7 +100,8 @@ export default class ArgumentsView extends Vue {
       };
     });
   }
-  argumentid(argument: ViewCardData) {
+
+  getArgumentid(argument: ViewCardData) {
     return argument.id;
   }
   get args() {

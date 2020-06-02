@@ -1,23 +1,23 @@
+import ArgumentDatadb from "./classData/argument";
+import InfoDatadb from "./classData/info";
+import QuoteDatadb from "./classData/quote";
+import QuotesDatadb from "./classData/quotes";
+import SourceDatadb from "./classData/source";
+import SourcesDatadb from "./classData/sources";
+
+import QuoteTbl from "./elements/quoteTbl";
+import QuotesTbl from "./elements/quotesTbl";
+import SourceTbl from "./elements/sourceTbl";
+import SourcesTbl from "./elements/sourcesTbl";
 import Info from "./elements/infoTbl";
 import Quote from "./elements/quoteTbl";
 
 import argumentData from "./data/argument";
 import infoData from "./data/info";
-
 import SourcesData from "./data/sources";
 import SourceData from "./data/source";
 import QuotesData from "./data/quotes";
 import QuoteData from "./data/quote";
-import ArgumentDatadb from "./classData/argument";
-import InfoDatadb from "./classData/info";
-import QuoteDatadb from "./classData/quote";
-import QuotesDatadb from "./classData/quotes";
-import QuoteTbl from "./elements/quoteTbl";
-import QuotesTbl from "./elements/quotesTbl";
-import SourceDatadb from "./classData/source";
-import SourcesDatadb from "./classData/sources";
-import SourceTbl from "./elements/sourceTbl";
-import SourcesTbl from "./elements/sourcesTbl";
 
 export interface Argument {
   id: number;
@@ -47,6 +47,20 @@ export default class ArgumentViewdb {
   private _quotesTable = new QuotesDatadb(this.refreshData.bind(this));
   private _sourceTable = new SourceDatadb(this.refreshData.bind(this));
   private _sourcesTable = new SourcesDatadb(this.refreshData.bind(this));
+
+  constructor(argid: number) {
+    this.id = argid;
+  }
+
+  async refreshData() {
+    const arg = await this.getArgument();
+    const sources = await this.getSources();
+
+    this._data = {
+      argument: arg,
+      sources: sources,
+    };
+  }
 
   async addQuote(text: string, additional: string, sourceid: number) {
     const addQuote: QuoteTbl = {
@@ -132,30 +146,6 @@ export default class ArgumentViewdb {
     return link;
   }
 
-  get data() {
-    return this._data;
-  }
-  get argument() {
-    return this._data.argument;
-  }
-  get sources() {
-    return this._data.sources;
-  }
-
-  constructor(argid: number) {
-    this.id = argid;
-  }
-
-  async refreshData() {
-    const arg = await this.getArgument();
-    const sources = await this.getSources();
-
-    this._data = {
-      argument: arg,
-      sources: sources,
-    };
-  }
-
   private getArgument(): Promise<Argument> {
     return new Promise((resolve, reject) => {
       resolve(
@@ -198,5 +188,15 @@ export default class ArgumentViewdb {
 
       resolve(returnSources);
     });
+  }
+
+  get data() {
+    return this._data;
+  }
+  get argument() {
+    return this._data.argument;
+  }
+  get sources() {
+    return this._data.sources;
   }
 }

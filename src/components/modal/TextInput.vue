@@ -15,7 +15,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { UserInputText } from "../../models/UserInput";
+
+import { UserInputText } from "@/models/UserInput";
 
 @Component
 export default class TextInput extends Vue {

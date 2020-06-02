@@ -1,7 +1,8 @@
-import Info from "./elements/infoTbl";
 import DebateDatadb from "./classData/debate";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
+
+import Info from "./elements/infoTbl";
 import DebateTbl from "./elements/debateTbl";
 
 export interface Debate {
@@ -29,8 +30,18 @@ export default class ArgumentsViewdb {
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
-  get data() {
-    return this._data;
+  constructor(debateid: number) {
+    this.debateid = debateid;
+    this.currentDebate = this._debateTable.getSingle(this.debateid);
+  }
+  async refreshData() {
+    const debate = await this.getDebate();
+    const args = await this.getArguments();
+
+    this._data = {
+      debate: debate,
+      arguments: args,
+    };
   }
 
   async addArgument(title: string, description: string) {
@@ -69,21 +80,6 @@ export default class ArgumentsViewdb {
     await this._debateTable.update(updated, this.debateid);
   }
 
-  constructor(debateid: number) {
-    this.debateid = debateid;
-    this.currentDebate = this._debateTable.getSingle(this.debateid);
-  }
-
-  async refreshData() {
-    const debate = await this.getDebate();
-    const args = await this.getArguments();
-
-    this._data = {
-      debate: debate,
-      arguments: args,
-    };
-  }
-
   private getDebate(): Promise<Debate> {
     return new Promise((resolve) => {
       resolve({
@@ -110,5 +106,9 @@ export default class ArgumentsViewdb {
           })
       );
     });
+  }
+
+  get data() {
+    return this._data;
   }
 }

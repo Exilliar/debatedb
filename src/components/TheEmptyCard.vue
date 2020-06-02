@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <p>
       Currently empty. Press the add button below to add new
-      {{ title.toLowerCase() }}
+      {{ lowerTitle }}
     </p>
   </div>
   <div v-else>
@@ -20,6 +20,9 @@ export default class Empty extends Vue {
 
   get isEmpty() {
     return this.data.length === 0;
+  }
+  get lowerTitle() {
+    return this.title.toLowerCase();
   }
 }
 </script>
