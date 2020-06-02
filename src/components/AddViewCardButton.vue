@@ -16,27 +16,29 @@ export default class AddViewCardButton extends Vue {
   @Prop() type!: "debate" | "argument";
   @Prop() add!: (title: string, description: string) => any;
 
-  title: UserInputText = {
-    id: 0,
-    title: "Title",
-    description: "Title of the new " + this.type,
-    markdown: false,
-    type: "text",
-    textInput: "",
-  };
-  description: UserInputText = {
-    id: 1,
-    title: "Description",
-    description: "More info on the new " + this.type,
-    markdown: false,
-    type: "text",
-    textInput: "",
-  };
-
   addViewCard() {
+    const title: UserInputText = {
+      id: 0,
+      title: "Title",
+      description: "Title of the new " + this.type,
+      markdown: false,
+      type: "text",
+      textInput: "",
+    };
+    const description: UserInputText = {
+      id: 1,
+      title: "Description",
+      description: "More info on the new " + this.type,
+      markdown: false,
+      type: "text",
+      textInput: "",
+    };
+
+    const inputs = [title, description];
+
     this.$modal.show("InputModal", {
       title: "New " + this.type,
-      inputs: [this.title, this.description],
+      inputs: inputs,
       onClose: this.onClose,
     });
   }

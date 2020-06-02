@@ -40,53 +40,48 @@ export default class InfoCard extends Vue {
   @Prop() type!: "debate" | "argument";
 
   edit() {
+    const inputDescription = this.info.description;
+    const inputCurrent = this.info.current;
+    const inputCounter = this.info.counter;
+
+    const modalDescription: UserInputText = {
+      id: 0,
+      title: "Description",
+      description:
+        "The longer description of the " +
+        this.type +
+        ". Note, this will not change the smaller description",
+      textInput: inputDescription,
+      type: "text",
+      markdown: true,
+    };
+
+    const modalCurrent: UserInputText = {
+      id: 1,
+      title: "Current " + this.type,
+      description: "The current best version of the " + this.type,
+      textInput: inputCurrent,
+      type: "text",
+      markdown: true,
+    };
+
+    const modalCounter: UserInputText = {
+      id: 2,
+      title: "Current counter",
+      description: "The current counter, this should be as strong as possible",
+      textInput: inputCounter,
+      type: "text",
+      markdown: true,
+    };
+
+    const inputs = [modalDescription, modalCurrent, modalCounter];
+
     this.$modal.show("InputModal", {
-      title: this.modalData.params.title,
-      inputs: this.modalData.params.inputs,
+      title: this.type + " info",
+      inputs: inputs,
       onClose: this.onClose,
     });
   }
-
-  inputDescription = this.info.description;
-  inputCurrent = this.info.current;
-  inputCounter = this.info.counter;
-
-  modalDescription: UserInputText = {
-    id: 0,
-    title: "Description",
-    description:
-      "The longer description of the " +
-      this.type +
-      ". Note, this will not change the smaller description",
-    textInput: this.inputDescription,
-    type: "text",
-    markdown: true,
-  };
-
-  modalCurrent: UserInputText = {
-    id: 1,
-    title: "Current " + this.type,
-    description: "The current best version of the " + this.type,
-    textInput: this.inputCurrent,
-    type: "text",
-    markdown: true,
-  };
-
-  modalCounter: UserInputText = {
-    id: 2,
-    title: "Current counter",
-    description: "The current counter, this should be as strong as possible",
-    textInput: this.inputCounter,
-    type: "text",
-    markdown: true,
-  };
-
-  modalData: ModalInput = {
-    params: {
-      title: this.type + " info",
-      inputs: [this.modalDescription, this.modalCurrent, this.modalCounter],
-    },
-  };
 
   onClose(inputs: UserInputText[]) {
     const desc = inputs[0].textInput;

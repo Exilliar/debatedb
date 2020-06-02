@@ -45,7 +45,7 @@ This project does not use Vuex (even though it is installed) as it is not likely
 
 [Figma Wireframe](https://www.figma.com/file/lWJPKDVdjEZZ3aHXpxvZwk/DebateDB?node-id=4%3A84)
 
-## Styling (only useful for writing more code here, not for running)
+## Styling (only useful for writing more code, not for running)
 
 ### Imports
 
@@ -77,6 +77,10 @@ This order is not based on anything, just personal preference
 - Components that are only used once in a view (but can be used in multiple views) should start with "The"
 - Filenames of single-file components should always use PascalCase (e.g. UserCard.vue)
 - Components that are only used by one view should be in their own folder within the components folder (this isn't in the source, it's my own opinion)
+
+### General styling notes
+
+- I chose not to use helper functions for the most part. Most components are fairly easy to understand and the code for each function (outside of some of the modal opening functions) isn't too long. Also I've already written the functions and reeeeeeealy cannot be bothered to move them now
 
 ## Project setup
 
