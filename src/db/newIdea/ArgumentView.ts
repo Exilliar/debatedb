@@ -64,6 +64,8 @@ export default class ArgumentViewdb {
     await this._quotesTable.add(addQuotes);
   }
   async addSource(title: string, link: string, notes: string) {
+    link = this.checkLink(link);
+
     const sourceid = this._sourceTable.size();
 
     const newSource: SourceTbl = {
@@ -106,6 +108,8 @@ export default class ArgumentViewdb {
     notes: string,
     sourceid: number
   ) {
+    link = this.checkLink(link);
+
     const currentSource = await this._sourceTable.getSingle(sourceid);
     currentSource.link = link;
     currentSource.notes = notes;
@@ -115,6 +119,17 @@ export default class ArgumentViewdb {
       const q = quotes[i];
       await this._quoteTable.update(q, q.id);
     }
+  }
+
+  checkLink(link: string) {
+    const httpsCheck = link.substring(0, 8) === "https://";
+    const httpCheck = link.substring(0, 7) === "http://";
+
+    if (!httpsCheck && !httpCheck && link !== "") {
+      link = "https://" + link;
+    }
+
+    return link;
   }
 
   get data() {
