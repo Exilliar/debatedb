@@ -52,15 +52,15 @@ export default class AddSource extends Vue {
 
   onClose(inputs: UserInput[]) {
     const title = inputs[0].textInput;
-    let link = inputs[1].textInput;
+    const link = inputs[1].textInput;
     const notes = inputs[2].textInput;
 
-    const httpsCheck = link.substring(0, 8) === "https://";
-    const httpCheck = link.substring(0, 7) === "http://";
+    // const httpsCheck = link.substring(0, 8) === "https://";
+    // const httpCheck = link.substring(0, 7) === "http://";
 
-    if (!httpsCheck && !httpCheck) {
-      link = "https://" + link;
-    }
+    // if (!httpsCheck && !httpCheck && link !== "") {
+    //   link = "https://" + link;
+    // }
 
     this.addSourceFunc(title, link, notes);
   }
