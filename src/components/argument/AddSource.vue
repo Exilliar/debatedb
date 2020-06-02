@@ -5,10 +5,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import UserInput, {
-  UserInputLink,
-  UserInputText,
-} from "../../models/UserInput";
+
+import UserInput, { UserInputLink, UserInputText } from "@/models/UserInput";
 
 @Component
 export default class AddSource extends Vue {
@@ -54,13 +52,6 @@ export default class AddSource extends Vue {
     const title = inputs[0].textInput;
     const link = inputs[1].textInput;
     const notes = inputs[2].textInput;
-
-    // const httpsCheck = link.substring(0, 8) === "https://";
-    // const httpCheck = link.substring(0, 7) === "http://";
-
-    // if (!httpsCheck && !httpCheck && link !== "") {
-    //   link = "https://" + link;
-    // }
 
     this.addSourceFunc(title, link, notes);
   }

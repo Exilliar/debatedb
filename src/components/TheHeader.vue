@@ -2,9 +2,8 @@
   <v-app-bar app color="primary" dark hide-on-scroll>
     <v-toolbar-title>
       <div class="d-flex justify-md-space-around align-center">
-        <span style="font-size: 1.2em" class="pr-1">DebateDB |</span>v{{
-          version
-        }}
+        <span style="font-size: 1.2em" class="pr-1">DebateDB |</span>
+        v{{ version }}
       </div>
     </v-toolbar-title>
 
@@ -15,6 +14,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+
 import User from "@/models/User";
 
 @Component

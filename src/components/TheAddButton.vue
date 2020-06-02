@@ -5,8 +5,9 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import UserInput, { UserInputText } from "../models/UserInput";
-import ViewCardData from "../models/ViewCardData";
+
+import UserInput, { UserInputText } from "@/models/UserInput";
+import ViewCardData from "@/models/ViewCardData";
 
 @Component
 export default class AddButton extends Vue {

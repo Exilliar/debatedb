@@ -33,17 +33,16 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
-import SourceTbl from "@/db/elements/sourceTbl";
-import { Source } from "@/db/ArgumentView";
 import VueMarkdown from "vue-markdown";
 
 import Button from "@/components/TheButton.vue";
 
-import QuoteTbl from "@/db/elements/quoteTbl";
-
 import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
 import ModalInput from "@/models/ModalInput";
+
+import SourceTbl from "@/db/elements/sourceTbl";
+import { Source } from "@/db/ArgumentView";
+import QuoteTbl from "@/db/elements/quoteTbl";
 
 @Component({
   components: { Button, VueMarkdown },

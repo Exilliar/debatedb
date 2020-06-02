@@ -9,7 +9,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { UserInputLink } from "../../models/UserInput";
+
+import { UserInputLink } from "@/models/UserInput";
 
 @Component
 export default class LinkInput extends Vue {

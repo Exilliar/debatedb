@@ -13,11 +13,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import VueMarkdown from "vue-markdown";
 
 import Button from "./TheButton.vue";
-import VueMarkdown from "vue-markdown";
-import ModalInput from "../models/ModalInput";
-import { UserInputText } from "../models/UserInput";
+
+import ModalInput from "@/models/ModalInput";
+import { UserInputText } from "@/models/UserInput";
 
 @Component({
   components: { Button, VueMarkdown },

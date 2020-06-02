@@ -41,12 +41,12 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
-import ModalInput from "@/models/ModalInput";
-import UserInput, { UserInputText } from "@/models/UserInput";
-
-import Button from "./../TheButton.vue";
+import Button from "@/components/TheButton.vue";
 import TextInput from "./TextInput.vue";
 import LinkInput from "./LinkInput.vue";
+
+import ModalInput from "@/models/ModalInput";
+import UserInput, { UserInputText } from "@/models/UserInput";
 
 @Component({
   components: {

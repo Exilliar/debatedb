@@ -45,6 +45,19 @@ This project does not use Vuex (even though it is installed) as it is not likely
 
 [Figma Wireframe](https://www.figma.com/file/lWJPKDVdjEZZ3aHXpxvZwk/DebateDB?node-id=4%3A84)
 
+## Styling (only useful for writing more code here, not for running)
+
+### Imports
+
+Imports for every file should go in the order
+
+1. npm modules
+2. components
+3. models
+4. db classes
+
+This order is not based on anything, just personal preference
+
 ## Project setup
 
 ```

@@ -17,14 +17,14 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-
-import Button from "./TheButton.vue";
 import VueMarkdown from "vue-markdown";
 
-import InfoTbl from "@/db/elements/infoTbl";
+import Button from "./TheButton.vue";
 
-import { UserInputText } from "../models/UserInput";
-import ModalInput from "../models/ModalInput";
+import { UserInputText } from "@/models/UserInput";
+import ModalInput from "@/models/ModalInput";
+
+import InfoTbl from "@/db/elements/infoTbl";
 
 @Component({
   components: { Button, VueMarkdown },
