@@ -14,8 +14,13 @@ export default class DebatesViewdb {
   private _debateTable = new DebateDatadb(this.refreshData.bind(this));
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
-  get data() {
-    return this._data;
+  refreshData(): Promise<DebatesViewData[]> {
+    return new Promise((resolve, reject) => {
+      this.getDebates().then((d) => {
+        this._data = d;
+        resolve(this._data);
+      });
+    });
   }
 
   async add(title: string, description: string) {
@@ -35,15 +40,6 @@ export default class DebatesViewdb {
     });
   }
 
-  refreshData(): Promise<DebatesViewData[]> {
-    return new Promise((resolve, reject) => {
-      this.getDebates().then((d) => {
-        this._data = d;
-        resolve(this._data);
-      });
-    });
-  }
-
   private getDebates(): Promise<Debate[]> {
     return new Promise((resolve, reject) => {
       // Should eventually be call to db view
@@ -57,5 +53,9 @@ export default class DebatesViewdb {
         })
       );
     });
+  }
+
+  get data() {
+    return this._data;
   }
 }

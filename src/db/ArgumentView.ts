@@ -48,6 +48,20 @@ export default class ArgumentViewdb {
   private _sourceTable = new SourceDatadb(this.refreshData.bind(this));
   private _sourcesTable = new SourcesDatadb(this.refreshData.bind(this));
 
+  constructor(argid: number) {
+    this.id = argid;
+  }
+
+  async refreshData() {
+    const arg = await this.getArgument();
+    const sources = await this.getSources();
+
+    this._data = {
+      argument: arg,
+      sources: sources,
+    };
+  }
+
   async addQuote(text: string, additional: string, sourceid: number) {
     const addQuote: QuoteTbl = {
       id: this._quoteTable.size(),
@@ -132,30 +146,6 @@ export default class ArgumentViewdb {
     return link;
   }
 
-  get data() {
-    return this._data;
-  }
-  get argument() {
-    return this._data.argument;
-  }
-  get sources() {
-    return this._data.sources;
-  }
-
-  constructor(argid: number) {
-    this.id = argid;
-  }
-
-  async refreshData() {
-    const arg = await this.getArgument();
-    const sources = await this.getSources();
-
-    this._data = {
-      argument: arg,
-      sources: sources,
-    };
-  }
-
   private getArgument(): Promise<Argument> {
     return new Promise((resolve, reject) => {
       resolve(
@@ -198,5 +188,15 @@ export default class ArgumentViewdb {
 
       resolve(returnSources);
     });
+  }
+
+  get data() {
+    return this._data;
+  }
+  get argument() {
+    return this._data.argument;
+  }
+  get sources() {
+    return this._data.sources;
   }
 }
