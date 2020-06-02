@@ -1,14 +1,16 @@
 <template>
-  <v-btn color="secondary" fab dark @click="add">
-    <v-icon dark>mdi-plus</v-icon>
-  </v-btn>
+  <AddButton :onClick="add" />
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
+import AddButton from "@/components/AddButton.vue";
+
 import UserInput, { UserInputLink, UserInputText } from "@/models/UserInput";
 
-@Component
+@Component({
+  components: { AddButton },
+})
 export default class AddSource extends Vue {
   @Prop() addSourceFunc!: (title: string, link: string, notes: string) => any;
 

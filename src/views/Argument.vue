@@ -36,8 +36,8 @@ import InfoCard from "@/components/TheInfoCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
 import SourceCard from "@/components/argument/SourceCard.vue";
 import AddSource from "@/components/argument/AddSource.vue";
-import Loading from "@/components/Loading.vue";
-import Empty from "@/components/Empty.vue";
+import Loading from "@/components/TheLoadingCard.vue";
+import Empty from "@/components/TheEmptyCard.vue";
 
 import ArgumentViewdb, { Source } from "@/db/ArgumentView";
 import InfoTbl from "@/db/elements/infoTbl";

@@ -28,7 +28,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import Button from "./TheButton.vue";
+import Button from "./Button.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 

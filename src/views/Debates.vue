@@ -8,7 +8,7 @@
       </Empty>
     </Loading>
     <div style="text-align: center;">
-      <AddButton type="debate" :add="addOnClose" />
+      <AddViewCardButton type="debate" :add="addOnClose" />
     </div>
   </v-container>
 </template>
@@ -16,9 +16,9 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
-import AddButton from "@/components/TheAddButton.vue";
-import Loading from "@/components/Loading.vue";
-import Empty from "@/components/Empty.vue";
+import AddViewCardButton from "@/components/AddViewCardButton.vue";
+import Loading from "@/components/TheLoadingCard.vue";
+import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 import { UserInputText } from "@/models/UserInput";
@@ -26,7 +26,7 @@ import { UserInputText } from "@/models/UserInput";
 import DebatesViewdb from "@/db/DebatesView";
 
 @Component({
-  components: { ViewCard, AddButton, Loading, Empty },
+  components: { ViewCard, AddViewCardButton, Loading, Empty },
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();

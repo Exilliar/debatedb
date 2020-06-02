@@ -15,7 +15,7 @@
       </Empty>
     </Loading>
     <div style="text-align: center;">
-      <AddButton type="argument" :add="addArgument" />
+      <AddViewCardButton type="argument" :add="addArgument" />
     </div>
   </v-container>
 </template>
@@ -24,10 +24,10 @@ import { Vue, Component } from "vue-property-decorator";
 
 import ViewCard from "@/components/TheViewCard.vue";
 import NotesCard from "@/components/TheNotesCard.vue";
-import AddButton from "@/components/TheAddButton.vue";
+import AddViewCardButton from "@/components/AddViewCardButton.vue";
 import InfoCard from "@/components/TheInfoCard.vue";
-import Loading from "@/components/Loading.vue";
-import Empty from "@/components/Empty.vue";
+import Loading from "@/components/TheLoadingCard.vue";
+import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
@@ -35,7 +35,14 @@ import ArgumentsViewdb, { Argument } from "@/db/ArgumentsView";
 import InfoTbl from "@/db/elements/infoTbl";
 
 @Component({
-  components: { ViewCard, NotesCard, AddButton, InfoCard, Loading, Empty },
+  components: {
+    ViewCard,
+    NotesCard,
+    AddViewCardButton,
+    InfoCard,
+    Loading,
+    Empty,
+  },
 })
 export default class ArgumentsView extends Vue {
   debateid!: number;

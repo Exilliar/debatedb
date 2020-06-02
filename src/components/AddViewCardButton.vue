@@ -1,16 +1,18 @@
 <template>
-  <v-btn color="secondary" fab dark @click="addViewCard">
-    <v-icon dark>mdi-plus</v-icon>
-  </v-btn>
+  <AddButton :onClick="addViewCard" />
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
+import AddButton from "./AddButton.vue";
+
 import UserInput, { UserInputText } from "@/models/UserInput";
 import ViewCardData from "@/models/ViewCardData";
 
-@Component
-export default class AddButton extends Vue {
+@Component({
+  components: { AddButton },
+})
+export default class AddViewCardButton extends Vue {
   @Prop() type!: "debate" | "argument";
   @Prop() add!: (title: string, description: string) => any;
 

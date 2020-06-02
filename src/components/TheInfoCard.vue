@@ -19,7 +19,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import VueMarkdown from "vue-markdown";
 
-import Button from "./TheButton.vue";
+import Button from "./Button.vue";
 
 import { UserInputText } from "@/models/UserInput";
 import ModalInput from "@/models/ModalInput";

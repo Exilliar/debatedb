@@ -35,7 +35,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import VueMarkdown from "vue-markdown";
 
-import Button from "@/components/TheButton.vue";
+import Button from "@/components/Button.vue";
 
 import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
 import ModalInput from "@/models/ModalInput";
