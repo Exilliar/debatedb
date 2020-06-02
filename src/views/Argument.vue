@@ -47,14 +47,9 @@ import QuoteTbl from "@/db/elements/quoteTbl";
   components: { InfoCard, NotesCard, SourceCard, AddSource, Loading, Empty },
 })
 export default class ArgumentView extends Vue {
-  argViewdb!: ArgumentViewdb;
+  argumentViewdb!: ArgumentViewdb;
   id!: number;
-  info: InfoTbl = {
-    id: -1,
-    description: "",
-    current: "",
-    counter: "",
-  };
+  info: InfoTbl = { id: -1, description: "", current: "", counter: "" };
   loaded = false;
   generalNotes = "";
   sources: Source[] = new Array<Source>();
@@ -64,8 +59,8 @@ export default class ArgumentView extends Vue {
     if (this.$route.params.id) this.id = +this.$route.params.id;
     else this.id = 0; // just a hack for while development is happening. Eventually this else will cause a redirect to the debatesView
 
-    this.argViewdb = new ArgumentViewdb(this.id);
-    await this.argViewdb.refreshData();
+    this.argumentViewdb = new ArgumentViewdb(this.id);
+    await this.argumentViewdb.refreshData();
 
     this.refreshInfo();
     this.refreshNotes();
@@ -76,21 +71,21 @@ export default class ArgumentView extends Vue {
   }
 
   async addQuote(quote: string, additional: string, sourceid: number) {
-    await this.argViewdb.addQuote(quote, additional, sourceid);
+    await this.argumentViewdb.addQuote(quote, additional, sourceid);
     this.refreshSources();
   }
   async addSource(title: string, link: string, notes: string) {
-    await this.argViewdb.addSource(title, link, notes);
+    await this.argumentViewdb.addSource(title, link, notes);
     this.refreshSources();
     this.refreshSourceless();
   }
 
   async updateInfo(description: string, current: string, counter: string) {
-    await this.argViewdb.updateInfo(description, current, counter);
+    await this.argumentViewdb.updateInfo(description, current, counter);
     this.refreshInfo();
   }
   async updateNotes(text: string) {
-    await this.argViewdb.updateGeneralNotes(text);
+    await this.argumentViewdb.updateGeneralNotes(text);
     this.refreshNotes();
   }
   async updateSource(
@@ -99,25 +94,25 @@ export default class ArgumentView extends Vue {
     notes: string,
     sourceid: number
   ) {
-    await this.argViewdb.updateSource(link, quotes, notes, sourceid);
+    await this.argumentViewdb.updateSource(link, quotes, notes, sourceid);
     this.refreshSources();
   }
 
   refreshInfo() {
-    this.info = this.argViewdb.argument.info;
+    this.info = this.argumentViewdb.argument.info;
   }
   refreshNotes() {
-    this.generalNotes = this.argViewdb.argument.generalNotes;
+    this.generalNotes = this.argumentViewdb.argument.generalNotes;
   }
   refreshSources() {
-    this.sources = this.argViewdb.sources;
+    this.sources = this.argumentViewdb.sources;
   }
   refreshSourceless() {
-    this.sourceless = this.argViewdb.sources.length === 0;
+    this.sourceless = this.argumentViewdb.sources.length === 0;
   }
 
   get title() {
-    return this.loaded ? this.argViewdb.argument.title : "";
+    return this.loaded ? this.argumentViewdb.argument.title : "";
   }
   getSourceid(source: Source) {
     return source.id;
