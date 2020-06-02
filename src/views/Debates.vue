@@ -21,9 +21,9 @@ import Loading from "@/components/Loading.vue";
 import Empty from "@/components/Empty.vue";
 
 import ViewCardData from "@/models/ViewCardData";
+import { UserInputText } from "@/models/UserInput";
 
-import DebatesViewdb from "../db/newIdea/DebatesView";
-import { UserInputText } from "../models/UserInput";
+import DebatesViewdb from "@/db/DebatesView";
 
 @Component({
   components: { ViewCard, AddButton, Loading, Empty },

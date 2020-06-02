@@ -21,7 +21,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Button from "./TheButton.vue";
 import VueMarkdown from "vue-markdown";
 
-import InfoTbl from "../db/newIdea/elements/infoTbl";
+import InfoTbl from "@/db/elements/infoTbl";
 
 import { UserInputText } from "../models/UserInput";
 import ModalInput from "../models/ModalInput";

@@ -31,8 +31,8 @@ import Empty from "@/components/Empty.vue";
 
 import ViewCardData from "@/models/ViewCardData";
 
-import ArgumentsViewdb, { Argument } from "../db/newIdea/ArgumentsView";
-import InfoTbl from "../db/newIdea/elements/infoTbl";
+import ArgumentsViewdb, { Argument } from "@/db/ArgumentsView";
+import InfoTbl from "@/db/elements/infoTbl";
 
 @Component({
   components: { ViewCard, NotesCard, AddButton, InfoCard, Loading, Empty },

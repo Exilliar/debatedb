@@ -13,7 +13,7 @@
         </v-col>
         <v-col cols="6">
           <Empty title="Sources" :data="sources">
-            <div v-for="source in sources" :key="source.key">
+            <div v-for="source in sources" :key="getSourceid(source)">
               <SourceCard
                 :source="source"
                 :addQuoteFunc="addQuote"
@@ -39,9 +39,9 @@ import AddSource from "@/components/argument/AddSource.vue";
 import Loading from "@/components/Loading.vue";
 import Empty from "@/components/Empty.vue";
 
-import ArgumentViewdb, { Source } from "../db/newIdea/ArgumentView";
-import InfoTbl from "../db/newIdea/elements/infoTbl";
-import QuoteTbl from "../db/newIdea/elements/quoteTbl";
+import ArgumentViewdb, { Source } from "@/db/ArgumentView";
+import InfoTbl from "@/db/elements/infoTbl";
+import QuoteTbl from "@/db/elements/quoteTbl";
 
 @Component({
   components: { InfoCard, NotesCard, SourceCard, AddSource, Loading, Empty },
@@ -118,6 +118,9 @@ export default class ArgumentView extends Vue {
 
   get title() {
     return this.loaded ? this.argViewdb.argument.title : "";
+  }
+  getSourceid(source: Source) {
+    return source.id;
   }
 }
 </script>
