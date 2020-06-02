@@ -56,6 +56,18 @@ Imports for every file should go in the order
 3. models
 4. db classes
 
+For the db files imports should be in the order
+
+1. classData
+2. elements
+3. data
+
+Classes within db files should be in the orrder
+
+1. TableBase
+2. element
+3. data
+
 This order is not based on anything, just personal preference
 
 ## Project setup

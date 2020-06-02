@@ -1,23 +1,23 @@
+import ArgumentDatadb from "./classData/argument";
+import InfoDatadb from "./classData/info";
+import QuoteDatadb from "./classData/quote";
+import QuotesDatadb from "./classData/quotes";
+import SourceDatadb from "./classData/source";
+import SourcesDatadb from "./classData/sources";
+
+import QuoteTbl from "./elements/quoteTbl";
+import QuotesTbl from "./elements/quotesTbl";
+import SourceTbl from "./elements/sourceTbl";
+import SourcesTbl from "./elements/sourcesTbl";
 import Info from "./elements/infoTbl";
 import Quote from "./elements/quoteTbl";
 
 import argumentData from "./data/argument";
 import infoData from "./data/info";
-
 import SourcesData from "./data/sources";
 import SourceData from "./data/source";
 import QuotesData from "./data/quotes";
 import QuoteData from "./data/quote";
-import ArgumentDatadb from "./classData/argument";
-import InfoDatadb from "./classData/info";
-import QuoteDatadb from "./classData/quote";
-import QuotesDatadb from "./classData/quotes";
-import QuoteTbl from "./elements/quoteTbl";
-import QuotesTbl from "./elements/quotesTbl";
-import SourceDatadb from "./classData/source";
-import SourcesDatadb from "./classData/sources";
-import SourceTbl from "./elements/sourceTbl";
-import SourcesTbl from "./elements/sourcesTbl";
 
 export interface Argument {
   id: number;

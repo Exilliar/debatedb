@@ -1,7 +1,8 @@
-import Info from "./elements/infoTbl";
 import DebateDatadb from "./classData/debate";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
+
+import Info from "./elements/infoTbl";
 import DebateTbl from "./elements/debateTbl";
 
 export interface Debate {
