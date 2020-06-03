@@ -1,15 +1,19 @@
 <template>
   <v-app>
-    <!-- Check that the SDK client is not currently loading before accessing its methods -->
-    <div v-if="!$auth.loading">
-      <!-- show login when not authenticated -->
-      <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
-      <!-- show logout when authenticated -->
-      <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
-    </div>
     <Header :version="version" :user="user" />
     <v-content>
       <InputModal />
+      <!-- Check that the SDK client is not currently loading before accessing its methods -->
+      <div v-if="!$auth.loading">
+        <!-- show login when not authenticated -->
+        <button v-if="!isAuthenticated" @click="login">Log in</button>
+        <!-- show logout when authenticated -->
+        <button v-if="isAuthenticated" @click="logout">Log out</button>
+      </div>
+      Loading: {{ $auth.loading }}
+      <br />
+      Authenticated: {{ isAuthenticated }}
+      <!-- <Button text="test" :onClick="login" /> -->
       <router-view />
     </v-content>
   </v-app>
@@ -19,6 +23,7 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import Header from "./components/TheHeader.vue";
+import Button from "./components/Button.vue";
 
 import InputModal from "./components/modal/InputModal.vue";
 
@@ -28,6 +33,7 @@ import User from "./models/User";
   components: {
     Header,
     InputModal,
+    Button,
   },
 })
 export default class App extends Vue {
@@ -36,6 +42,17 @@ export default class App extends Vue {
   };
 
   version = "0.0.1";
+
+  isAuthenticated = this.$auth.isAuthenticated;
+  loading = this.$auth.loading;
+
+  mounted() {
+    console.log(this.$auth.isAuthenticated);
+    // setInterval(() => {
+    //   console.log("loading true:", this.$auth.loading);
+    //   console.log("loading:", this.loading);
+    // }, 2000);
+  }
 
   login() {
     this.$auth.loginWithRedirect();
