@@ -4,15 +4,16 @@
     <v-content>
       <InputModal />
       <!-- Check that the SDK client is not currently loading before accessing its methods -->
-      <div v-if="!$auth.loading">
+      <div v-if="!loading">
         <!-- show login when not authenticated -->
         <button v-if="!isAuthenticated" @click="login">Log in</button>
         <!-- show logout when authenticated -->
         <button v-if="isAuthenticated" @click="logout">Log out</button>
       </div>
-      Loading: {{ $auth.loading }}
+      Loading: {{ loading }}
       <br />
       Authenticated: {{ isAuthenticated }}
+      <!-- <Button text="refresh" :onClick="refresh" /> -->
       <!-- <Button text="test" :onClick="login" /> -->
       <router-view />
     </v-content>
@@ -44,7 +45,15 @@ export default class App extends Vue {
   version = "0.0.1";
 
   isAuthenticated = this.$auth.isAuthenticated;
-  loading = this.$auth.loading;
+  // loading = this.$auth.loading;
+  get loading() {
+    return this.$auth.loading;
+  }
+
+  // refresh() {
+  //   console.log("auth loading:", this.$auth.loading);
+  //   this.loading = this.$auth.loading;
+  // }
 
   mounted() {
     console.log(this.$auth.isAuthenticated);
