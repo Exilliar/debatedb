@@ -18,7 +18,7 @@ export function useAuth0({
 }) {
   if (instance) return instance;
 
-  instance = new Instance(options, redirectUri, onRedirectCallback);
+  instance = new Instance(options); //, redirectUri, onRedirectCallback);
 
   return instance;
 }

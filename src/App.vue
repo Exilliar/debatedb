@@ -10,10 +10,7 @@
         <!-- show logout when authenticated -->
         <button v-if="isAuthenticated" @click="logout">Log out</button>
       </div>
-      Loading: {{ loading }}
-      <br />
-      Authenticated: {{ isAuthenticated }}
-      <!-- <Button text="refresh" :onClick="refresh" /> -->
+      <Button text="refresh" :onClick="refresh" />
       <!-- <Button text="test" :onClick="login" /> -->
       <router-view />
     </v-content>
@@ -44,23 +41,18 @@ export default class App extends Vue {
 
   version = "0.0.1";
 
-  isAuthenticated = this.$auth.isAuthenticated;
-  // loading = this.$auth.loading;
   get loading() {
     return this.$auth.loading;
   }
+  get isAuthenticated() {
+    return this.$auth.isAuthenticated;
+  }
 
-  // refresh() {
-  //   console.log("auth loading:", this.$auth.loading);
-  //   this.loading = this.$auth.loading;
-  // }
-
-  mounted() {
-    console.log(this.$auth.isAuthenticated);
-    // setInterval(() => {
-    //   console.log("loading true:", this.$auth.loading);
-    //   console.log("loading:", this.loading);
-    // }, 2000);
+  refresh() {
+    console.log("auth loading:", this.$auth.loading);
+    console.log("loading:", this.loading);
+    console.log("auth isAuthenticated:", this.$auth.isAuthenticated);
+    console.log("isAuthenticated:", this.isAuthenticated);
   }
 
   login() {
