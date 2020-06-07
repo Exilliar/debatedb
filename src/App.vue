@@ -2,7 +2,6 @@
   <v-app>
     <div v-if="!loading">
       <Header :version="version" />
-      {{ $store.state.user }}
       <v-content>
         <InputModal />
         <router-view />
@@ -16,8 +15,6 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-
-import store from "./store";
 
 import Header from "./components/TheHeader.vue";
 
