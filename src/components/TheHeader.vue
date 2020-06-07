@@ -9,13 +9,7 @@
 
     <v-spacer />
 
-    <span v-if="isAuthenticated">
-      <Button text="Log out" :onClick="logout" />
-    </span>
-
-    <v-spacer />
-
-    <span style="font-size: 1.5em">{{ username }}</span>
+    <UserMenu />
   </v-app-bar>
 </template>
 <script lang="ts">
@@ -23,27 +17,14 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import store from "@/store";
 
-import Button from "@/components/Button.vue";
+import UserMenu from "./TheHeaderUserMenu.vue";
 
 import User from "@/auth/models/User";
 
 @Component({
-  components: { Button },
+  components: { UserMenu },
 })
 export default class Header extends Vue {
   @Prop() version!: string;
-
-  get isAuthenticated() {
-    return this.$auth.isAuthenticated;
-  }
-  get username() {
-    return this.$auth.user.name;
-  }
-
-  logout() {
-    this.$auth.logout({
-      returnTo: window.location.origin,
-    });
-  }
 }
 </script>

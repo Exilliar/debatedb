@@ -13,19 +13,19 @@ const routes: Array<RouteConfig> = [
     path: "/debates",
     name: "Debates",
     beforeEnter: authGuard,
-    component: () => import("../views/Debates.vue"),
+    component: () => import("@/views/Debates.vue"),
   },
   {
     path: "/arguments",
     name: "Arguments",
     beforeEnter: authGuard,
-    component: () => import("../views/Arguments.vue"),
+    component: () => import("@/views/Arguments.vue"),
   },
   {
     path: "/argument",
     name: "Argument",
     beforeEnter: authGuard,
-    component: () => import("../views/Argument.vue"),
+    component: () => import("@/views/Argument.vue"),
   },
 ];
 
