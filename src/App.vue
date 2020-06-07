@@ -1,27 +1,25 @@
 <template>
   <v-app>
-    <Header :version="version" :user="user" />
-    <v-content>
-      <InputModal />
-      <!-- Check that the SDK client is not currently loading before accessing its methods -->
-      <div v-if="!loading">
-        <!-- show login when not authenticated -->
-        <button v-if="!isAuthenticated" @click="login">Log in</button>
-        <!-- show logout when authenticated -->
-        <button v-if="isAuthenticated" @click="logout">Log out</button>
-      </div>
-      <Button text="refresh" :onClick="refresh" />
-      <!-- <Button text="test" :onClick="login" /> -->
-      <router-view />
-    </v-content>
+    <div v-if="!loading">
+      <Header :version="version" />
+      {{ $store.state.user }}
+      <v-content>
+        <InputModal />
+        <router-view />
+      </v-content>
+    </div>
+    <div v-else>
+      <p>Loading</p>
+    </div>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
+import store from "./store";
+
 import Header from "./components/TheHeader.vue";
-import Button from "./components/Button.vue";
 
 import InputModal from "./components/modal/InputModal.vue";
 
@@ -31,38 +29,17 @@ import User from "./models/User";
   components: {
     Header,
     InputModal,
-    Button,
   },
 })
 export default class App extends Vue {
-  user: User = {
-    name: "userName",
-  };
-
   version = "0.0.1";
 
   get loading() {
     return this.$auth.loading;
   }
-  get isAuthenticated() {
-    return this.$auth.isAuthenticated;
-  }
 
-  refresh() {
-    console.log("auth loading:", this.$auth.loading);
-    console.log("loading:", this.loading);
-    console.log("auth isAuthenticated:", this.$auth.isAuthenticated);
-    console.log("isAuthenticated:", this.isAuthenticated);
-  }
-
-  login() {
-    this.$auth.loginWithRedirect();
-  }
-  // Log the user out
-  logout() {
-    this.$auth.logout({
-      returnTo: window.location.origin,
-    });
+  mounted() {
+    console.log("this.store:", this.$store.state.user);
   }
 }
 </script>

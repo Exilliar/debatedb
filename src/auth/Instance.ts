@@ -1,5 +1,6 @@
 // import Vue from "vue";
 import { Vue, Component } from "vue-property-decorator";
+
 import createAuth0Client, {
   GetTokenWithPopupOptions,
   GetTokenSilentlyOptions,
@@ -9,6 +10,12 @@ import createAuth0Client, {
   PopupLoginOptions,
 } from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
+
+import User from "@/models/User";
+
+import store from "@/store";
+
+import UserDatadb from "@/db/classData/user";
 
 @Component
 export default class Instance extends Vue {
@@ -22,7 +29,7 @@ export default class Instance extends Vue {
     window.history.replaceState({}, document.title, window.location.pathname);
   loading = true;
   isAuthenticated = false;
-  user = {};
+  user = {} as User;
   auth0Client = {} as Auth0Client;
   popupOpen = false;
   error = null;
@@ -40,7 +47,8 @@ export default class Instance extends Vue {
       this.popupOpen = false;
     }
 
-    this.user = await this.auth0Client.getUser();
+    // this.user = await this.auth0Client.getUser();
+    await this.updateUser();
     this.isAuthenticated = true;
   };
   /** Handles the callback when logging in using a redirect */
@@ -48,7 +56,8 @@ export default class Instance extends Vue {
     this.loading = true;
     try {
       await this.auth0Client.handleRedirectCallback();
-      this.user = await this.auth0Client.getUser();
+      // this.user = await this.auth0Client.getUser();
+      await this.updateUser();
       this.isAuthenticated = true;
     } catch (e) {
       this.error = e;
@@ -105,8 +114,19 @@ export default class Instance extends Vue {
     } finally {
       // Initialize our internal authentication state
       this.isAuthenticated = await this.auth0Client.isAuthenticated();
-      this.user = await this.auth0Client.getUser();
+      await this.updateUser();
+      // this.user = await this.auth0Client.getUser();
+      // this.$store.dispatch("updateUser", this.user);
       this.loading = false;
+    }
+  }
+
+  async updateUser() {
+    this.user = await this.auth0Client.getUser();
+    console.log("user:", this.user);
+    if (this.user) {
+      const storeUser = await new UserDatadb().getSingle(this.user);
+      store.dispatch("updateUser", storeUser);
     }
   }
 }

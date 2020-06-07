@@ -32,9 +32,9 @@ export default class ArgumentsViewdb {
 
   constructor(debateid: number) {
     this.debateid = debateid;
-    this.currentDebate = this._debateTable.getSingle(this.debateid);
   }
   async refreshData() {
+    this.currentDebate = await this._debateTable.getSingle(this.debateid);
     const debate = await this.getDebate();
     const args = await this.getArguments();
 
@@ -65,7 +65,7 @@ export default class ArgumentsViewdb {
   async updateInfo(description: string, current: string, counter: string) {
     const infoid = this.currentDebate.infoid;
 
-    const info = this._infoTable.getSingle(infoid);
+    const info = await this._infoTable.getSingle(infoid);
     info.description = description;
     info.current = current;
     info.counter = counter;
@@ -80,22 +80,25 @@ export default class ArgumentsViewdb {
     await this._debateTable.update(updated, this.debateid);
   }
 
-  private getDebate(): Promise<Debate> {
+  private async getDebate(): Promise<Debate> {
+    const infoid = await this._infoTable.getSingle(this.currentDebate.infoid);
+
     return new Promise((resolve) => {
       resolve({
         id: this.currentDebate.id,
         title: this.currentDebate.title,
         generalNotes: this.currentDebate.generalNotes,
-        info: this._infoTable.getSingle(this.currentDebate.infoid),
+        info: infoid,
       });
     });
   }
 
-  private getArguments(): Promise<Argument[]> {
+  private async getArguments(): Promise<Argument[]> {
+    const argumentData = await this._argumentTable.get();
     return new Promise((resolve) => {
       resolve(
         // This will be a view in the real db
-        this._argumentTable.data
+        argumentData
           .filter((a) => a.debateid === this.debateid)
           .map((a) => {
             return {

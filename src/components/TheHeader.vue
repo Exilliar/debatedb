@@ -9,21 +9,44 @@
 
     <v-spacer />
 
-    <span style="font-size: 1.5em">{{ userName }}</span>
+    <span v-if="isAuthenticated">
+      <Button text="Log out" :onClick="logout" />
+    </span>
+
+    <v-spacer />
+
+    <span style="font-size: 1.5em">{{ username }}</span>
   </v-app-bar>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
+import store from "@/store";
+
+import Button from "@/components/Button.vue";
+
 import User from "@/models/User";
 
-@Component
+@Component({
+  components: { Button },
+})
 export default class Header extends Vue {
   @Prop() version!: string;
-  @Prop() user!: User;
 
-  get userName() {
-    return this.user.name;
+  get isAuthenticated() {
+    return this.$auth.isAuthenticated;
+  }
+  get username() {
+    return this.$auth.user.name;
+  }
+
+  mounted() {
+    console.log("user:", this.$store.state.user);
+  }
+  logout() {
+    this.$auth.logout({
+      returnTo: window.location.origin,
+    });
   }
 }
 </script>

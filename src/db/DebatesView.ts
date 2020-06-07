@@ -1,6 +1,8 @@
 import DebateDatadb from "./classData/debate";
 import InfoDatadb from "./classData/info";
 
+import store from "@/store";
+
 export interface Debate {
   id: number;
   title: string;
@@ -37,14 +39,17 @@ export default class DebatesViewdb {
       description: description,
       generalNotes: "",
       infoid: this._infoTable.size() - 1,
+      userid: store.state.user.id,
     });
   }
 
-  private getDebates(): Promise<Debate[]> {
+  private async getDebates(): Promise<Debate[]> {
+    const debateData = await this._debateTable.get();
+
     return new Promise((resolve, reject) => {
       // Should eventually be call to db view
       resolve(
-        this._debateTable.data.map((d) => {
+        debateData.map((d) => {
           return {
             id: d.id,
             title: d.title,
