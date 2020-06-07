@@ -11,22 +11,26 @@ import createAuth0Client, {
 } from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 
+import { domain, clientId } from "@/../auth_config.json";
+
 import AuthUser from "./models/User";
 
 import store from "@/store";
 
 import UserDatadb from "@/db/classData/user";
 
+const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
+  window.history.replaceState({}, document.title, window.location.pathname);
+
 @Component
 export default class Instance extends Vue {
   options = {
-    domain: "exilliar.eu.auth0.com",
-    clientId: "xt5pVZzaTQKpoAuhheVY7v5W2LesWp4W",
+    domain: domain,
+    clientId: clientId,
     audience: undefined,
   };
-  redirectUri = "http://localhost:8080";
-  onRedirectCallback = (appState?: any) =>
-    window.history.replaceState({}, document.title, window.location.pathname);
+  redirectUri = window.location.origin;
+  onRedirectCallback = DEFAULT_REDIRECT_CALLBACK;
   loading = true;
   isAuthenticated = false;
   user = {} as AuthUser;
@@ -56,7 +60,6 @@ export default class Instance extends Vue {
     this.loading = true;
     try {
       await this.auth0Client.handleRedirectCallback();
-      // this.user = await this.auth0Client.getUser();
       await this.updateUser();
       this.isAuthenticated = true;
     } catch (e) {
