@@ -23,7 +23,7 @@ import Header from "./components/TheHeader.vue";
 
 import InputModal from "./components/modal/InputModal.vue";
 
-import User from "./models/User";
+import User from "./auth/models/User";
 
 @Component({
   components: {

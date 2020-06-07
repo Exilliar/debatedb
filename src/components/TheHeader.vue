@@ -25,7 +25,7 @@ import store from "@/store";
 
 import Button from "@/components/Button.vue";
 
-import User from "@/models/User";
+import User from "@/auth/models/User";
 
 @Component({
   components: { Button },
