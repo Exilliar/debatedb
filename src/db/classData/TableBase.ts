@@ -1,32 +1,50 @@
 export default class TableBase<T> {
   private _data: T[];
-  private refresh: () => Promise<any>;
+  private refresh!: () => Promise<any>;
+  private refreshSet: boolean;
 
-  constructor(d: T[], refr: () => Promise<any>) {
+  constructor(d: T[], refr?: () => Promise<any>) {
     this._data = d;
-    this.refresh = refr;
+    if (refr) {
+      this.refresh = refr;
+      this.refreshSet = true;
+    } else {
+      this.refreshSet = false;
+    }
   }
 
-  get data() {
-    return this._data;
+  get(condition?: any): Promise<T[]> {
+    return new Promise((resolve) => {
+      resolve(this._data);
+    });
   }
 
   update(newData: T, id: number) {
     return new Promise((resolve) => {
       this._data[id] = newData;
-      this.refresh().then(() => resolve());
+      this.callRefresh(resolve);
     });
   }
   add(newData: T) {
     return new Promise((resolve) => {
       this._data.push(newData);
-      this.refresh().then(() => resolve());
+      this.callRefresh(resolve);
     });
   }
-  getSingle(id: number) {
-    return this._data[id];
+  getSingle(id: any): Promise<T> {
+    return new Promise((resolve) => {
+      resolve(this._data[id]);
+    });
   }
   size() {
     return this._data.length;
+  }
+
+  private callRefresh(resolve: (value?: unknown) => void) {
+    if (this.refreshSet) {
+      this.refresh().then(() => resolve());
+    } else {
+      resolve();
+    }
   }
 }

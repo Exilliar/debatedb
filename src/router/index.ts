@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
+import { authGuard } from "../auth/authGuard";
 
 Vue.use(VueRouter);
 
@@ -12,16 +12,19 @@ const routes: Array<RouteConfig> = [
   {
     path: "/debates",
     name: "Debates",
+    beforeEnter: authGuard,
     component: () => import("../views/Debates.vue"),
   },
   {
     path: "/arguments",
     name: "Arguments",
+    beforeEnter: authGuard,
     component: () => import("../views/Arguments.vue"),
   },
   {
     path: "/argument",
     name: "Argument",
+    beforeEnter: authGuard,
     component: () => import("../views/Argument.vue"),
   },
 ];

@@ -1,10 +1,15 @@
 <template>
   <v-app>
-    <Header :version="version" :user="user" />
-    <v-content>
-      <InputModal />
-      <router-view />
-    </v-content>
+    <div v-if="!loading">
+      <Header :version="version" />
+      <v-content>
+        <InputModal />
+        <router-view />
+      </v-content>
+    </div>
+    <div v-else>
+      <p>Loading</p>
+    </div>
   </v-app>
 </template>
 
@@ -15,7 +20,7 @@ import Header from "./components/TheHeader.vue";
 
 import InputModal from "./components/modal/InputModal.vue";
 
-import User from "./models/User";
+import User from "./auth/models/User";
 
 @Component({
   components: {
@@ -24,10 +29,10 @@ import User from "./models/User";
   },
 })
 export default class App extends Vue {
-  user: User = {
-    name: "userName",
-  };
-
   version = "0.0.1";
+
+  get loading() {
+    return this.$auth.loading;
+  }
 }
 </script>

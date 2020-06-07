@@ -101,9 +101,10 @@ export default class ArgumentViewdb {
   }
 
   async updateInfo(desc: string, current: string, counter: string) {
-    const infoid = this._argumentTable.getSingle(this.id).infoid;
+    const argument = await this._argumentTable.getSingle(this.id);
+    const infoid = argument.infoid;
 
-    const info = this._infoTable.getSingle(infoid);
+    const info = await this._infoTable.getSingle(infoid);
     info.description = desc;
     info.current = current;
     info.counter = counter;
@@ -111,7 +112,7 @@ export default class ArgumentViewdb {
     await this._infoTable.update(info, infoid);
   }
   async updateGeneralNotes(notes: string) {
-    const updated = this._argumentTable.getSingle(this.id);
+    const updated = await this._argumentTable.getSingle(this.id);
     updated.generalNotes = notes;
 
     await this._argumentTable.update(updated, this.id);

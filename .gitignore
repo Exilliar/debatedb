@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+# auth stuff that probably shouldn't be commited
+auth_config.json
+
 # local env files
 .env.local
 .env.*.local

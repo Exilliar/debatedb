@@ -8,6 +8,7 @@ const data: DebateTbl[] = [
     generalNotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 0,
+    userid: 0,
   },
   {
     id: 1,
@@ -16,6 +17,7 @@ const data: DebateTbl[] = [
     generalNotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 1,
+    userid: 0,
   },
   {
     id: 2,
@@ -24,6 +26,7 @@ const data: DebateTbl[] = [
     generalNotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 2,
+    userid: 0,
   },
 ];
 
