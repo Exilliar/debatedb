@@ -1,4 +1,4 @@
-export default interface User {
+export default interface AuthUser {
   email: string;
   emailVerified: boolean;
   name: string;

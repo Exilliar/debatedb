@@ -11,7 +11,7 @@ import createAuth0Client, {
 } from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 
-import User from "@/models/User";
+import AuthUser from "./models/User";
 
 import store from "@/store";
 
@@ -29,7 +29,7 @@ export default class Instance extends Vue {
     window.history.replaceState({}, document.title, window.location.pathname);
   loading = true;
   isAuthenticated = false;
-  user = {} as User;
+  user = {} as AuthUser;
   auth0Client = {} as Auth0Client;
   popupOpen = false;
   error = null;
@@ -115,15 +115,12 @@ export default class Instance extends Vue {
       // Initialize our internal authentication state
       this.isAuthenticated = await this.auth0Client.isAuthenticated();
       await this.updateUser();
-      // this.user = await this.auth0Client.getUser();
-      // this.$store.dispatch("updateUser", this.user);
       this.loading = false;
     }
   }
 
   async updateUser() {
     this.user = await this.auth0Client.getUser();
-    console.log("user:", this.user);
     if (this.user) {
       const storeUser = await new UserDatadb().getSingle(this.user);
       store.dispatch("updateUser", storeUser);

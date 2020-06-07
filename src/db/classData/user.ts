@@ -2,7 +2,7 @@ import TableBase from "./TableBase";
 import UserTbl from "../elements/userTbl";
 import UserData from "../data/user";
 
-import AuthUser from "@/models/User";
+import AuthUser from "@/auth/models/User";
 
 export default class UserDatadb extends TableBase<UserTbl> {
   constructor(refresh?: () => Promise<any>) {

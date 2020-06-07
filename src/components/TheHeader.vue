@@ -40,9 +40,6 @@ export default class Header extends Vue {
     return this.$auth.user.name;
   }
 
-  mounted() {
-    console.log("user:", this.$store.state.user);
-  }
   logout() {
     this.$auth.logout({
       returnTo: window.location.origin,

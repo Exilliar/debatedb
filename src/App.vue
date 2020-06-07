@@ -37,9 +37,5 @@ export default class App extends Vue {
   get loading() {
     return this.$auth.loading;
   }
-
-  mounted() {
-    console.log("this.store:", this.$store.state.user);
-  }
 }
 </script>
