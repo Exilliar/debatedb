@@ -18,6 +18,7 @@ import AuthUser from "./models/User";
 import store from "@/store";
 
 import UserDatadb from "@/db/classData/user";
+import router from "@/router";
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -111,6 +112,8 @@ export default class Instance extends Vue {
         // Notify subscribers that the redirect callback has happened, passing the appState
         // (useful for retrieving any pre-authentication state)
         this.onRedirectCallback(appState);
+
+        router.replace("/");
       }
     } catch (e) {
       this.error = e;
