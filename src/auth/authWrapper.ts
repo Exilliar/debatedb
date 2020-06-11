@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Instance from "./Instance";
+import Instance from "./authInstance";
 
 declare module "vue/types/vue" {
   interface Vue {

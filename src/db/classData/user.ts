@@ -9,22 +9,24 @@ export default class UserDatadb extends TableBase<UserTbl> {
     super(UserData, refresh);
   }
 
-  async getSingle(authUser: AuthUser) {
-    // Can probably just be handled fully by the backend when that's been made
-    const userData = await super.get();
+  async getSingle(authUser: AuthUser): Promise<UserTbl> {
+    return new Promise((resolve) => {
+      // Can probably just be handled fully by the backend when that's been made
+      super.get().then((userData) => {
+        const user = userData.filter((u) => u.email === authUser.email);
 
-    const user = userData.filter((u) => u.email === authUser.email);
+        if (user.length > 0) resolve(user[0]);
 
-    if (user.length > 0) return user[0];
+        const newUser: UserTbl = {
+          id: super.size(),
+          email: authUser.email,
+          name: authUser.name,
+        };
 
-    const newUser: UserTbl = {
-      id: super.size(),
-      email: authUser.email,
-      name: authUser.name,
-    };
-
-    await super.add(newUser);
-
-    return newUser;
+        super.add(newUser).then(() => {
+          resolve(newUser);
+        });
+      });
+    });
   }
 }
