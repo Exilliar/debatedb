@@ -19,6 +19,7 @@
             class="d-flex align-center justify-end"
           >
             <Button text="View" :onClick="view" />
+            <Button class="ml-2" text="Settings" color="accent" />
           </v-col>
         </v-row>
       </v-card-text>

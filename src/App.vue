@@ -21,7 +21,7 @@ import { Vue, Component } from "vue-property-decorator";
 
 import AuthLoadingCard from "./components/TheAuthLoadingCard.vue";
 import Header from "./components/TheHeader.vue";
-import InputModal from "./components/modal/InputModal.vue";
+import InputModal from "./components/inputModal/InputModal.vue";
 
 import User from "./auth/models/User";
 

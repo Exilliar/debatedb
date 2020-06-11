@@ -1,5 +1,5 @@
 <template>
-  <v-btn :color="bColor" @click="onClick()">{{ text }}</v-btn>
+  <v-btn :color="bColor" @click="onClick()" dark>{{ text }}</v-btn>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
