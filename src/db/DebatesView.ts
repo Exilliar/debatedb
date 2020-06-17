@@ -1,6 +1,8 @@
 import DebateDatadb from "./classData/debate";
 import InfoDatadb from "./classData/info";
 
+import BaseViewClass from "./BaseViewClass";
+
 import store from "@/store";
 
 export interface Debate {
@@ -10,7 +12,7 @@ export interface Debate {
 }
 type DebatesViewData = Debate;
 
-export default class DebatesViewdb {
+export default class DebatesViewdb implements BaseViewClass {
   private _data!: DebatesViewData[];
 
   private _debateTable = new DebateDatadb(this.refreshData.bind(this));
@@ -23,6 +25,23 @@ export default class DebatesViewdb {
         resolve(this._data);
       });
     });
+  }
+
+  async deleteViewCard(id: number) {
+    // console.log("deleting", id);
+
+    const debate = await this._debateTable.getSingle(id);
+    const infoid = debate.infoid;
+
+    await this._infoTable.delete(infoid);
+    await this._debateTable.delete(+id); // no idea what's going on here. Without the + id gets passed in as... idk, not a number (or a string)
+
+    const debates = await this._debateTable.get();
+    const infos = await this._infoTable.get();
+
+    // console.log("data:", this.data);
+    // console.log("debates:", debates);
+    // console.log("infos:", infos);
   }
 
   async add(title: string, description: string) {
@@ -45,6 +64,7 @@ export default class DebatesViewdb {
 
   private async getDebates(): Promise<Debate[]> {
     const debateData = await this._debateTable.get();
+    console.log("debateData:", debateData);
 
     return new Promise((resolve, reject) => {
       // Should eventually be call to db view

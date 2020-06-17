@@ -3,7 +3,7 @@
     <Loading :check="loaded">
       <Empty title="Debates" :data="debateData">
         <div v-for="debate in debateData" :key="getDebateid(debate)">
-          <ViewCard :data="debate" />
+          <ViewCard :data="debate" :viewClass="debatesViewdb" />
         </div>
       </Empty>
     </Loading>
@@ -30,7 +30,7 @@ import DebatesViewdb from "@/db/DebatesView";
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();
-  debatesViewdb!: DebatesViewdb;
+  debatesViewdb: DebatesViewdb = new DebatesViewdb();
   loaded = false;
 
   async mounted() {

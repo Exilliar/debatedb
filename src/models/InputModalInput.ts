@@ -1,6 +1,6 @@
 import UserInput from "./UserInput";
 
-export default interface ModalInput {
+export default interface InputModalInput {
   params: {
     title: string;
     inputs: UserInput[];

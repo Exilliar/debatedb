@@ -5,6 +5,8 @@ import InfoDatadb from "./classData/info";
 import Info from "./elements/infoTbl";
 import DebateTbl from "./elements/debateTbl";
 
+import BaseViewClass from "./BaseViewClass";
+
 export interface Debate {
   id: number;
   title: string;
@@ -21,7 +23,7 @@ export interface ArgumentsViewData {
   arguments: Argument[];
 }
 
-export default class ArgumentsViewdb {
+export default class ArgumentsViewdb implements BaseViewClass {
   private _data!: ArgumentsViewData;
   private debateid: number;
   private currentDebate!: DebateTbl;
@@ -42,6 +44,10 @@ export default class ArgumentsViewdb {
       debate: debate,
       arguments: args,
     };
+  }
+
+  async deleteViewCard(id: number) {
+    console.log("deleting", id);
   }
 
   async addArgument(title: string, description: string) {

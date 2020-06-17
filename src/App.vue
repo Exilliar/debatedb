@@ -4,6 +4,7 @@
       <Header :version="version" />
       <v-content>
         <InputModal />
+        <SettingsModal />
         <router-view />
       </v-content>
     </div>
@@ -21,12 +22,14 @@ import { Vue, Component } from "vue-property-decorator";
 
 import AuthLoadingCard from "./components/TheAuthLoadingCard.vue";
 import Header from "./components/TheHeader.vue";
+
 import InputModal from "./components/inputModal/InputModal.vue";
+import SettingsModal from "./components/settingsModal/SettingsModal.vue";
 
 import User from "./auth/models/User";
 
 @Component({
-  components: { Header, InputModal, AuthLoadingCard },
+  components: { Header, AuthLoadingCard, InputModal, SettingsModal },
 })
 export default class App extends Vue {
   version = "0.0.1";

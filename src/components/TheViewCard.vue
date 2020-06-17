@@ -19,7 +19,12 @@
             class="d-flex align-center justify-end"
           >
             <Button text="View" :onClick="view" />
-            <Button class="ml-2" text="Settings" color="accent" />
+            <Button
+              class="ml-2"
+              text="Settings"
+              color="accent"
+              :onClick="settings"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -32,6 +37,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Button from "./Button.vue";
 
 import ViewCardData from "@/models/ViewCardData";
+import BaseView from "../db/BaseViewClass";
 
 @Component({
   components: {
@@ -40,9 +46,16 @@ import ViewCardData from "@/models/ViewCardData";
 })
 export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
+  @Prop() viewClass!: BaseView;
 
   view() {
     this.$router.push({ name: this.routeTo, params: { id: this.id } });
+  }
+  settings() {
+    this.$modal.show("SettingsModal", {
+      viewClass: this.viewClass,
+      viewId: this.id,
+    });
   }
 
   get id() {

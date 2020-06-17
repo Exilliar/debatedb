@@ -38,7 +38,7 @@ import VueMarkdown from "vue-markdown";
 import Button from "@/components/Button.vue";
 
 import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
-import ModalInput from "@/models/ModalInput";
+import InputModalInput from "@/models/InputModalInput";
 
 import SourceTbl from "@/db/elements/sourceTbl";
 import { Source } from "@/db/ArgumentView";
@@ -86,7 +86,7 @@ export default class SourceCard extends Vue {
 
     inputs.push(editModalNotes);
 
-    const editModalData: ModalInput = {
+    const editModalData: InputModalInput = {
       params: {
         title: "Edit Source",
         inputs: inputs,

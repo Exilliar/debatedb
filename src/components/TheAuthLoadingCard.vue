@@ -1,5 +1,5 @@
 <template>
-  <v-card width="25%" height="25%">
+  <v-card width="25%">
     <v-card-title class="justify-center">Loading</v-card-title>
     <v-card-text class="text-center">
       <div class="pa-2">Loggin in. This shouldn't take long...</div>

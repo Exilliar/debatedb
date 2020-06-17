@@ -17,7 +17,7 @@ import VueMarkdown from "vue-markdown";
 
 import Button from "./Button.vue";
 
-import ModalInput from "@/models/ModalInput";
+import InputModalInput from "@/models/InputModalInput";
 import { UserInputText } from "@/models/UserInput";
 
 @Component({

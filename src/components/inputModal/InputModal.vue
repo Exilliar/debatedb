@@ -45,7 +45,7 @@ import Button from "@/components/Button.vue";
 import TextInput from "./TextInput.vue";
 import LinkInput from "./LinkInput.vue";
 
-import ModalInput from "@/models/ModalInput";
+import InputModalInput from "@/models/InputModalInput";
 import UserInput, { UserInputText } from "@/models/UserInput";
 
 @Component({
@@ -62,7 +62,7 @@ export default class InputModal extends Vue {
   saveText!: string[];
   cancel = true;
 
-  beforeOpen({ params }: ModalInput) {
+  beforeOpen({ params }: InputModalInput) {
     this.title = params.title;
     this.inputs = params.inputs;
     this.onClose = params.onClose;

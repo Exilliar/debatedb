@@ -31,6 +31,30 @@ export default class TableBase<T> {
       this.callRefresh(resolve);
     });
   }
+  delete(id: number) {
+    // console.log("id:", id);
+    // console.log("old data:", this._data);
+    return new Promise((resolve) => {
+      const newData = new Array<T>();
+      let dataIndex = 0;
+
+      for (let i = 0; i < this._data.length; i++) {
+        if (i !== id) {
+          newData.push(this._data[i]);
+          dataIndex++;
+        }
+        // else {
+        //   console.log("deleting");
+        // }
+      }
+
+      this._data = newData;
+
+      console.log("new data:", this._data);
+      this.callRefresh(resolve);
+    });
+  }
+
   getSingle(id: any): Promise<T> {
     return new Promise((resolve) => {
       resolve(this._data[id]);
