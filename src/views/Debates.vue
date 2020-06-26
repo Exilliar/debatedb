@@ -30,11 +30,10 @@ import DebatesViewdb from "@/db/DebatesView";
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();
-  debatesViewdb!: DebatesViewdb;
+  debatesViewdb = new DebatesViewdb();
   loaded = false;
 
   async mounted() {
-    this.debatesViewdb = new DebatesViewdb();
     await this.debatesViewdb.refreshData();
 
     this.refreshDebateData();
@@ -61,6 +60,7 @@ export default class DebatesView extends Vue {
         routeTo: "Arguments",
       };
     });
+    console.log("debateData:", this.debateData);
   }
 
   getDebateid(debate: ViewCardData) {

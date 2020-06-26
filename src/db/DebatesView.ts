@@ -1,4 +1,4 @@
-import DebateDatadb from "./classData/debate";
+import DebateDatadb from "./liveClassData/debate";
 import InfoDatadb from "./classData/info";
 
 import store from "@/store";
@@ -13,7 +13,7 @@ type DebatesViewData = Debate;
 export default class DebatesViewdb {
   private _data!: DebatesViewData[];
 
-  private _debateTable = new DebateDatadb(this.refreshData.bind(this));
+  private _debateTable = new DebateDatadb();
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
   refreshData(): Promise<DebatesViewData[]> {
@@ -34,20 +34,21 @@ export default class DebatesViewdb {
     });
 
     await this._debateTable.add({
-      id: this._debateTable.size(),
       title: title,
       description: description,
       generalNotes: "",
-      infoId: this._infoTable.size() - 1,
+      infoId: 0, // need to update to be the newly created infoTable id
       accountId: store.state.account.id,
     });
+
+    await this.refreshData();
   }
 
   private async getDebates(): Promise<Debate[]> {
-    const debateData = await this._debateTable.get();
+    const debateData = await this._debateTable.getAll(store.state.account.id);
 
     return new Promise((resolve, reject) => {
-      // Should eventually be call to db view
+      // Should eventually be call to a db view
       resolve(
         debateData.map((d) => {
           return {
