@@ -1,6 +1,5 @@
-import Base from "./base.model";
 import InfoTbl from "../elements/infoTbl";
-import TableBase from "./TableBase";
+import AxiosFuncs from "./AxiosFuncs";
 
 interface AddInfoTbl {
   description: string;
@@ -8,26 +7,26 @@ interface AddInfoTbl {
   counter: string;
 }
 
-export default class InfoDatadb implements Base<InfoTbl> {
+export default class InfoDatadb {
   private standardEndpoint = "info/";
-  private tableBase = new TableBase<InfoTbl, AddInfoTbl>();
+  private axiosFuncs = new AxiosFuncs<InfoTbl, AddInfoTbl>();
 
   async getAll(): Promise<InfoTbl[]> {
-    return await this.tableBase.getAll(this.standardEndpoint);
+    return await this.axiosFuncs.getAll(this.standardEndpoint);
   }
   async getSingle(infoid: number): Promise<InfoTbl> {
-    return await this.tableBase.getSingle(this.standardEndpoint + infoid);
+    return await this.axiosFuncs.getSingle(this.standardEndpoint + infoid);
   }
   async add(newInfo: AddInfoTbl): Promise<number> {
-    return await this.tableBase.add(this.standardEndpoint, newInfo);
+    return await this.axiosFuncs.add(this.standardEndpoint, newInfo);
   }
   async update(updateInfo: InfoTbl): Promise<void> {
-    return await this.tableBase.update(
+    return await this.axiosFuncs.update(
       this.standardEndpoint + updateInfo.id,
       updateInfo
     );
   }
   async delete(infoid: number): Promise<void> {
-    return await this.tableBase.delete(this.standardEndpoint + infoid);
+    return await this.axiosFuncs.delete(this.standardEndpoint + infoid);
   }
 }

@@ -1,25 +1,25 @@
 import Axios from "axios";
 
-interface ReqRes<T> {
+interface GetRes<T> {
   data: T;
 }
 interface AddRes {
   newid: string;
 }
 
-export default class TableBase<Table, AddTable> {
+export default class AxiosFuncs<Table, AddTable> {
   baseUrl = "http://localhost:4000/";
 
   getAll(endpoint: string): Promise<Table[]> {
     return new Promise((resolve) => {
-      Axios.get<ReqRes<Table[]>>(this.baseUrl + endpoint).then((res) => {
+      Axios.get<GetRes<Table[]>>(this.baseUrl + endpoint).then((res) => {
         resolve(res.data.data);
       });
     });
   }
   getSingle(endpoint: string): Promise<Table> {
     return new Promise((resolve) => {
-      Axios.get<ReqRes<Table>>(this.baseUrl + endpoint).then((res) => {
+      Axios.get<GetRes<Table>>(this.baseUrl + endpoint).then((res) => {
         resolve(res.data.data);
       });
     });
