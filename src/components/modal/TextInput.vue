@@ -16,11 +16,11 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import { UserInputText } from "@/models/UserInput";
+import { AccountInputText } from "@/models/AccountInput";
 
 @Component
 export default class TextInput extends Vue {
-  @Prop() input!: UserInputText;
+  @Prop() input!: AccountInputText;
 
   get title() {
     return this.input.title;

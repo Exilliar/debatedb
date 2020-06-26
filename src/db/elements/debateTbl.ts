@@ -4,5 +4,5 @@ export default interface DebateTbl {
   description: string;
   generalNotes: string;
   infoid: number;
-  userid: number;
+  accountid: number;
 }

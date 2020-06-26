@@ -11,7 +11,7 @@ export default class DebateDatadb extends TableBase<DebateTbl> {
 
   get(): Promise<DebateTbl[]> {
     return new Promise((resolve) => {
-      resolve(DebateData.filter((d) => d.userid === store.state.user.id));
+      resolve(DebateData.filter((d) => d.accountid === store.state.account.id));
     });
   }
 }

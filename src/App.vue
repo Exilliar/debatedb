@@ -23,7 +23,8 @@ import AuthLoadingCard from "./components/TheAuthLoadingCard.vue";
 import Header from "./components/TheHeader.vue";
 import InputModal from "./components/modal/InputModal.vue";
 
-import User from "./auth/models/User";
+import Account from "./auth/models/Account";
+import DebateTbl from "./db/elements/debateTbl";
 
 @Component({
   components: { Header, InputModal, AuthLoadingCard },

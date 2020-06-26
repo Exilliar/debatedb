@@ -1,23 +1,23 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-// import User from "@/models/User";
-import User from "@/db/elements/userTbl";
+// import Account from "@/models/Account";
+import Account from "@/db/elements/accountTbl";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: {} as User,
+    account: {} as Account,
   },
   mutations: {
-    updateUser(state, user: User) {
-      state.user = user;
+    updateAccount(state, account: Account) {
+      state.account = account;
     },
   },
   actions: {
-    updateUser(context, user: User) {
-      context.commit("updateUser", user);
+    updateAccount(context, account: Account) {
+      context.commit("updateAccount", account);
     },
   },
   modules: {},

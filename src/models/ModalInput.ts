@@ -1,9 +1,9 @@
-import UserInput from "./UserInput";
+import AccountInput from "./AccountInput";
 
 export default interface ModalInput {
   params: {
     title: string;
-    inputs: UserInput[];
+    inputs: AccountInput[];
     onClose?: () => any;
   };
 }

@@ -1,6 +1,6 @@
-import UserTbl from "../elements/userTbl";
+import AccountTbl from "../elements/accountTbl";
 
-const data: UserTbl[] = [
+const data: AccountTbl[] = [
   {
     id: 0,
     email: "rorywebber1000@gmail.com",

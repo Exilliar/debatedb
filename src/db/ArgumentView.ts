@@ -121,7 +121,7 @@ export default class ArgumentViewdb {
     link: string,
     quotes: QuoteTbl[],
     notes: string,
-    sourceid: number
+    sourceid: number,
   ) {
     link = this.checkLink(link);
 
@@ -159,7 +159,7 @@ export default class ArgumentViewdb {
               info: infoData.filter((i) => i.id === a.infoid)[0],
               generalNotes: a.generalNotes,
             };
-          })[0]
+          })[0],
       );
     });
   }
@@ -167,13 +167,13 @@ export default class ArgumentViewdb {
   private getSources(): Promise<Source[]> {
     return new Promise((resolve, reject) => {
       const sourceids = SourcesData.filter((s) => s.argumentid === this.id).map(
-        (s) => s.sourceid
+        (s) => s.sourceid,
       );
       const sources = SourceData.filter((s) => sourceids.includes(s.id));
 
       const returnSources: Source[] = sources.map((s) => {
         const quoteids = QuotesData.filter((q) => q.sourceid === s.id).map(
-          (q) => q.id
+          (q) => q.id,
         );
 
         const quotes = QuoteData.filter((q) => quoteids.includes(q.id));

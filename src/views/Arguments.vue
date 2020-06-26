@@ -54,7 +54,7 @@ export default class ArgumentsView extends Vue {
 
   async mounted() {
     if (this.$route.params.id) this.debateid = +this.$route.params.id;
-    else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the user to be redirected to the debatesView
+    else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the account to be redirected to the debatesView
 
     this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
     await this.argumentsViewdb.refreshData();

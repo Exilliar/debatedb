@@ -9,7 +9,7 @@
 
     <v-spacer />
 
-    <UserMenu />
+    <AccountMenu />
   </v-app-bar>
 </template>
 <script lang="ts">
@@ -17,12 +17,12 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import store from "@/store";
 
-import UserMenu from "./TheHeaderUserMenu.vue";
+import AccountMenu from "./TheHeaderAccountMenu.vue";
 
-import User from "@/auth/models/User";
+import Account from "@/auth/models/Account";
 
 @Component({
-  components: { UserMenu },
+  components: { AccountMenu },
 })
 export default class Header extends Vue {
   @Prop() version!: string;

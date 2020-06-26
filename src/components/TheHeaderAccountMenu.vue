@@ -7,7 +7,7 @@
             <img v-if="picture" :src="picture" />
             <v-icon v-else>mdi-account-circle</v-icon>
           </v-avatar>
-          {{ username }}
+          {{ accountname }}
         </v-chip>
       </template>
       <v-list>
@@ -22,12 +22,12 @@
 import { Vue, Component } from "vue-property-decorator";
 
 @Component
-export default class UserMenu extends Vue {
-  get username() {
-    return this.$auth.user.name;
+export default class AccountMenu extends Vue {
+  get accountname() {
+    return this.$auth.account.name;
   }
   get picture() {
-    return this.$auth.user.picture;
+    return this.$auth.account.picture;
   }
 
   logout() {

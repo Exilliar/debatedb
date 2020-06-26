@@ -21,7 +21,7 @@ import Loading from "@/components/TheLoadingCard.vue";
 import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
-import { UserInputText } from "@/models/UserInput";
+import { AccountInputText } from "@/models/AccountInput";
 
 import DebatesViewdb from "@/db/DebatesView";
 
@@ -30,11 +30,10 @@ import DebatesViewdb from "@/db/DebatesView";
 })
 export default class DebatesView extends Vue {
   debateData = new Array<ViewCardData>();
-  debatesViewdb!: DebatesViewdb;
+  debatesViewdb = new DebatesViewdb();
   loaded = false;
 
   async mounted() {
-    this.debatesViewdb = new DebatesViewdb();
     await this.debatesViewdb.refreshData();
 
     this.refreshDebateData();

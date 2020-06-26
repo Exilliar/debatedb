@@ -4,7 +4,7 @@ export const authGuard = (to: any, from: any, next: any) => {
   const authService = getInstance();
 
   const fn = () => {
-    // If the user is authenticated, continue with the route
+    // If the account is authenticated, continue with the route
     if (authService.isAuthenticated) {
       return next();
     }

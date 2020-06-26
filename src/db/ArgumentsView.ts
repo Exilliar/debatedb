@@ -1,4 +1,4 @@
-import DebateDatadb from "./classData/debate";
+import DebateDatadb from "./liveClassData/debate";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
 
@@ -26,7 +26,7 @@ export default class ArgumentsViewdb {
   private debateid: number;
   private currentDebate!: DebateTbl;
 
-  private _debateTable = new DebateDatadb(this.refreshData.bind(this));
+  private _debateTable = new DebateDatadb();
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
@@ -77,7 +77,7 @@ export default class ArgumentsViewdb {
     const updated = this.currentDebate;
     updated.generalNotes = notes;
 
-    await this._debateTable.update(updated, this.debateid);
+    await this._debateTable.update(updated);
   }
 
   private async getDebate(): Promise<Debate> {
@@ -106,7 +106,7 @@ export default class ArgumentsViewdb {
               title: a.title,
               description: a.description,
             };
-          })
+          }),
       );
     });
   }
