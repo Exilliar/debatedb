@@ -46,7 +46,7 @@ import TextInput from "./TextInput.vue";
 import LinkInput from "./LinkInput.vue";
 
 import ModalInput from "@/models/ModalInput";
-import UserInput, { UserInputText } from "@/models/UserInput";
+import AccountInput, { AccountInputText } from "@/models/AccountInput";
 
 @Component({
   components: {
@@ -57,8 +57,8 @@ import UserInput, { UserInputText } from "@/models/UserInput";
 })
 export default class InputModal extends Vue {
   title = "";
-  inputs = new Array<UserInput>();
-  onClose!: ((inputs: UserInput[]) => any) | undefined;
+  inputs = new Array<AccountInput>();
+  onClose!: ((inputs: AccountInput[]) => any) | undefined;
   saveText!: string[];
   cancel = true;
 
@@ -106,10 +106,10 @@ export default class InputModal extends Vue {
     return true;
   }
 
-  getId(input: UserInput) {
+  getId(input: AccountInput) {
     return input.id;
   }
-  checkType(input: UserInput) {
+  checkType(input: AccountInput) {
     return input.type === "text";
   }
 

@@ -38,8 +38,8 @@ export default class DebatesViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoid: this._infoTable.size() - 1,
-      userid: store.state.user.id,
+      infoId: this._infoTable.size() - 1,
+      accountId: store.state.account.id,
     });
   }
 
@@ -55,7 +55,7 @@ export default class DebatesViewdb {
             title: d.title,
             description: d.description,
           };
-        })
+        }),
       );
     });
   }

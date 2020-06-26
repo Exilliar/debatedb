@@ -75,7 +75,7 @@ This order is not based on anything, just personal preference
 [Source](https://itnext.io/how-to-structure-a-vue-js-project-29e4ddc1aeeb) for convensions
 
 - Components that are only used once in a view (but can be used in multiple views) should start with "The"
-- Filenames of single-file components should always use PascalCase (e.g. UserCard.vue)
+- Filenames of single-file components should always use PascalCase (e.g. AccountCard.vue)
 - Components that are only used by one view should be in their own folder within the components folder (this isn't in the source, it's my own opinion)
 
 ### General styling notes

@@ -13,11 +13,11 @@ import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 
 import { domain, clientId } from "@/../auth_config.json";
 
-import AuthUser from "./models/User";
+import AuthAccount from "./models/Account";
 
 import store from "@/store";
 
-import UserDatadb from "@/db/classData/user";
+import AccountDatadb from "@/db/classData/account";
 import router from "@/router";
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>
@@ -34,12 +34,12 @@ export default class Instance extends Vue {
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK;
   loading = true;
   isAuthenticated = false;
-  user = {} as AuthUser;
+  account = {} as AuthAccount;
   auth0Client = {} as Auth0Client;
   popupOpen = false;
   error = null;
 
-  /** Authenticates the user using a popup window */
+  /** Authenticates the account using a popup window */
   loginWithPopup = async (o?: PopupLoginOptions | undefined) => {
     this.popupOpen = true;
 
@@ -52,8 +52,8 @@ export default class Instance extends Vue {
       this.popupOpen = false;
     }
 
-    // this.user = await this.auth0Client.getUser();
-    await this.updateUser();
+    // this.account = await this.auth0Client.getAccount();
+    await this.updateAccount();
     this.isAuthenticated = true;
   };
   /** Handles the callback when logging in using a redirect */
@@ -61,7 +61,7 @@ export default class Instance extends Vue {
     this.loading = true;
     try {
       await this.auth0Client.handleRedirectCallback();
-      await this.updateUser();
+      await this.updateAccount();
       this.isAuthenticated = true;
     } catch (e) {
       this.error = e;
@@ -69,7 +69,7 @@ export default class Instance extends Vue {
       this.loading = false;
     }
   }
-  /** Authenticates the user using the redirect method */
+  /** Authenticates the account using the redirect method */
   loginWithRedirect(o?: RedirectLoginOptions | undefined) {
     return this.auth0Client.loginWithRedirect(o);
   }
@@ -86,7 +86,7 @@ export default class Instance extends Vue {
   getTokenWithPopup(o: GetTokenWithPopupOptions | undefined) {
     return this.auth0Client.getTokenWithPopup(o);
   }
-  /** Logs the user out and removes their session on the authorization server */
+  /** Logs the account out and removes their session on the authorization server */
   logout(o?: LogoutOptions | undefined) {
     return this.auth0Client.logout(o);
   }
@@ -101,7 +101,7 @@ export default class Instance extends Vue {
     });
 
     try {
-      // If the user is returning to the app after authentication..
+      // If the account is returning to the app after authentication..
       if (
         window.location.search.includes("code=") &&
         window.location.search.includes("state=")
@@ -120,16 +120,16 @@ export default class Instance extends Vue {
     } finally {
       // Initialize our internal authentication state
       this.isAuthenticated = await this.auth0Client.isAuthenticated();
-      await this.updateUser();
+      await this.updateAccount();
       this.loading = false;
     }
   }
 
-  async updateUser() {
-    this.user = await this.auth0Client.getUser();
-    if (this.user) {
-      const storeUser = await new UserDatadb().getSingle(this.user);
-      store.dispatch("updateUser", storeUser);
+  async updateAccount() {
+    this.account = await this.auth0Client.getUser();
+    if (this.account) {
+      const storeAccount = await new AccountDatadb().getSingle(this.account);
+      store.dispatch("updateAccount", storeAccount);
     }
   }
 }

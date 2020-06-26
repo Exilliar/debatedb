@@ -102,14 +102,14 @@ export default class ArgumentViewdb {
 
   async updateInfo(desc: string, current: string, counter: string) {
     const argument = await this._argumentTable.getSingle(this.id);
-    const infoid = argument.infoid;
+    const infoId = argument.infoId;
 
-    const info = await this._infoTable.getSingle(infoid);
+    const info = await this._infoTable.getSingle(infoId);
     info.description = desc;
     info.current = current;
     info.counter = counter;
 
-    await this._infoTable.update(info, infoid);
+    await this._infoTable.update(info, infoId);
   }
   async updateGeneralNotes(notes: string) {
     const updated = await this._argumentTable.getSingle(this.id);
@@ -121,7 +121,7 @@ export default class ArgumentViewdb {
     link: string,
     quotes: QuoteTbl[],
     notes: string,
-    sourceid: number
+    sourceid: number,
   ) {
     link = this.checkLink(link);
 
@@ -156,10 +156,10 @@ export default class ArgumentViewdb {
             return {
               id: a.id,
               title: a.title,
-              info: infoData.filter((i) => i.id === a.infoid)[0],
+              info: infoData.filter((i) => i.id === a.infoId)[0],
               generalNotes: a.generalNotes,
             };
-          })[0]
+          })[0],
       );
     });
   }
@@ -167,13 +167,13 @@ export default class ArgumentViewdb {
   private getSources(): Promise<Source[]> {
     return new Promise((resolve, reject) => {
       const sourceids = SourcesData.filter((s) => s.argumentid === this.id).map(
-        (s) => s.sourceid
+        (s) => s.sourceid,
       );
       const sources = SourceData.filter((s) => sourceids.includes(s.id));
 
       const returnSources: Source[] = sources.map((s) => {
         const quoteids = QuotesData.filter((q) => q.sourceid === s.id).map(
-          (q) => q.id
+          (q) => q.id,
         );
 
         const quotes = QuoteData.filter((q) => quoteids.includes(q.id));

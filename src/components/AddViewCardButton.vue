@@ -6,7 +6,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import AddButton from "./AddButton.vue";
 
-import UserInput, { UserInputText } from "@/models/UserInput";
+import AccountInput, { AccountInputText } from "@/models/AccountInput";
 import ViewCardData from "@/models/ViewCardData";
 
 @Component({
@@ -17,7 +17,7 @@ export default class AddViewCardButton extends Vue {
   @Prop() add!: (title: string, description: string) => any;
 
   addViewCard() {
-    const title: UserInputText = {
+    const title: AccountInputText = {
       id: 0,
       title: "Title",
       description: "Title of the new " + this.type,
@@ -25,7 +25,7 @@ export default class AddViewCardButton extends Vue {
       type: "text",
       textInput: "",
     };
-    const description: UserInputText = {
+    const description: AccountInputText = {
       id: 1,
       title: "Description",
       description: "More info on the new " + this.type,
@@ -43,7 +43,7 @@ export default class AddViewCardButton extends Vue {
     });
   }
 
-  onClose(inputs: UserInputText[]) {
+  onClose(inputs: AccountInputText[]) {
     const title = inputs[0].textInput;
     const description = inputs[1].textInput;
 

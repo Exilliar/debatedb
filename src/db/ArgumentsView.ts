@@ -57,20 +57,20 @@ export default class ArgumentsViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoid: this._infoTable.size() - 1,
+      infoId: this._infoTable.size() - 1,
       debateid: this.debateid,
     });
   }
 
   async updateInfo(description: string, current: string, counter: string) {
-    const infoid = this.currentDebate.infoid;
+    const infoId = this.currentDebate.infoId;
 
-    const info = await this._infoTable.getSingle(infoid);
+    const info = await this._infoTable.getSingle(infoId);
     info.description = description;
     info.current = current;
     info.counter = counter;
 
-    await this._infoTable.update(info, infoid);
+    await this._infoTable.update(info, infoId);
   }
 
   async updateGeneralNotes(notes: string) {
@@ -81,14 +81,14 @@ export default class ArgumentsViewdb {
   }
 
   private async getDebate(): Promise<Debate> {
-    const infoid = await this._infoTable.getSingle(this.currentDebate.infoid);
+    const infoId = await this._infoTable.getSingle(this.currentDebate.infoId);
 
     return new Promise((resolve) => {
       resolve({
         id: this.currentDebate.id,
         title: this.currentDebate.title,
         generalNotes: this.currentDebate.generalNotes,
-        info: infoid,
+        info: infoId,
       });
     });
   }
@@ -106,7 +106,7 @@ export default class ArgumentsViewdb {
               title: a.title,
               description: a.description,
             };
-          })
+          }),
       );
     });
   }
