@@ -1,5 +1,5 @@
 import DebateDatadb from "./liveClassData/debate";
-import InfoDatadb from "./classData/info";
+import InfoDatadb from "./liveClassData/info";
 
 import store from "@/store";
 
@@ -14,7 +14,7 @@ export default class DebatesViewdb {
   private _data!: DebatesViewData[];
 
   private _debateTable = new DebateDatadb();
-  private _infoTable = new InfoDatadb(this.refreshData.bind(this));
+  private _infoTable = new InfoDatadb();
 
   refreshData(): Promise<DebatesViewData[]> {
     return new Promise((resolve, reject) => {
@@ -26,8 +26,7 @@ export default class DebatesViewdb {
   }
 
   async add(title: string, description: string) {
-    await this._infoTable.add({
-      id: this._infoTable.size(),
+    const newInfoid = await this._infoTable.add({
       description: "",
       current: "",
       counter: "",
@@ -37,7 +36,7 @@ export default class DebatesViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoid: 0, // need to update to be the newly created infoTable id
+      infoid: newInfoid,
       accountid: store.state.account.id,
     });
 
@@ -56,7 +55,7 @@ export default class DebatesViewdb {
             title: d.title,
             description: d.description,
           };
-        }),
+        })
       );
     });
   }

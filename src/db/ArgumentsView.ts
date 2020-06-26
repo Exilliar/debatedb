@@ -1,6 +1,6 @@
 import DebateDatadb from "./liveClassData/debate";
 import ArgumentDatadb from "./classData/argument";
-import InfoDatadb from "./classData/info";
+import InfoDatadb from "./liveClassData/info";
 
 import Info from "./elements/infoTbl";
 import DebateTbl from "./elements/debateTbl";
@@ -28,7 +28,7 @@ export default class ArgumentsViewdb {
 
   private _debateTable = new DebateDatadb();
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
-  private _infoTable = new InfoDatadb(this.refreshData.bind(this));
+  private _infoTable = new InfoDatadb();
 
   constructor(debateid: number) {
     this.debateid = debateid;
@@ -45,8 +45,7 @@ export default class ArgumentsViewdb {
   }
 
   async addArgument(title: string, description: string) {
-    await this._infoTable.add({
-      id: this._infoTable.size(),
+    const newInfoid = await this._infoTable.add({
       description: "",
       current: "",
       counter: "",
@@ -57,9 +56,11 @@ export default class ArgumentsViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoid: this._infoTable.size() - 1,
+      infoid: newInfoid,
       debateid: this.debateid,
     });
+
+    await this.refreshData();
   }
 
   async updateInfo(description: string, current: string, counter: string) {
@@ -70,7 +71,9 @@ export default class ArgumentsViewdb {
     info.current = current;
     info.counter = counter;
 
-    await this._infoTable.update(info, infoid);
+    await this._infoTable.update(info);
+
+    await this.refreshData();
   }
 
   async updateGeneralNotes(notes: string) {
@@ -78,6 +81,8 @@ export default class ArgumentsViewdb {
     updated.generalNotes = notes;
 
     await this._debateTable.update(updated);
+
+    await this.refreshData();
   }
 
   private async getDebate(): Promise<Debate> {
@@ -106,7 +111,7 @@ export default class ArgumentsViewdb {
               title: a.title,
               description: a.description,
             };
-          }),
+          })
       );
     });
   }

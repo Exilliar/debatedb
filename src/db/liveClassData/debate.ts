@@ -1,6 +1,5 @@
-import Base from "./base.model";
 import DebateTbl from "../elements/debateTbl";
-import TableBase from "./TableBase";
+import AxiosFuncs from "./AxiosFuncs";
 
 interface AddDebateTbl {
   title: string;
@@ -10,26 +9,26 @@ interface AddDebateTbl {
   accountid: number;
 }
 
-export default class DebateDatadb implements Base<DebateTbl> {
-  standardEndpoint = "account/debate/";
-  tableBase = new TableBase<DebateTbl, AddDebateTbl>();
+export default class DebateDatadb {
+  private standardEndpoint = "account/debate/";
+  private axiosFuncs = new AxiosFuncs<DebateTbl, AddDebateTbl>();
 
   async getAll(accountid: number): Promise<DebateTbl[]> {
-    return await this.tableBase.getAll("account/" + accountid + "/debate");
+    return await this.axiosFuncs.getAll("account/" + accountid + "/debate");
   }
   async getSingle(debateid: number): Promise<DebateTbl> {
-    return await this.tableBase.getSingle(this.standardEndpoint + debateid);
+    return await this.axiosFuncs.getSingle(this.standardEndpoint + debateid);
+  }
+  async add(newDebate: AddDebateTbl): Promise<number> {
+    return await this.axiosFuncs.add(this.standardEndpoint, newDebate);
   }
   async update(updateDebate: DebateTbl): Promise<void> {
-    return await this.tableBase.update(
+    return await this.axiosFuncs.update(
       this.standardEndpoint + updateDebate.id,
-      updateDebate,
+      updateDebate
     );
   }
-  async add(newDebate: AddDebateTbl): Promise<void> {
-    return await this.tableBase.add(this.standardEndpoint, newDebate);
-  }
   async delete(debateid: number): Promise<void> {
-    return await this.tableBase.delete(this.standardEndpoint + debateid);
+    return await this.axiosFuncs.delete(this.standardEndpoint + debateid);
   }
 }
