@@ -1,10 +1,7 @@
 import Base from "./base.model";
 import DebateTbl from "../elements/debateTbl";
-import Axios from "axios";
+import TableBase from "./TableBase";
 
-interface ReqRes<T> {
-  data: T;
-}
 interface AddDebateTbl {
   title: string;
   description: string;
@@ -14,49 +11,25 @@ interface AddDebateTbl {
 }
 
 export default class DebateDatadb implements Base<DebateTbl> {
-  data = new Array<DebateTbl>();
-  baseUrl = "http://localhost:4000/account/";
-  endpoint = this.baseUrl + "debate/";
+  standardEndpoint = "account/debate/";
+  tableBase = new TableBase<DebateTbl, AddDebateTbl>();
 
-  getAll(accountid: number): Promise<DebateTbl[]> {
-    return new Promise((resolve) => {
-      Axios.get<ReqRes<DebateTbl[]>>(this.baseUrl + accountid + "/debate")
-        .then((res) => {
-          resolve(res.data.data);
-        });
-    });
+  async getAll(accountid: number): Promise<DebateTbl[]> {
+    return await this.tableBase.getAll("account/" + accountid + "/debate");
   }
-  getSingle(debateid: number): Promise<DebateTbl> {
-    return new Promise((resolve) => {
-      Axios.get<ReqRes<DebateTbl>>(this.endpoint + debateid)
-        .then((res) => {
-          resolve(res.data.data);
-        });
-    });
+  async getSingle(debateid: number): Promise<DebateTbl> {
+    return await this.tableBase.getSingle(this.standardEndpoint + debateid);
   }
-  update(updateDebate: DebateTbl): Promise<void> {
-    return new Promise((resolve) => {
-      Axios.put(this.endpoint + updateDebate.id, updateDebate)
-        .then((res) => {
-          resolve();
-        });
-    });
+  async update(updateDebate: DebateTbl): Promise<void> {
+    return await this.tableBase.update(
+      this.standardEndpoint + updateDebate.id,
+      updateDebate,
+    );
   }
-  add(newDebate: AddDebateTbl): Promise<void> {
-    return new Promise((resolve) => {
-      Axios.post(this.endpoint, newDebate)
-        .then((res) => {
-          console.log(res);
-          resolve();
-        });
-    });
+  async add(newDebate: AddDebateTbl): Promise<void> {
+    return await this.tableBase.add(this.standardEndpoint, newDebate);
   }
-  delete(debateid: number): Promise<void> {
-    return new Promise((resolve) => {
-      Axios.delete(this.endpoint + debateid)
-        .then((res) => {
-          resolve();
-        });
-    });
+  async delete(debateid: number): Promise<void> {
+    return await this.tableBase.delete(this.standardEndpoint + debateid);
   }
 }

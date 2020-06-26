@@ -40,11 +40,6 @@ export default class App extends Vue {
   }
 
   mounted() {
-    // const updateDebate: DebateTbl = {
-    //   id: 0,
-    //   title: ""
-    // }
-
     const addDebate = {
       title: "test",
       description: "this is a test",
@@ -55,7 +50,7 @@ export default class App extends Vue {
 
     const updateDebate = {
       id: 17,
-      title: "changed title",
+      title: "changed title again",
       description: "this is a test",
       generalNotes: "test test",
       infoId: 0,
@@ -64,26 +59,16 @@ export default class App extends Vue {
 
     const debateTbl = new DebateDatadb();
 
-    debateTbl.update(updateDebate).then((res) => {
-      // debateTbl.delete(18).then((res) => {
-      // debateTbl.add(addDebate).then((res) => {
-      debateTbl.getAll(0).then((res) => {
-        console.log("all:", res);
-      });
-
-      debateTbl.getSingle(0).then((res: DebateTbl) => {
-        console.log("single:", res);
-      });
+    // debateTbl.update(updateDebate).then((res) => {
+    // debateTbl.delete(19).then((res) => {
+    // debateTbl.add(addDebate).then((res) => {
+    debateTbl.getAll(0).then((res) => {
+      console.log("all:", res);
     });
 
-    // const tableBase = new TableBase("debate");
-
-    // tableBase.getAll().then((res) => {
-    //   console.log("debates:", res);
-    // });
-
-    // tableBase.getSingle(0).then((res) => {
-    //   console.log("debate:", res);
+    debateTbl.getSingle(0).then((res: DebateTbl) => {
+      console.log("single:", res);
+    });
     // });
   }
 }
