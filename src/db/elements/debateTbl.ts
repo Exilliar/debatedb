@@ -3,6 +3,6 @@ export default interface DebateTbl {
   title: string;
   description: string;
   generalNotes: string;
-  infoId: number;
-  accountId: number;
+  infoid: number;
+  accountid: number;
 }

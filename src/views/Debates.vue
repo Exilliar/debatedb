@@ -60,7 +60,6 @@ export default class DebatesView extends Vue {
         routeTo: "Arguments",
       };
     });
-    console.log("debateData:", this.debateData);
   }
 
   getDebateid(debate: ViewCardData) {

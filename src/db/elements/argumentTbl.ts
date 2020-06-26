@@ -3,6 +3,6 @@ export default interface ArgumentTbl {
   title: string;
   description: string;
   generalNotes: string;
-  infoId: number;
+  infoid: number;
   debateid: number;
 }

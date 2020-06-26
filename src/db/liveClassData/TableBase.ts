@@ -26,7 +26,7 @@ export default class TableBase<Table, AddTable> {
   update(endpoint: string, updateDebate: Table): Promise<void> {
     return new Promise((resolve) => {
       Axios.put(this.baseUrl + endpoint, updateDebate)
-        .then((res) => {
+        .then(() => {
           resolve();
         });
     });
@@ -34,8 +34,7 @@ export default class TableBase<Table, AddTable> {
   add(endpoint: string, newDebate: AddTable): Promise<void> {
     return new Promise((resolve) => {
       Axios.post(this.baseUrl + endpoint, newDebate)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           resolve();
         });
     });
@@ -43,7 +42,7 @@ export default class TableBase<Table, AddTable> {
   delete(endpoint: string): Promise<void> {
     return new Promise((resolve) => {
       Axios.delete(this.baseUrl + endpoint)
-        .then((res) => {
+        .then(() => {
           resolve();
         });
     });

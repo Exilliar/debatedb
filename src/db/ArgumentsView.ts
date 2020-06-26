@@ -1,4 +1,4 @@
-import DebateDatadb from "./classData/debate";
+import DebateDatadb from "./liveClassData/debate";
 import ArgumentDatadb from "./classData/argument";
 import InfoDatadb from "./classData/info";
 
@@ -26,7 +26,7 @@ export default class ArgumentsViewdb {
   private debateid: number;
   private currentDebate!: DebateTbl;
 
-  private _debateTable = new DebateDatadb(this.refreshData.bind(this));
+  private _debateTable = new DebateDatadb();
   private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
   private _infoTable = new InfoDatadb(this.refreshData.bind(this));
 
@@ -57,38 +57,38 @@ export default class ArgumentsViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoId: this._infoTable.size() - 1,
+      infoid: this._infoTable.size() - 1,
       debateid: this.debateid,
     });
   }
 
   async updateInfo(description: string, current: string, counter: string) {
-    const infoId = this.currentDebate.infoId;
+    const infoid = this.currentDebate.infoid;
 
-    const info = await this._infoTable.getSingle(infoId);
+    const info = await this._infoTable.getSingle(infoid);
     info.description = description;
     info.current = current;
     info.counter = counter;
 
-    await this._infoTable.update(info, infoId);
+    await this._infoTable.update(info, infoid);
   }
 
   async updateGeneralNotes(notes: string) {
     const updated = this.currentDebate;
     updated.generalNotes = notes;
 
-    await this._debateTable.update(updated, this.debateid);
+    await this._debateTable.update(updated);
   }
 
   private async getDebate(): Promise<Debate> {
-    const infoId = await this._infoTable.getSingle(this.currentDebate.infoId);
+    const infoid = await this._infoTable.getSingle(this.currentDebate.infoid);
 
     return new Promise((resolve) => {
       resolve({
         id: this.currentDebate.id,
         title: this.currentDebate.title,
         generalNotes: this.currentDebate.generalNotes,
-        info: infoId,
+        info: infoid,
       });
     });
   }

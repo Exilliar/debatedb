@@ -37,8 +37,8 @@ export default class DebatesViewdb {
       title: title,
       description: description,
       generalNotes: "",
-      infoId: 0, // need to update to be the newly created infoTable id
-      accountId: store.state.account.id,
+      infoid: 0, // need to update to be the newly created infoTable id
+      accountid: store.state.account.id,
     });
 
     await this.refreshData();

@@ -17,9 +17,6 @@
   </v-app>
 </template>
 <script lang="ts">
-import TableBase from "./db/liveClassData/TableBase";
-import DebateDatadb from "./db/liveClassData/debate";
-
 import { Vue, Component } from "vue-property-decorator";
 
 import AuthLoadingCard from "./components/TheAuthLoadingCard.vue";
@@ -37,39 +34,6 @@ export default class App extends Vue {
 
   get loading() {
     return this.$auth.loading;
-  }
-
-  mounted() {
-    const addDebate = {
-      title: "test",
-      description: "this is a test",
-      generalNotes: "test test",
-      infoId: 0,
-      accountId: 0,
-    };
-
-    const updateDebate = {
-      id: 17,
-      title: "changed title again",
-      description: "this is a test",
-      generalNotes: "test test",
-      infoId: 0,
-      accountId: 0,
-    };
-
-    const debateTbl = new DebateDatadb();
-
-    // debateTbl.update(updateDebate).then((res) => {
-    // debateTbl.delete(19).then((res) => {
-    // debateTbl.add(addDebate).then((res) => {
-    debateTbl.getAll(0).then((res) => {
-      console.log("all:", res);
-    });
-
-    debateTbl.getSingle(0).then((res: DebateTbl) => {
-      console.log("single:", res);
-    });
-    // });
   }
 }
 </script>
