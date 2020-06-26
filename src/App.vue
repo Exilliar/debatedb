@@ -53,17 +53,28 @@ export default class App extends Vue {
       accountId: 0,
     };
 
+    const updateDebate = {
+      id: 17,
+      title: "changed title",
+      description: "this is a test",
+      generalNotes: "test test",
+      infoId: 0,
+      accountId: 0,
+    };
+
     const debateTbl = new DebateDatadb();
 
-    // debateTbl.add(addDebate).then((res) => {
-    debateTbl.getAll(0).then((res) => {
-      console.log("all:", res);
-    });
+    debateTbl.update(updateDebate).then((res) => {
+      // debateTbl.delete(18).then((res) => {
+      // debateTbl.add(addDebate).then((res) => {
+      debateTbl.getAll(0).then((res) => {
+        console.log("all:", res);
+      });
 
-    debateTbl.getSingle(0).then((res: DebateTbl) => {
-      console.log("single:", res);
+      debateTbl.getSingle(0).then((res: DebateTbl) => {
+        console.log("single:", res);
+      });
     });
-    // });
 
     // const tableBase = new TableBase("debate");
 

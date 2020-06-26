@@ -6,7 +6,6 @@ interface ReqRes<T> {
   data: T;
 }
 interface AddDebateTbl {
-  id: number;
   title: string;
   description: string;
   generalNotes: string;
@@ -37,7 +36,7 @@ export default class DebateDatadb implements Base<DebateTbl> {
   }
   update(updateDebate: DebateTbl): Promise<void> {
     return new Promise((resolve) => {
-      Axios.put(this.endpoint + updateDebate.id)
+      Axios.put(this.endpoint + updateDebate.id, updateDebate)
         .then((res) => {
           resolve();
         });
