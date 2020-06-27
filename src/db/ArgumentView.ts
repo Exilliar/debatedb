@@ -1,4 +1,4 @@
-import ArgumentDatadb from "./classData/argument";
+import ArgumentDatadb from "./liveClassData/argument";
 import InfoDatadb from "./liveClassData/info";
 import QuoteDatadb from "./classData/quote";
 import QuotesDatadb from "./classData/quotes";
@@ -43,7 +43,7 @@ export default class ArgumentViewdb {
   private id: number;
   private currentArgument!: ArgumentTbl;
 
-  private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
+  private _argumentTable = new ArgumentDatadb();
   private _infoTable = new InfoDatadb();
   private _quoteTable = new QuoteDatadb(this.refreshData.bind(this));
   private _quotesTable = new QuotesDatadb(this.refreshData.bind(this));
@@ -126,7 +126,7 @@ export default class ArgumentViewdb {
     const updated = await this._argumentTable.getSingle(this.id);
     updated.generalnotes = notes;
 
-    await this._argumentTable.update(updated, this.id);
+    await this._argumentTable.update(updated);
 
     await this.refreshData();
   }
@@ -134,7 +134,7 @@ export default class ArgumentViewdb {
     link: string,
     quotes: QuoteTbl[],
     notes: string,
-    sourceid: number
+    sourceid: number,
   ) {
     link = this.checkLink(link);
 
@@ -164,35 +164,29 @@ export default class ArgumentViewdb {
 
   private async getArgument(): Promise<Argument> {
     const infoData = await this._infoTable.getSingle(
-      this.currentArgument.infoid
+      this.currentArgument.infoid,
     );
 
     return new Promise((resolve, reject) => {
-      resolve(
-        argumentData
-          .filter((a) => a.id === this.id)
-          .map((a) => {
-            return {
-              id: a.id,
-              title: a.title,
-              info: infoData,
-              generalnotes: a.generalnotes,
-            };
-          })[0]
-      );
+      resolve({
+        id: this.currentArgument.id,
+        title: this.currentArgument.title,
+        info: infoData,
+        generalnotes: this.currentArgument.generalnotes,
+      });
     });
   }
 
   private getSources(): Promise<Source[]> {
     return new Promise((resolve, reject) => {
       const sourceids = SourcesData.filter((s) => s.argumentid === this.id).map(
-        (s) => s.sourceid
+        (s) => s.sourceid,
       );
       const sources = SourceData.filter((s) => sourceids.includes(s.id));
 
       const returnSources: Source[] = sources.map((s) => {
         const quoteids = QuotesData.filter((q) => q.sourceid === s.id).map(
-          (q) => q.id
+          (q) => q.id,
         );
 
         const quotes = QuoteData.filter((q) => quoteids.includes(q.id));
