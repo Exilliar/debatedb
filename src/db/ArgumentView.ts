@@ -1,14 +1,9 @@
 import ArgumentDatadb from "./liveClassData/argument";
 import InfoDatadb from "./liveClassData/info";
 import QuoteDatadb from "./liveClassData/quote";
-import QuotesDatadb from "./classData/quotes";
 import SourceDatadb from "./liveClassData/source";
 
 import QuoteTbl from "./elements/quoteTbl";
-import QuotesTbl from "./elements/quotesTbl";
-
-// import QuotesData from "./data/quotes";
-// import QuoteData from "./data/quote";
 import InfoTbl from "./elements/infoTbl";
 import ArgumentTbl from "./elements/argumentTbl";
 
