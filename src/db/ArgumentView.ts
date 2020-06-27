@@ -1,14 +1,9 @@
 import ArgumentDatadb from "./liveClassData/argument";
 import InfoDatadb from "./liveClassData/info";
-import QuoteDatadb from "./classData/quote";
-import QuotesDatadb from "./classData/quotes";
+import QuoteDatadb from "./liveClassData/quote";
 import SourceDatadb from "./liveClassData/source";
 
 import QuoteTbl from "./elements/quoteTbl";
-import QuotesTbl from "./elements/quotesTbl";
-
-import QuotesData from "./data/quotes";
-import QuoteData from "./data/quote";
 import InfoTbl from "./elements/infoTbl";
 import ArgumentTbl from "./elements/argumentTbl";
 
@@ -37,8 +32,7 @@ export default class ArgumentViewdb {
 
   private _argumentTable = new ArgumentDatadb();
   private _infoTable = new InfoDatadb();
-  private _quoteTable = new QuoteDatadb(this.refreshData.bind(this));
-  private _quotesTable = new QuotesDatadb(this.refreshData.bind(this));
+  private _quoteTable = new QuoteDatadb();
   private _sourceTable = new SourceDatadb();
 
   constructor(argid: number) {
@@ -58,19 +52,11 @@ export default class ArgumentViewdb {
   }
 
   async addQuote(text: string, additional: string, sourceid: number) {
-    const addQuote: QuoteTbl = {
-      id: this._quoteTable.size(),
+    await this._quoteTable.add({
       text: text,
       additional: additional,
-    };
-    await this._quoteTable.add(addQuote);
-
-    const addQuotes: QuotesTbl = {
-      id: this._quotesTable.size(),
       sourceid: sourceid,
-      quoteid: this._quoteTable.size() - 1,
-    };
-    await this._quotesTable.add(addQuotes);
+    });
 
     await this.refreshData();
   }
@@ -124,7 +110,7 @@ export default class ArgumentViewdb {
 
     for (let i = 0; i < quotes.length; i++) {
       const q = quotes[i];
-      await this._quoteTable.update(q, q.id);
+      await this._quoteTable.update(q);
     }
 
     await this.refreshData();
@@ -157,25 +143,25 @@ export default class ArgumentViewdb {
   }
 
   private async getSources(): Promise<Source[]> {
-    const sources = await this._sourceTable.getAll(this.currentArgument.id);
+    const rawSources = await this._sourceTable.getAll(this.currentArgument.id);
 
-    return new Promise((resolve, reject) => {
-      resolve(sources.map((s) => {
-        const quoteids = QuotesData.filter((q) => q.sourceid === s.id).map(
-          (q) => q.id,
-        );
+    const sources = new Array<Source>();
 
-        const quotes = QuoteData.filter((q) => quoteids.includes(q.id));
+    for (let i = 0; i < rawSources.length; i++) {
+      const s = rawSources[i];
 
-        return {
-          id: s.id,
-          title: s.title,
-          link: s.link,
-          quotes: quotes,
-          notes: s.notes,
-        };
-      }));
-    });
+      const quotes = await this._quoteTable.getAll(s.id);
+
+      sources.push({
+        id: s.id,
+        title: s.title,
+        link: s.link,
+        quotes: quotes,
+        notes: s.notes,
+      });
+    }
+
+    return sources;
   }
 
   get data() {

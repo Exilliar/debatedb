@@ -148,6 +148,7 @@ export default class SourceCard extends Vue {
         id: this.quotes[i].id,
         text: inputs[id].textInput,
         additional: inputs[id + 1].textInput,
+        sourceid: this.source.id,
       });
       id += 2;
     }
