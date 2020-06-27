@@ -1,5 +1,5 @@
 import DebateDatadb from "./liveClassData/debate";
-import ArgumentDatadb from "./classData/argument";
+import ArgumentDatadb from "./liveClassData/argument";
 import InfoDatadb from "./liveClassData/info";
 
 import Info from "./elements/infoTbl";
@@ -27,7 +27,7 @@ export default class ArgumentsViewdb {
   private currentDebate!: DebateTbl;
 
   private _debateTable = new DebateDatadb();
-  private _argumentTable = new ArgumentDatadb(this.refreshData.bind(this));
+  private _argumentTable = new ArgumentDatadb();
   private _infoTable = new InfoDatadb();
 
   constructor(debateid: number) {
@@ -35,7 +35,9 @@ export default class ArgumentsViewdb {
   }
   async refreshData() {
     this.currentDebate = await this._debateTable.getSingle(this.debateid);
-    console.log(this.currentDebate);
+    if (this.currentDebate.generalnotes === null) {
+      this.currentDebate.generalnotes = "";
+    }
     const debate = await this.getDebate();
     const args = await this.getArguments();
 
@@ -53,7 +55,6 @@ export default class ArgumentsViewdb {
     });
 
     await this._argumentTable.add({
-      id: this._argumentTable.size(),
       title: title,
       description: description,
       generalnotes: "",
@@ -78,7 +79,6 @@ export default class ArgumentsViewdb {
   }
 
   async updateGeneralNotes(notes: string) {
-    console.log("notes:", notes);
     const updated = this.currentDebate;
     updated.generalnotes = notes;
 
@@ -101,7 +101,10 @@ export default class ArgumentsViewdb {
   }
 
   private async getArguments(): Promise<Argument[]> {
-    const argumentData = await this._argumentTable.get();
+    const argumentData = await this._argumentTable.getAll(
+      this.currentDebate.id,
+    );
+
     return new Promise((resolve) => {
       resolve(
         // This will be a view in the real db
@@ -113,7 +116,7 @@ export default class ArgumentsViewdb {
               title: a.title,
               description: a.description,
             };
-          })
+          }),
       );
     });
   }
