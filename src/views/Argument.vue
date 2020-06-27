@@ -9,7 +9,7 @@
       />
       <v-row>
         <v-col cols="6">
-          <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
+          <NotesCard :body="generalnotes" :viewOnEdit="updateNotes" />
         </v-col>
         <v-col cols="6">
           <Empty title="Sources" :data="sources">
@@ -51,7 +51,7 @@ export default class ArgumentView extends Vue {
   id!: number;
   info: InfoTbl = { id: -1, description: "", current: "", counter: "" };
   loaded = false;
-  generalNotes = "";
+  generalnotes = "";
   sources: Source[] = new Array<Source>();
   sourceless = false;
 
@@ -102,7 +102,7 @@ export default class ArgumentView extends Vue {
     this.info = this.argumentViewdb.argument.info;
   }
   refreshNotes() {
-    this.generalNotes = this.argumentViewdb.argument.generalNotes;
+    this.generalnotes = this.argumentViewdb.argument.generalnotes;
   }
   refreshSources() {
     this.sources = this.argumentViewdb.sources;

@@ -7,7 +7,7 @@
         type="debate"
         :viewOnEdit="updateInfo"
       />
-      <NotesCard :body="generalNotes" :viewOnEdit="updateNotes" />
+      <NotesCard :body="generalnotes" :viewOnEdit="updateNotes" />
       <Empty title="Arguments" :data="argumentData">
         <div v-for="argument in argumentData" :key="getArgumentid(argument)">
           <ViewCard :data="argument" />
@@ -50,7 +50,7 @@ export default class ArgumentsView extends Vue {
   argumentData = new Array<ViewCardData>();
   loaded = false;
   info: InfoTbl = { id: -1, description: "", current: "", counter: "" };
-  generalNotes = "";
+  generalnotes = "";
 
   async mounted() {
     if (this.$route.params.id) this.debateid = +this.$route.params.id;
@@ -88,7 +88,7 @@ export default class ArgumentsView extends Vue {
     this.info = this.argumentsViewdb.data.debate.info;
   }
   refreshNotes() {
-    this.generalNotes = this.argumentsViewdb.data.debate.generalNotes;
+    this.generalnotes = this.argumentsViewdb.data.debate.generalnotes;
   }
   refreshArgumentData() {
     this.argumentData = this.argumentsViewdb.data.arguments.map((a) => {

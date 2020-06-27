@@ -17,7 +17,7 @@ import AuthAccount from "./models/Account";
 
 import store from "@/store";
 
-import AccountDatadb from "@/db/classData/account";
+import AccountDatadb from "@/db/liveClassData/account";
 import router from "@/router";
 
 const DEFAULT_REDIRECT_CALLBACK = (appState?: any) =>

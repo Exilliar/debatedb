@@ -9,7 +9,7 @@ export interface Debate {
   id: number;
   title: string;
   info: Info;
-  generalNotes: string;
+  generalnotes: string;
 }
 export interface Argument {
   id: number;
@@ -35,6 +35,7 @@ export default class ArgumentsViewdb {
   }
   async refreshData() {
     this.currentDebate = await this._debateTable.getSingle(this.debateid);
+    console.log(this.currentDebate);
     const debate = await this.getDebate();
     const args = await this.getArguments();
 
@@ -55,7 +56,7 @@ export default class ArgumentsViewdb {
       id: this._argumentTable.size(),
       title: title,
       description: description,
-      generalNotes: "",
+      generalnotes: "",
       infoid: newInfoid,
       debateid: this.debateid,
     });
@@ -77,8 +78,9 @@ export default class ArgumentsViewdb {
   }
 
   async updateGeneralNotes(notes: string) {
+    console.log("notes:", notes);
     const updated = this.currentDebate;
-    updated.generalNotes = notes;
+    updated.generalnotes = notes;
 
     await this._debateTable.update(updated);
 
@@ -92,7 +94,7 @@ export default class ArgumentsViewdb {
       resolve({
         id: this.currentDebate.id,
         title: this.currentDebate.title,
-        generalNotes: this.currentDebate.generalNotes,
+        generalnotes: this.currentDebate.generalnotes,
         info: infoid,
       });
     });

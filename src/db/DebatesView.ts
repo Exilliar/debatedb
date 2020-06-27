@@ -35,7 +35,7 @@ export default class DebatesViewdb {
     await this._debateTable.add({
       title: title,
       description: description,
-      generalNotes: "",
+      generalnotes: "",
       infoid: newInfoid,
       accountid: store.state.account.id,
     });
