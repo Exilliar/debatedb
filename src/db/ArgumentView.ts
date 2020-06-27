@@ -24,7 +24,7 @@ export interface Argument {
   id: number;
   title: string;
   info: Info;
-  generalNotes: string;
+  generalnotes: string;
 }
 export interface Source {
   id: number;
@@ -124,7 +124,7 @@ export default class ArgumentViewdb {
   }
   async updateGeneralNotes(notes: string) {
     const updated = await this._argumentTable.getSingle(this.id);
-    updated.generalNotes = notes;
+    updated.generalnotes = notes;
 
     await this._argumentTable.update(updated, this.id);
 
@@ -176,7 +176,7 @@ export default class ArgumentViewdb {
               id: a.id,
               title: a.title,
               info: infoData,
-              generalNotes: a.generalNotes,
+              generalnotes: a.generalnotes,
             };
           })[0]
       );

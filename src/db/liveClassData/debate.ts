@@ -4,7 +4,7 @@ import AxiosFuncs from "./AxiosFuncs";
 interface AddDebateTbl {
   title: string;
   description: string;
-  generalNotes: string;
+  generalnotes: string;
   infoid: number;
   accountid: number;
 }

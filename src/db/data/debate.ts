@@ -5,7 +5,7 @@ const data: DebateTbl[] = [
     id: 0,
     title: "debate 1",
     description: "this is the first debate",
-    generalNotes:
+    generalnotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 0,
     accountid: 0,
@@ -14,7 +14,7 @@ const data: DebateTbl[] = [
     id: 1,
     title: "debate 2",
     description: "this is the second debate",
-    generalNotes:
+    generalnotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 1,
     accountid: 0,
@@ -23,7 +23,7 @@ const data: DebateTbl[] = [
     id: 2,
     title: "debate 3",
     description: "this is the third debate",
-    generalNotes:
+    generalnotes:
       "these are some notes about the debate written in \n- markdown",
     infoid: 2,
     accountid: 0,
