@@ -3,4 +3,5 @@ export default interface SourceTbl {
   title: string;
   link: string;
   notes: string;
+  argumentid: number;
 }

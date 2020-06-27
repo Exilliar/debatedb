@@ -2,19 +2,11 @@ import ArgumentDatadb from "./liveClassData/argument";
 import InfoDatadb from "./liveClassData/info";
 import QuoteDatadb from "./classData/quote";
 import QuotesDatadb from "./classData/quotes";
-import SourceDatadb from "./classData/source";
-import SourcesDatadb from "./classData/sources";
+import SourceDatadb from "./liveClassData/source";
 
 import QuoteTbl from "./elements/quoteTbl";
 import QuotesTbl from "./elements/quotesTbl";
-import SourceTbl from "./elements/sourceTbl";
-import SourcesTbl from "./elements/sourcesTbl";
-import Info from "./elements/infoTbl";
-import Quote from "./elements/quoteTbl";
 
-import argumentData from "./data/argument";
-import SourcesData from "./data/sources";
-import SourceData from "./data/source";
 import QuotesData from "./data/quotes";
 import QuoteData from "./data/quote";
 import InfoTbl from "./elements/infoTbl";
@@ -23,14 +15,14 @@ import ArgumentTbl from "./elements/argumentTbl";
 export interface Argument {
   id: number;
   title: string;
-  info: Info;
+  info: InfoTbl;
   generalnotes: string;
 }
 export interface Source {
   id: number;
   title: string;
   link: string;
-  quotes: Quote[];
+  quotes: QuoteTbl[];
   notes: string;
 }
 export interface ArgumentViewData {
@@ -47,8 +39,7 @@ export default class ArgumentViewdb {
   private _infoTable = new InfoDatadb();
   private _quoteTable = new QuoteDatadb(this.refreshData.bind(this));
   private _quotesTable = new QuotesDatadb(this.refreshData.bind(this));
-  private _sourceTable = new SourceDatadb(this.refreshData.bind(this));
-  private _sourcesTable = new SourcesDatadb(this.refreshData.bind(this));
+  private _sourceTable = new SourceDatadb();
 
   constructor(argid: number) {
     this.id = argid;
@@ -86,24 +77,12 @@ export default class ArgumentViewdb {
   async addSource(title: string, link: string, notes: string) {
     link = this.checkLink(link);
 
-    const sourceid = this._sourceTable.size();
-
-    const newSource: SourceTbl = {
-      id: sourceid,
+    await this._sourceTable.add({
       title: title,
       link: link,
       notes: notes,
-    };
-
-    await this._sourceTable.add(newSource);
-
-    const newSources: SourcesTbl = {
-      id: this._sourcesTable.size(),
-      argumentid: this.id,
-      sourceid: sourceid,
-    };
-
-    await this._sourcesTable.add(newSources);
+      argumentid: this.currentArgument.id,
+    });
 
     await this.refreshData();
   }
@@ -141,7 +120,7 @@ export default class ArgumentViewdb {
     const currentSource = await this._sourceTable.getSingle(sourceid);
     currentSource.link = link;
     currentSource.notes = notes;
-    await this._sourceTable.update(currentSource, sourceid);
+    await this._sourceTable.update(currentSource);
 
     for (let i = 0; i < quotes.length; i++) {
       const q = quotes[i];
@@ -177,14 +156,11 @@ export default class ArgumentViewdb {
     });
   }
 
-  private getSources(): Promise<Source[]> {
-    return new Promise((resolve, reject) => {
-      const sourceids = SourcesData.filter((s) => s.argumentid === this.id).map(
-        (s) => s.sourceid,
-      );
-      const sources = SourceData.filter((s) => sourceids.includes(s.id));
+  private async getSources(): Promise<Source[]> {
+    const sources = await this._sourceTable.getAll(this.currentArgument.id);
 
-      const returnSources: Source[] = sources.map((s) => {
+    return new Promise((resolve, reject) => {
+      resolve(sources.map((s) => {
         const quoteids = QuotesData.filter((q) => q.sourceid === s.id).map(
           (q) => q.id,
         );
@@ -198,9 +174,7 @@ export default class ArgumentViewdb {
           quotes: quotes,
           notes: s.notes,
         };
-      });
-
-      resolve(returnSources);
+      }));
     });
   }
 
