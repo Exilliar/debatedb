@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark hide-on-scroll>
+  <v-app-bar app color="primary" dark>
     <v-toolbar-title>
       <div class="d-flex justify-md-space-around align-center">
         <span style="font-size: 1.2em" class="pr-1">DebateDB |</span>
