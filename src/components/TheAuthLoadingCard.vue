@@ -1,13 +1,12 @@
 <template>
-  <v-card width="25%" height="25%">
+  <v-card>
     <v-card-title class="justify-center">Loading</v-card-title>
     <v-card-text class="text-center">
       <div class="pa-2">Loggin in. This shouldn't take long...</div>
       <div class="pa-2">
         If this takes longer than 15 seconds press
-        <br />
-        <Button text="here" :onClick="login" />
       </div>
+      <Button text="here" :onClick="login" />
     </v-card-text>
   </v-card>
 </template>
