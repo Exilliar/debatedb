@@ -1,13 +1,5 @@
-import ArgumentTbl from "../elements/argumentTbl";
+import ArgumentTbl, { AddArgumentTbl } from "../elements/argumentTbl";
 import AxiosFuncs from "./AxiosFuncs";
-
-interface AddArgumentTbl {
-  title: string;
-  description: string;
-  generalnotes: string;
-  infoid: number;
-  debateid: number;
-}
 
 export default class ArgumentDatadb {
   private standardEndpoint = "debate/argument/";

@@ -1,11 +1,5 @@
-import QuoteTbl from "../elements/quoteTbl";
+import QuoteTbl, { AddQuoteTbl } from "../elements/quoteTbl";
 import AxiosFuncs from "./AxiosFuncs";
-
-interface AddQuoteTbl {
-  text: string;
-  additional: string;
-  sourceid: number;
-}
 
 export default class QuoteDatadb {
   private standardEndpoint = "source/quote/";

@@ -1,11 +1,5 @@
-import InfoTbl from "../elements/infoTbl";
+import InfoTbl, { AddInfoTbl } from "../elements/infoTbl";
 import AxiosFuncs from "./AxiosFuncs";
-
-interface AddInfoTbl {
-  description: string;
-  current: string;
-  counter: string;
-}
 
 export default class InfoDatadb {
   private standardEndpoint = "info/";
@@ -23,7 +17,7 @@ export default class InfoDatadb {
   async update(updateInfo: InfoTbl): Promise<void> {
     return await this.axiosFuncs.update(
       this.standardEndpoint + updateInfo.id,
-      updateInfo
+      updateInfo,
     );
   }
   async delete(infoid: number): Promise<void> {

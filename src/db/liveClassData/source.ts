@@ -1,12 +1,5 @@
-import SourceTbl from "../elements/sourceTbl";
+import SourceTbl, { AddSourceTbl } from "../elements/sourceTbl";
 import AxiosFuncs from "./AxiosFuncs";
-
-interface AddSourceTbl {
-  title: string;
-  link: string;
-  notes: string;
-  argumentid: number;
-}
 
 export default class SourceDatadb {
   private standardEndpoint = "argument/source/";
