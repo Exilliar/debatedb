@@ -132,7 +132,7 @@ export default class ArgumentViewdb {
       this.currentArgument.infoid,
     );
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve({
         id: this.currentArgument.id,
         title: this.currentArgument.title,

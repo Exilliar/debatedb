@@ -1,13 +1,5 @@
-import DebateTbl from "../elements/debateTbl";
+import DebateTbl, { AddDebateTbl } from "../elements/debateTbl";
 import AxiosFuncs from "./AxiosFuncs";
-
-interface AddDebateTbl {
-  title: string;
-  description: string;
-  generalnotes: string;
-  infoid: number;
-  accountid: number;
-}
 
 export default class DebateDatadb {
   private standardEndpoint = "account/debate/";
@@ -25,7 +17,7 @@ export default class DebateDatadb {
   async update(updateDebate: DebateTbl): Promise<void> {
     return await this.axiosFuncs.update(
       this.standardEndpoint + updateDebate.id,
-      updateDebate
+      updateDebate,
     );
   }
   async delete(debateid: number): Promise<void> {

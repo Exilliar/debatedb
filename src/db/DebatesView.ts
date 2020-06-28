@@ -46,7 +46,7 @@ export default class DebatesViewdb {
   private async getDebates(): Promise<Debate[]> {
     const debateData = await this._debateTable.getAll(store.state.account.id);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       // Should eventually be call to a db view
       resolve(
         debateData.map((d) => {
@@ -55,7 +55,7 @@ export default class DebatesViewdb {
             title: d.title,
             description: d.description,
           };
-        })
+        }),
       );
     });
   }
