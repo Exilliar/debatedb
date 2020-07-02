@@ -8,7 +8,9 @@ interface AddRes {
 }
 
 export default class AxiosFuncs<Table, AddTable> {
-  baseUrl = "http://localhost:4000/";
+  baseUrl = process.env.NODE_ENV === "production"
+    ? "https://api.debatedb.com/"
+    : "http://localhost:4000/";
 
   getAll(endpoint: string): Promise<Table[]> {
     return new Promise((resolve) => {

@@ -56,8 +56,17 @@ export default class ArgumentView extends Vue {
   sourceless = false;
 
   async mounted() {
-    if (this.$route.params.id) this.id = +this.$route.params.id;
-    else this.id = 0; // just a hack for while development is happening. Eventually this else will cause a redirect to the debatesView
+    if (this.$route.params.id) {
+      this.id = +this.$route.params.id;
+      localStorage.setItem("argumentid", this.$route.params.id);
+    } else {
+      const localid = localStorage.getItem("argumentid");
+      if (localid && localid !== "") {
+        this.id = +localid;
+      } else {
+        this.$router.push("/arguments");
+      }
+    }
 
     this.argumentViewdb = new ArgumentViewdb(this.id);
     await this.argumentViewdb.refreshData();
