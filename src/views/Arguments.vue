@@ -53,8 +53,17 @@ export default class ArgumentsView extends Vue {
   generalnotes = "";
 
   async mounted() {
-    if (this.$route.params.id) this.debateid = +this.$route.params.id;
-    else this.debateid = 0; // Temporary workaround for use in development, eventually will cause the account to be redirected to the debatesView
+    if (this.$route.params.id) {
+      this.debateid = +this.$route.params.id;
+      localStorage.setItem("debateid", this.$route.params.id);
+    } else {
+      const localid = localStorage.getItem("debateid");
+      if (localid && localid !== "") {
+        this.debateid = +localid;
+      } else {
+        this.$router.push("/debates");
+      }
+    }
 
     this.argumentsViewdb = new ArgumentsViewdb(this.debateid);
     await this.argumentsViewdb.refreshData();
