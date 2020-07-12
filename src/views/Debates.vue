@@ -21,7 +21,7 @@ import Loading from "@/components/TheLoadingCard.vue";
 import Empty from "@/components/TheEmptyCard.vue";
 
 import ViewCardData from "@/models/ViewCardData";
-import { AccountInputText } from "@/models/AccountInput";
+import { UserInputText } from "@/models/UserInput";
 
 import DebatesViewdb from "@/db/DebatesView";
 

@@ -6,10 +6,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import AddButton from "@/components/AddButton.vue";
 
-import AccountInput, {
-  AccountInputLink,
-  AccountInputText,
-} from "@/models/AccountInput";
+import UserInput, { UserInputLink, UserInputText } from "@/models/UserInput";
 
 @Component({
   components: { AddButton },
@@ -22,7 +19,7 @@ export default class AddSource extends Vue {
     const addLink = "";
     const addNotes = "";
 
-    const addModalTitle: AccountInputText = {
+    const addModalTitle: UserInputText = {
       id: 0,
       title: "Title",
       description: "Title of the source",
@@ -30,12 +27,12 @@ export default class AddSource extends Vue {
       type: "text",
       markdown: false,
     };
-    const addModalLink: AccountInputLink = {
+    const addModalLink: UserInputLink = {
       id: 1,
       textInput: addLink,
       type: "link",
     };
-    const addModalNotes: AccountInputText = {
+    const addModalNotes: UserInputText = {
       id: 2,
       title: "Notes",
       description: "Some notes about the source",
@@ -44,7 +41,7 @@ export default class AddSource extends Vue {
       markdown: true,
     };
 
-    const inputs: AccountInput[] = [addModalTitle, addModalLink, addModalNotes];
+    const inputs: UserInput[] = [addModalTitle, addModalLink, addModalNotes];
 
     this.$modal.show("InputModal", {
       title: "Source",
@@ -53,7 +50,7 @@ export default class AddSource extends Vue {
     });
   }
 
-  onClose(inputs: AccountInput[]) {
+  onClose(inputs: UserInput[]) {
     const title = inputs[0].textInput;
     const link = inputs[1].textInput;
     const notes = inputs[2].textInput;

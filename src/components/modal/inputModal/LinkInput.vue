@@ -10,11 +10,11 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-import { AccountInputLink } from "@/models/AccountInput";
+import { UserInputLink } from "@/models/UserInput";
 
 @Component
 export default class LinkInput extends Vue {
-  @Prop() input!: AccountInputLink;
+  @Prop() input!: UserInputLink;
 
   get text() {
     return this.input.textInput;

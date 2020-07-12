@@ -1,17 +1,17 @@
-export default interface AccountInput {
+export default interface UserInput {
   id: number;
   textInput: string;
   type: "text" | "link";
 }
 
-export interface AccountInputText extends AccountInput {
+export interface UserInputText extends UserInput {
   markdown: boolean;
   title: string;
   description: string;
   type: "text";
 }
 
-export interface AccountInputLink extends AccountInput {
+export interface UserInputLink extends UserInput {
   rules?: Array<(value: string) => boolean | string>;
   type: "link";
 }

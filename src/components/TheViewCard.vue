@@ -18,6 +18,12 @@
             style="text-align: right"
             class="d-flex align-center justify-end"
           >
+            <Button
+              class="mr-2"
+              text="Settings"
+              color="primary"
+              :onClick="openSettings"
+            />
             <Button text="View" :onClick="view" />
           </v-col>
         </v-row>
@@ -39,6 +45,10 @@ import ViewCardData from "@/models/ViewCardData";
 })
 export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
+
+  openSettings() {
+    this.$modal.show("SettingsModal");
+  }
 
   view() {
     this.$router.push({ name: this.routeTo, params: { id: this.id } });

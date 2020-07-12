@@ -21,8 +21,8 @@ import VueMarkdown from "vue-markdown";
 
 import Button from "./Button.vue";
 
-import { AccountInputText } from "@/models/AccountInput";
-import ModalInput from "@/models/ModalInput";
+import { UserInputText } from "@/models/UserInput";
+import InputModalInput from "@/models/InputModalInput";
 
 import InfoTbl from "@/db/elements/infoTbl";
 
@@ -44,7 +44,7 @@ export default class InfoCard extends Vue {
     const inputCurrent = this.info.current;
     const inputCounter = this.info.counter;
 
-    const modalDescription: AccountInputText = {
+    const modalDescription: UserInputText = {
       id: 0,
       title: "Description",
       description:
@@ -56,7 +56,7 @@ export default class InfoCard extends Vue {
       markdown: true,
     };
 
-    const modalCurrent: AccountInputText = {
+    const modalCurrent: UserInputText = {
       id: 1,
       title: "Current " + this.type,
       description: "The current best version of the " + this.type,
@@ -65,7 +65,7 @@ export default class InfoCard extends Vue {
       markdown: true,
     };
 
-    const modalCounter: AccountInputText = {
+    const modalCounter: UserInputText = {
       id: 2,
       title: "Current counter",
       description: "The current counter, this should be as strong as possible",
@@ -83,7 +83,7 @@ export default class InfoCard extends Vue {
     });
   }
 
-  onClose(inputs: AccountInputText[]) {
+  onClose(inputs: UserInputText[]) {
     const desc = inputs[0].textInput;
     const cur = inputs[1].textInput;
     const coun = inputs[2].textInput;

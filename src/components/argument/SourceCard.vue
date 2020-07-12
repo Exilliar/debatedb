@@ -37,11 +37,8 @@ import VueMarkdown from "vue-markdown";
 
 import Button from "@/components/Button.vue";
 
-import AccountInput, {
-  AccountInputText,
-  AccountInputLink,
-} from "@/models/AccountInput";
-import ModalInput from "@/models/ModalInput";
+import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
+import InputModalInput from "@/models/InputModalInput";
 
 import SourceTbl from "@/db/elements/sourceTbl";
 import { Source } from "@/db/ArgumentView";
@@ -68,12 +65,12 @@ export default class SourceCard extends Vue {
     const editLink = this.link;
     const editNotes = this.notes;
 
-    const editModalLink: AccountInputLink = {
+    const editModalLink: UserInputLink = {
       id: 0,
       type: "link",
       textInput: editLink,
     };
-    const editModalNotes: AccountInputText = {
+    const editModalNotes: UserInputText = {
       id: this.quotes.length * 2 + 1,
       title: "Notes",
       description:
@@ -83,13 +80,13 @@ export default class SourceCard extends Vue {
       markdown: true,
     };
 
-    const inputs: AccountInput[] = [editModalLink];
+    const inputs: UserInput[] = [editModalLink];
 
     this.addQuotesToInputs(inputs);
 
     inputs.push(editModalNotes);
 
-    const editModalData: ModalInput = {
+    const editModalData: InputModalInput = {
       params: {
         title: "Edit Source",
         inputs: inputs,
@@ -103,14 +100,14 @@ export default class SourceCard extends Vue {
     });
   }
 
-  addQuotesToInputs(inputs: AccountInput[]) {
+  addQuotesToInputs(inputs: UserInput[]) {
     const editQuotesQuote = this.quotes.map((q) => q.text);
     const editQuotesAdditional = this.quotes.map((q) => q.additional);
     let id = 1;
     let quoteNumber = 1;
 
     for (let i = 0; i < this.quotes.length; i++) {
-      const editQuote: AccountInputText = {
+      const editQuote: UserInputText = {
         id: id,
         title: "Quote " + quoteNumber,
         description: "A direct quote from the source. Do not use quote marks",
@@ -119,7 +116,7 @@ export default class SourceCard extends Vue {
         markdown: false,
       };
       id++;
-      const editAdditional: AccountInputText = {
+      const editAdditional: UserInputText = {
         id: id,
         title: "Additional notes about quote " + quoteNumber,
         description:
@@ -135,7 +132,7 @@ export default class SourceCard extends Vue {
     }
   }
 
-  editOnClose(inputs: AccountInput[]) {
+  editOnClose(inputs: UserInput[]) {
     const link = inputs[0].textInput;
     const notes = inputs[inputs.length - 1].textInput;
 
@@ -160,7 +157,7 @@ export default class SourceCard extends Vue {
     const addQuote = "";
     const addAdditional = "";
 
-    const addModalQuote: AccountInputText = {
+    const addModalQuote: UserInputText = {
       id: 0,
       title: "Quote",
       description: "A direct quote from the source. Do not add quote marks",
@@ -168,7 +165,7 @@ export default class SourceCard extends Vue {
       type: "text",
       markdown: false,
     };
-    const addModalAdditional: AccountInputText = {
+    const addModalAdditional: UserInputText = {
       id: 1,
       title: "Addition notes",
       description:
@@ -187,7 +184,7 @@ export default class SourceCard extends Vue {
     });
   }
 
-  addOnClose(inputs: AccountInputText[]) {
+  addOnClose(inputs: UserInputText[]) {
     const quote = inputs[0].textInput;
     const additional = inputs[1].textInput;
 
