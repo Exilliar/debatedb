@@ -3,7 +3,7 @@
     <Loading :check="loaded">
       <Empty title="Debates" :data="debateData">
         <div v-for="debate in debateData" :key="getDebateid(debate)">
-          <ViewCard :data="debate" />
+          <ViewCard :data="debate" :deleteMethod="deleteDebate" />
         </div>
       </Empty>
     </Loading>
@@ -64,6 +64,9 @@ export default class DebatesView extends Vue {
 
   getDebateid(debate: ViewCardData) {
     return debate.id;
+  }
+  get deleteDebate() {
+    return this.debatesViewdb.deleteDebate.bind(this.debatesViewdb);
   }
 }
 </script>

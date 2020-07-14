@@ -1,25 +1,43 @@
 <template>
   <modal
     name="SettingsModal"
-    @before-open="beforeOpen"
-    @before-close="beforeClose"
     :adaptive="true"
     height="auto"
     :scrollable="true"
+    @before-open="beforeOpen"
   >
-    <p>Modal working!</p>
+    <div class="d-flex justify-center pa-5">
+      <Button text="delete" color="error" :onClick="deleteView" />
+    </div>
   </modal>
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 
-@Component
+import Button from "@/components/Button.vue";
+
+import SettingsModalInput from "@/models/SettingsModalInput";
+
+@Component({
+  components: { Button },
+})
 export default class SettingsModal extends Vue {
-  beforeOpen() {
-    console.log("before open");
+  id!: number;
+  deleteMethod!: (id: number) => Promise<void>;
+
+  async deleteView() {
+    if (
+      confirm("Are you sure you want to delete? This action is irreversible")
+    ) {
+      await this.deleteMethod(this.id);
+
+      location.reload(); // This is a bit of a hack, but works for now
+    }
   }
-  beforeClose() {
-    console.log("before close");
+
+  beforeOpen({ params }: SettingsModalInput) {
+    this.id = params.id;
+    this.deleteMethod = params.deleteMethod;
   }
 }
 </script>

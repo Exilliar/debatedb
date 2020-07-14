@@ -45,9 +45,13 @@ import ViewCardData from "@/models/ViewCardData";
 })
 export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
+  @Prop() deleteMethod!: (id: number) => Promise<void>;
 
   openSettings() {
-    this.$modal.show("SettingsModal");
+    this.$modal.show("SettingsModal", {
+      deleteMethod: this.deleteMethod,
+      id: this.data.id,
+    });
   }
 
   view() {
