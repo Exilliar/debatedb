@@ -1,8 +1,8 @@
 <template>
   <Button
     class="mr-2"
+    text="Settings"
     color="primary"
-    text="settings"
     :onClick="openSettings"
   />
 </template>
@@ -12,9 +12,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Button from "./Button.vue";
 import DeleteMethod from "../models/DeleteMethod";
 
-Component({
+@Component({
   components: { Button },
-});
+})
 export default class SettingsButton extends Vue {
   @Prop() deleteMethod!: DeleteMethod;
   @Prop() id!: number;

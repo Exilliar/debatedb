@@ -25,14 +25,11 @@
         </div>
       </v-card-text>
       <v-card-actions class="d-flex justify-space-between">
-        <!-- <div class="d-flex justify-space-between"> -->
         <span>
           <Button class="mr-2" text="edit" :onClick="editSourceModal" />
           <Button text="add quote" :onClick="addQuoteModal" />
         </span>
-        <!-- <Button text="settings" /> -->
         <SettingsButton :deleteMethod="deleteSource" :id="source.id" />
-        <!-- </div> -->
       </v-card-actions>
     </v-card>
   </v-container>
