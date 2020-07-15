@@ -24,9 +24,15 @@
           <vue-markdown :source="notes" />
         </div>
       </v-card-text>
-      <v-card-actions>
-        <Button text="edit" :onClick="editSourceModal" />
-        <Button text="add quote" :onClick="addQuoteModal" />
+      <v-card-actions class="d-flex justify-space-between">
+        <!-- <div class="d-flex justify-space-between"> -->
+        <span>
+          <Button class="mr-2" text="edit" :onClick="editSourceModal" />
+          <Button text="add quote" :onClick="addQuoteModal" />
+        </span>
+        <!-- <Button text="settings" /> -->
+        <SettingsButton :deleteMethod="deleteSource" :id="source.id" />
+        <!-- </div> -->
       </v-card-actions>
     </v-card>
   </v-container>
@@ -36,16 +42,18 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import VueMarkdown from "vue-markdown";
 
 import Button from "@/components/Button.vue";
+import SettingsButton from "@/components/SettingsButton.vue";
 
 import UserInput, { UserInputText, UserInputLink } from "@/models/UserInput";
 import InputModalInput from "@/models/InputModalInput";
+import DeleteMethod from "@/models/DeleteMethod";
 
 import SourceTbl from "@/db/elements/sourceTbl";
 import { Source } from "@/db/ArgumentView";
 import QuoteTbl from "@/db/elements/quoteTbl";
 
 @Component({
-  components: { Button, VueMarkdown },
+  components: { Button, VueMarkdown, SettingsButton },
 })
 export default class SourceCard extends Vue {
   @Prop() source!: Source;
@@ -60,6 +68,7 @@ export default class SourceCard extends Vue {
     notes: string,
     sourceid: number
   ) => any;
+  @Prop() deleteMethod!: DeleteMethod;
 
   editSourceModal() {
     const editLink = this.link;
@@ -189,6 +198,10 @@ export default class SourceCard extends Vue {
     const additional = inputs[1].textInput;
 
     this.addQuoteFunc(quote, additional, this.id);
+  }
+
+  get deleteSource() {
+    return this.deleteMethod;
   }
 
   get id() {

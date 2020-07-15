@@ -17,13 +17,14 @@ import { Vue, Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 
 import SettingsModalInput from "@/models/SettingsModalInput";
+import DeleteMethod from "../../../models/DeleteMethod";
 
 @Component({
   components: { Button },
 })
 export default class SettingsModal extends Vue {
   id!: number;
-  deleteMethod!: (id: number) => Promise<void>;
+  deleteMethod!: DeleteMethod;
 
   async deleteView() {
     if (

@@ -37,6 +37,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Button from "./Button.vue";
 
 import ViewCardData from "@/models/ViewCardData";
+import DeleteMethod from "../models/DeleteMethod";
 
 @Component({
   components: {
@@ -45,7 +46,7 @@ import ViewCardData from "@/models/ViewCardData";
 })
 export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
-  @Prop() deleteMethod!: (id: number) => Promise<void>;
+  @Prop() deleteMethod!: DeleteMethod;
 
   openSettings() {
     this.$modal.show("SettingsModal", {
