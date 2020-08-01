@@ -5,7 +5,7 @@ services:
     container_name: debatedb
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: exilliar/debatedb-frontend:latest
     volumes:
       - ".:/app"
       - "/app/node_modules"

@@ -82,6 +82,19 @@ This order is not based on anything, just personal preference
 
 - I chose not to use helper functions for the most part. Most components are fairly easy to understand and the code for each function (outside of some of the modal opening functions) isn't too long. Also I've already written the functions and reeeeeeealy cannot be bothered to move them now
 
+## Docker
+
+### Building and sending to docker hub
+
+```
+sudo docker build -t exilliar/debatedb-frontend:latest .
+sudo docker push exilliar/debatedb-frontend:latest
+```
+
+### Run on server
+
+Copy the docker-compose.yml file onto the server. Then run command `sudo docker-compose up -d`
+
 ## Project setup
 
 ```
