@@ -30,7 +30,7 @@ import SettingsModal from "./components/modal/settingsModal/SettingsModal.vue";
   components: { Header, InputModal, AuthLoadingCard, SettingsModal },
 })
 export default class App extends Vue {
-  version = "0.0.1";
+  version = "1.0.0";
 
   get loading() {
     return this.$auth.loading;
