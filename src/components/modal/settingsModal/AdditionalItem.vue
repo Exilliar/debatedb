@@ -11,11 +11,16 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 import DeleteMethod from "../../../models/DeleteMethod";
 
+interface Item {
+  title: string;
+  id: number;
+}
+
 @Component({
   components: { Button },
 })
-export default class AdditionalDelete extends Vue {
-  @Prop() item!: { title: string; id: number };
+export default class AdditionalItem extends Vue {
+  @Prop() item!: Item;
   @Prop() deleteMethod!: DeleteMethod;
 
   async deleteElement() {

@@ -11,7 +11,7 @@
 
       <h2 class="pt-5">{{ additionalTitle }}</h2>
       <div class="pt-2" v-for="item in additionalItems" :key="item.id">
-        <AdditionalDelete :item="item" :deleteMethod="additionalDeleteMethod" />
+        <AdditionalItem :item="item" :deleteMethod="additionalDeleteMethod" />
       </div>
     </div>
   </modal>
@@ -20,13 +20,13 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import Button from "@/components/Button.vue";
-import AdditionalDelete from "./AdditionalDelete.vue";
+import AdditionalItem from "./AdditionalItem.vue";
 
 import SettingsModalInput, { Additional } from "@/models/SettingsModalInput";
 import DeleteMethod from "@/models/DeleteMethod";
 
 @Component({
-  components: { Button, AdditionalDelete },
+  components: { Button, AdditionalItem },
 })
 export default class SettingsModal extends Vue {
   id!: number;
