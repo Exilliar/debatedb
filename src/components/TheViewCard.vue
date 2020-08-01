@@ -18,6 +18,7 @@
             style="text-align: right"
             class="d-flex align-center justify-end"
           >
+            <SettingsButton :id="id" :deleteMethod="deleteMethod" />
             <Button text="View" :onClick="view" />
           </v-col>
         </v-row>
@@ -29,16 +30,17 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 import Button from "./Button.vue";
+import SettingsButton from "./SettingsButton.vue";
 
 import ViewCardData from "@/models/ViewCardData";
+import DeleteMethod from "../models/DeleteMethod";
 
 @Component({
-  components: {
-    Button,
-  },
+  components: { Button, SettingsButton },
 })
 export default class ViewCard extends Vue {
   @Prop() data!: ViewCardData;
+  @Prop() deleteMethod!: DeleteMethod;
 
   view() {
     this.$router.push({ name: this.routeTo, params: { id: this.id } });

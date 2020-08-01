@@ -42,6 +42,9 @@ export default class DebatesViewdb {
 
     await this.refreshData();
   }
+  async deleteDebate(id: number) {
+    await this._debateTable.delete(id);
+  }
 
   private async getDebates(): Promise<Debate[]> {
     const debateData = await this._debateTable.getAll(store.state.account.id);

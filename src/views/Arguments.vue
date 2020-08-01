@@ -10,7 +10,7 @@
       <NotesCard :body="generalnotes" :viewOnEdit="updateNotes" />
       <Empty title="Arguments" :data="argumentData">
         <div v-for="argument in argumentData" :key="getArgumentid(argument)">
-          <ViewCard :data="argument" />
+          <ViewCard :data="argument" :deleteMethod="deleteArgument" />
         </div>
       </Empty>
     </Loading>
@@ -120,6 +120,9 @@ export default class ArgumentsView extends Vue {
   }
   get debateTitle() {
     return this.loaded ? this.argumentsViewdb.data.debate.title : "";
+  }
+  get deleteArgument() {
+    return this.argumentsViewdb.deleteArgument.bind(this.argumentsViewdb);
   }
 }
 </script>

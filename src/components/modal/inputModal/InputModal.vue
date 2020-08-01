@@ -45,8 +45,8 @@ import Button from "@/components/Button.vue";
 import TextInput from "./TextInput.vue";
 import LinkInput from "./LinkInput.vue";
 
-import ModalInput from "@/models/ModalInput";
-import AccountInput, { AccountInputText } from "@/models/AccountInput";
+import InputModalInput from "@/models/InputModalInput";
+import UserInput, { UserInputText } from "@/models/UserInput";
 
 @Component({
   components: {
@@ -57,12 +57,12 @@ import AccountInput, { AccountInputText } from "@/models/AccountInput";
 })
 export default class InputModal extends Vue {
   title = "";
-  inputs = new Array<AccountInput>();
-  onClose!: ((inputs: AccountInput[]) => any) | undefined;
+  inputs = new Array<UserInput>();
+  onClose!: ((inputs: UserInput[]) => any) | undefined;
   saveText!: string[];
   cancel = true;
 
-  beforeOpen({ params }: ModalInput) {
+  beforeOpen({ params }: InputModalInput) {
     this.title = params.title;
     this.inputs = params.inputs;
     this.onClose = params.onClose;
@@ -106,10 +106,10 @@ export default class InputModal extends Vue {
     return true;
   }
 
-  getId(input: AccountInput) {
+  getId(input: UserInput) {
     return input.id;
   }
-  checkType(input: AccountInput) {
+  checkType(input: UserInput) {
     return input.type === "text";
   }
 

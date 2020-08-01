@@ -17,8 +17,8 @@ import VueMarkdown from "vue-markdown";
 
 import Button from "./Button.vue";
 
-import ModalInput from "@/models/ModalInput";
-import { AccountInputText } from "@/models/AccountInput";
+import InputModalInput from "@/models/InputModalInput";
+import { UserInputText } from "@/models/UserInput";
 
 @Component({
   components: { Button, VueMarkdown },
@@ -28,7 +28,7 @@ export default class NotesCard extends Vue {
   @Prop() viewOnEdit!: (text: string) => any;
 
   edit() {
-    const input: AccountInputText = {
+    const input: UserInputText = {
       id: 0,
       title: "Notes",
       description: "General notes, does not need to be full sentences",
@@ -50,7 +50,7 @@ export default class NotesCard extends Vue {
     return this.body;
   }
 
-  onEdit(inputs: AccountInputText[]) {
+  onEdit(inputs: UserInputText[]) {
     const text = inputs[0].textInput;
 
     this.viewOnEdit(text);

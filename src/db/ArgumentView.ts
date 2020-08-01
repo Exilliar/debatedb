@@ -73,6 +73,13 @@ export default class ArgumentViewdb {
     await this.refreshData();
   }
 
+  async deleteQuote(id: number) {
+    await this._quoteTable.delete(id);
+  }
+  async deleteSource(id: number) {
+    await this._sourceTable.delete(id);
+  }
+
   async updateInfo(desc: string, current: string, counter: string) {
     const infoid = this.currentArgument.infoid;
 

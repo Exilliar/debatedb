@@ -18,6 +18,8 @@
                 :source="source"
                 :addQuoteFunc="addQuote"
                 :editFunc="updateSource"
+                :sourceDeleteMethod="deleteSource"
+                :quoteDeleteMethod="deleteQuote"
               />
             </div>
           </Empty>
@@ -125,6 +127,12 @@ export default class ArgumentView extends Vue {
   }
   getSourceid(source: Source) {
     return source.id;
+  }
+  get deleteSource() {
+    return this.argumentViewdb.deleteSource.bind(this.argumentViewdb);
+  }
+  get deleteQuote() {
+    return this.argumentViewdb.deleteQuote.bind(this.argumentViewdb);
   }
 }
 </script>
