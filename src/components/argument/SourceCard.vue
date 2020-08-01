@@ -29,7 +29,11 @@
           <Button class="mr-2" text="edit" :onClick="editSourceModal" />
           <Button text="add quote" :onClick="addQuoteModal" />
         </span>
-        <SettingsButton :deleteMethod="deleteSource" :id="source.id" />
+        <SettingsButton
+          :deleteMethod="deleteSource"
+          :id="source.id"
+          :additional="deleteQuotes"
+        />
       </v-card-actions>
     </v-card>
   </v-container>
@@ -48,6 +52,7 @@ import DeleteMethod from "@/models/DeleteMethod";
 import SourceTbl from "@/db/elements/sourceTbl";
 import { Source } from "@/db/ArgumentView";
 import QuoteTbl from "@/db/elements/quoteTbl";
+import { Additional } from "../../models/SettingsModalInput";
 
 @Component({
   components: { Button, VueMarkdown, SettingsButton },
@@ -65,7 +70,8 @@ export default class SourceCard extends Vue {
     notes: string,
     sourceid: number
   ) => any;
-  @Prop() deleteMethod!: DeleteMethod;
+  @Prop() sourceDeleteMethod!: DeleteMethod;
+  @Prop() quoteDeleteMethod!: DeleteMethod;
 
   editSourceModal() {
     const editLink = this.link;
@@ -197,8 +203,22 @@ export default class SourceCard extends Vue {
     this.addQuoteFunc(quote, additional, this.id);
   }
 
+  // Quotes in the correct format to be passed into the settings modal to be deleted
+  get deleteQuotes(): Additional {
+    return {
+      title: "Quotes",
+      deleteMethod: this.quoteDeleteMethod,
+      items: this.quotes.map((q) => {
+        return {
+          title: q.text,
+          id: q.id,
+        };
+      }),
+    };
+  }
+
   get deleteSource() {
-    return this.deleteMethod;
+    return this.sourceDeleteMethod;
   }
 
   get id() {

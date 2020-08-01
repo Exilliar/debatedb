@@ -11,6 +11,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import Button from "./Button.vue";
 import DeleteMethod from "../models/DeleteMethod";
+import { Additional, SettingsModalShow } from "../models/SettingsModalInput";
 
 @Component({
   components: { Button },
@@ -18,12 +19,25 @@ import DeleteMethod from "../models/DeleteMethod";
 export default class SettingsButton extends Vue {
   @Prop() deleteMethod!: DeleteMethod;
   @Prop() id!: number;
+  @Prop() additional!: Additional;
 
   openSettings() {
-    this.$modal.show("SettingsModal", {
-      id: this.id,
-      deleteMethod: this.deleteMethod,
-    });
+    let params: SettingsModalShow;
+
+    if (this.additional) {
+      params = {
+        id: this.id,
+        deleteMethod: this.deleteMethod,
+        additional: this.additional,
+      };
+    } else {
+      params = {
+        id: this.id,
+        deleteMethod: this.deleteMethod,
+      };
+    }
+
+    this.$modal.show("SettingsModal", params);
   }
 }
 </script>
