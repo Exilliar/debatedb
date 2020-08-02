@@ -87,13 +87,9 @@ This order is not based on anything, just personal preference
 ### Building and sending to docker hub
 
 ```
-sudo docker build -t exilliar/debatedb-frontend:latest .
-sudo docker push exilliar/debatedb-frontend:latest
+docker build -t exilliar/debatedb-frontend:latest .
+docker push exilliar/debatedb-frontend:latest
 ```
-
-### Run on server
-
-Copy the docker-compose.yml file onto the server. Then run command `sudo docker-compose up -d`
 
 ## Project setup
 

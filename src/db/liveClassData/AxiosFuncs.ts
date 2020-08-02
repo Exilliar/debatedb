@@ -11,38 +11,45 @@ export default class AxiosFuncs<Table, AddTable> {
   baseUrl = process.env.NODE_ENV === "production"
     ? "https://api.debatedb.com/"
     : "http://localhost:4000/";
+  axios = Axios.create({
+    baseURL: this.baseUrl,
+    responseType: "json",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   getAll(endpoint: string): Promise<Table[]> {
     return new Promise((resolve) => {
-      Axios.get<GetRes<Table[]>>(this.baseUrl + endpoint).then((res) => {
+      this.axios.get<GetRes<Table[]>>(endpoint).then((res) => {
         resolve(res.data.data);
       });
     });
   }
   getSingle(endpoint: string): Promise<Table> {
     return new Promise((resolve) => {
-      Axios.get<GetRes<Table>>(this.baseUrl + endpoint).then((res) => {
+      this.axios.get<GetRes<Table>>(endpoint).then((res) => {
         resolve(res.data.data);
       });
     });
   }
   add(endpoint: string, newDebate: AddTable): Promise<number> {
     return new Promise((resolve) => {
-      Axios.post<AddRes>(this.baseUrl + endpoint, newDebate).then((res) => {
+      this.axios.post<AddRes>(endpoint, newDebate).then((res) => {
         resolve(+res.data.newid);
       });
     });
   }
   update(endpoint: string, updateDebate: Table): Promise<void> {
     return new Promise((resolve) => {
-      Axios.put(this.baseUrl + endpoint, updateDebate).then(() => {
+      this.axios.put(endpoint, updateDebate).then(() => {
         resolve();
       });
     });
   }
   delete(endpoint: string): Promise<void> {
     return new Promise((resolve) => {
-      Axios.delete(this.baseUrl + endpoint).then(() => {
+      this.axios.delete(endpoint).then(() => {
         resolve();
       });
     });
